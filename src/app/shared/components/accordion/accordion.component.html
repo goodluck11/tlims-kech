@@ -1,0 +1,11 @@
+<div class="card {{styleClass}}" [ngClass]="{'no-bor-mar-red': noRadiusBorder}">
+  <div class="card-header bg-transparent header-elements-inline">
+    <a (click)="toggleIcon()" href="javascript:void(0)" class="text-default">
+      <h6 class="card-title" [ngClass]="{'text-uppercase': isUpperCase}">{{title? title : 'Title'}}</h6>
+    </a>
+  </div>
+
+  <div class="card-body {{bodyClass}}" [@collapseInOut]="isCollapsed ? 'out' : 'in'">
+    <ng-content></ng-content>
+  </div>
+</div>

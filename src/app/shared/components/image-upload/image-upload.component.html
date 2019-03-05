@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group">
+      <image-upload
+        [max]="5"
+        buttonCaption="Click"
+        dropBoxMessage="Select Images to Upload"
+        clearButtonCaption="Clear"
+        [extensions]="['jpg','png','gif']"
+        (uploadFinished)="onUploadFinished($event)"
+        (removed)="onRemoved($event)">
+      </image-upload>
+      <small class="form-text text-muted">Add up to 5 photos. Use a real image of your product, not catalogs.</small>
+    </div>
+  </div>
+</div>

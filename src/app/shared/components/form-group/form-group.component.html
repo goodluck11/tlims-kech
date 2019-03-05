@@ -1,0 +1,5 @@
+<div class="form-group">
+  <label *ngIf="label && !checkBox" class="font-weight-semibold">{{label}}:</label>
+  <label class="d-block font-weight-semibold" *ngIf="label && checkBox">{{label}}:</label>
+  <ng-content></ng-content>
+</div>

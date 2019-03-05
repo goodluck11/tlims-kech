@@ -1,0 +1,149 @@
+<form [formGroup]="bForm" novalidate>
+  <div class="row">
+    <div class="col-md-6">
+      <tlims-form-group label="Title">
+        <input tlimsInput placeholder="title"/>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Item Type">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Brand">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Brand--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Condition" [checkBox]="true">
+        <tlims-checkbox label="New" styleClass="mr-2">
+          <input type="radio" class="form-check-input" name="condition" checked>
+        </tlims-checkbox>
+        <tlims-checkbox label="Used">
+          <input type="radio" class="form-check-input" name="condition">
+        </tlims-checkbox>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Gender" [checkBox]="true">
+        <tlims-checkbox label="Male" styleClass="mr-2">
+          <input type="radio" class="form-check-input" name="gender" checked>
+        </tlims-checkbox>
+        <tlims-checkbox label="Female">
+          <input type="radio" class="form-check-input" name="gender">
+        </tlims-checkbox>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Color">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Color--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Scent">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Scent--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Formulation">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Formulation--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Volume">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Volume--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Tone">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Tone--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Skin Type">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Skin Type--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Target Area">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Target Area--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Benefits">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Benefits--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Age Group">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Age Group--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Package">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Package--</option>
+          <option>Electronic</option>
+          <option>Fashion</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Price">
+        <tlims-amount></tlims-amount>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" name="negotiable" class="form-input-styled" data-fouc> Negotiable
+        </label>
+      </div>
+    </div>
+  </div>
+</form>

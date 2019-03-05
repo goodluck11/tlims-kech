@@ -1,0 +1,12 @@
+.tlims-f-item {
+  border-right: 1px solid lightgrey;
+  text-align: center;
+  font-weight: 500;
+
+  a {
+    color: #aeb7be;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+  }
+}

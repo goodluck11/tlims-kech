@@ -1,0 +1,10 @@
+<ul class="nav nav-sidebar">
+  <li class="nav-item">
+    <a href="javascript:void(0);" class="nav-link" (click)="toggleIcon()">
+      <i class="fa fa-anchor"></i>
+      <span>Categories</span>
+      <!--<i class="fa fa-angle-down tlims-dicon"></i>-->
+    </a>
+    <tlims-side-sub-menu [@collapseInOut]="isCollapsed ? 'out' : 'in'"></tlims-side-sub-menu>
+  </li>
+</ul>

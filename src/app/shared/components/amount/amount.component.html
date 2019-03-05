@@ -1,0 +1,7 @@
+<div class="input-group">
+  <span class="input-group-prepend">
+    <span class="input-group-text">₦</span>
+  </span>
+  <input tlimsInput tlimsMoney [(ngModel)]="amount" (blur)="onTouchedInput()" (change)="onInputChange()"
+         placeholder="price" (keypress)="onInputChange()">
+</div>

@@ -17,9 +17,11 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "prefix",
+      "prefix": "tlims",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/simple-line-icons/css/simple-line-icons.css",
+        "../node_modules/ngx-toastr/toastr.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

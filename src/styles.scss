@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+
+body{
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.navbar-md-md-top {
+  padding-top: 3.6006rem;
+}
+
+.tlims-bg-default {
+  background-color: #0e3357;
+}
+
+.page-title {
+  padding: 1rem 0;
+}
+
+.navbar-nav {
+  .nav-item {
+    a {
+      color: #aeb7be;
+      text-decoration: none;
+      background-color: transparent;
+      -webkit-text-decoration-skip: objects;
+    }
+  }
+}
+
+a{
+  color: #5c6165;
+}

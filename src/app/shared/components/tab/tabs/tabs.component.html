@@ -1,0 +1,7 @@
+<ul class="tabs tab-demo z-depth-1 mb-1">
+  <li class="tab" *ngFor="let t of tabs"><a href="javascript:void(0);" class="waves-effect waves-light" (click)="selectTab(t)" [ngClass]="{'active': t.isActive}">{{t.title}}</a></li>
+</ul>
+<div class="tabs-content">
+  <ng-content></ng-content>
+</div>
+
