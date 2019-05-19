@@ -1,8 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~swiper/dist/css/swiper.min.css';
 
-body{
+html{
+  font-family: sans-serif;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body {
   overflow-x: hidden;
   overflow-y: auto;
+  //background: url("assets/images/wallpaper/bg1.jpg");
+  background-size: contain;
+  background-color: #ffffff;
+  //background-color: #f5f5f5;
+  font-family: 'Nunito Sans', sans-serif !important;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(51,51,51,1);
+  outline: 0 !important;
 }
 
 .navbar-md-md-top {
@@ -17,6 +32,29 @@ body{
   padding: 1rem 0;
 }
 
+.login-form {
+  background-color: #ffffff;
+}
+
+.dropdown-toggle::after {
+  display: inline-block;
+  border: 0;
+  vertical-align: middle;
+  font-size: .6875rem;
+  margin-left: .46875rem;
+  position: relative;
+  font-family: 'themify';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: '\e64b';
+}
+
 .navbar-nav {
   .nav-item {
     a {
@@ -28,6 +66,248 @@ body{
   }
 }
 
-a{
-  color: #5c6165;
+.card{
+  border-radius: 0 !important;
+  box-shadow: none;
+  border: none;
 }
+
+.img-thumbnail {
+  background: transparent !important;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+}
+
+.card-img {
+  border-radius: 0 !important;
+}
+
+.tlims-card {
+  .card-body{
+    padding: .5rem 1.25rem;
+  }
+}
+.tlims-card.card-body{
+  padding: .5rem 1.25rem;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tlims-fill {
+  height: 100%;
+  margin: 0px;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  flex-direction: column;
+  box-sizing: border-box;
+  display: flex;
+  max-width: 100%;
+  place-content: center;
+  align-items: center;
+}
+
+.nav-btn {
+  height: 47px;
+  position: absolute;
+  width: 26px;
+  cursor: pointer;
+  top: 100px !important;
+}
+
+.box-shadow-none{
+  box-shadow: none !important;
+}
+
+.border-radius-0 {
+  border-radius: 0 !important;
+}
+
+a {
+  color: #5c6165;
+  touch-action: manipulation;
+}
+
+.f-38 {
+  font-size: 38px;
+}
+
+.view-link {
+  font-size: .76rem;
+}
+
+.f-13{
+  font-size: 13px;
+}
+
+.f-14{
+  font-size: 14px;
+}
+
+.f-10 {
+  font-size: 10px;
+}
+
+.f-12 {
+  font-size: 12px;
+}
+
+.list-group-item {
+  &:hover {
+    color: #0aa7ef;
+    background: transparent;
+  }
+}
+.list-group-item.active {
+  color: #2196f3;
+  text-decoration: underline;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+tlims-amount, image-upload, app-ngx-editor {
+  width: 100%;
+}
+
+.slick-prev, .slick-next {
+  background: #c6c5c5;
+  border-radius: 50%;
+}
+
+.slick-prev {
+  left: -45px;
+}
+
+.slick-next {
+  right: -45px;
+}
+
+.slick-prev:before {
+  content: '\e64a';
+}
+
+.slick-next:before {
+  content: '\e649';
+}
+
+.slick-prev:before, .slick-next:before {
+  font-family: 'themify';
+  font-size: 12px;
+}
+
+
+/// SLIDER
+.ng5-slider .ng5-slider-bubble {
+  font-size: 11px !important;
+}
+
+.ng5-slider .ng5-slider-pointer {
+  width: 20px !important;
+  height: 20px !important;
+  top: -8px !important;
+  background-color: #0e3357 !important;
+}
+
+
+.ng5-slider .ng5-slider-pointer:after {
+  top: 6px !important;
+  left: 30% !important;
+}
+
+.ng5-slider .ng5-slider-selection {
+  background: #0e3357 !important;
+}
+
+.btn-next, .btn-prev {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  outline: 0;
+  background-color: #f5f5f5;
+  color: #333333;
+  background-image: none !important;
+  text-indent: 0;
+  opacity: 1;
+  font-size: 20px;
+  transition: opacity 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out;
+  -moz-transition: opacity 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out;
+  -webkit-transition: opacity 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out;
+  -o-transition: opacity 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+.btn-next:hover, .btn-next:active, .btn-next:focus, .btn-prev:hover, .btn-prev:active, .btn-prev:focus {
+  color: #f5f5f5;
+  background-color: #333333;
+  outline: 0;
+}
+
+.btn-prev {
+  background-position: -10px -10px;
+  margin-right: 2px;
+
+  &:before{
+    content: '\e64a';
+  }
+}
+
+.btn-next:before {
+  content: '\e649';
+}
+
+.btn-next:before, .btn-prev:before {
+  font-family: 'themify';
+  font-size: 12px;
+  text-align: center;
+}
+
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
+  }
+}
+
+
+//.slick-list, .slick-track {
+//  height: 100% !important;
+//}
+//
+//ngx-slick {
+//  height: 200px;
+//}
+//
+//@media (min-width: 576px) {
+//  ngx-slick {
+//    height: 250px;
+//  }
+//}
+//
+//@media (min-width: 768px) {
+//  ngx-slick {
+//    height: 300px;
+//  }
+//}
+//
+//@media (min-width: 992px) {
+//  ngx-slick {
+//    height: 400px;
+//  }
+//}
+//
+//@media (min-width: 1200px) {
+//  ngx-slick {
+//    height: 400px;
+//  }
+//}
+

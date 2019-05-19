@@ -1,5 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Category} from 'core/model/category';
 
 @Component({
   selector: 'tlims-beauty-health',
@@ -9,12 +10,18 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class BeautyHealthComponent implements OnInit, OnDestroy {
 
   bForm: FormGroup;
+  @Input()
+  subCategories: Array<Category> = [];
 
   constructor(private fb: FormBuilder) {
   }
 
   ngOnInit() {
     this.initForm();
+  }
+
+  getImages($event) {
+
   }
 
   initForm() {

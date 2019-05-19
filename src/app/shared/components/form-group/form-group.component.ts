@@ -23,6 +23,8 @@ export class FormGroupComponent implements OnInit {
   styleClass: string;
   @Input()
   checkBox = false;
+  @Input()
+  isLoading = false;
 
   constructor() { }
 

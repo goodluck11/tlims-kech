@@ -1,0 +1,22 @@
+<ul class="list-unstyled pl-1">
+  <li><a [routerLink]="url" [queryParams]="{price: '0-25000'}" queryParamsHandling="merge" class="view-link">Under ₦25,000</a></li>
+  <li><a [routerLink]="url" [queryParams]="{price: '25000-50000'}" queryParamsHandling="merge" class="view-link">₦25,000 to ₦50,000</a></li>
+  <li><a [routerLink]="url" [queryParams]="{price: '50000-100000'}" queryParamsHandling="merge" class="view-link">₦50,000 to ₦100,000</a></li>
+  <li><a [routerLink]="url" [queryParams]="{price: '100000-200000'}" queryParamsHandling="merge" class="view-link">₦100,000 to ₦200,000</a></li>
+  <li><a [routerLink]="url" [queryParams]="{price: '200000'}" queryParamsHandling="merge" class="view-link">₦200,000 & Above</a></li>
+  <li>
+    <!--<ng5-slider [(value)]="minValue" [(highValue)]="maxValue" (userChangeEnd)="getMinMaxVal($event)" [options]="options"></ng5-slider>-->
+    <div class="row mt-2">
+      <div class="col-sm-6">
+        <input class="w-100 text-center f-10" placeholder="min" [(ngModel)]="minValue" (input)="!showBtn ? showBtn = true : showBtn"/>
+      </div>
+      <div class="col-sm-6">
+        <input class="w-100 text-center f-10" placeholder="max" [(ngModel)]="maxValue" (input)="!showBtn ? showBtn = true : showBtn"/>
+      </div>
+      <div class="col-12" [hidden]="!showBtn">
+        <button tlimsButton class="btn-sm w-100 d-block mt-1" color="btn-warning" (click)="go()">Go</button>
+      </div>
+    </div>
+  </li>
+</ul>
+

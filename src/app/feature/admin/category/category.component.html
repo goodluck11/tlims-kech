@@ -1,3 +1,66 @@
-<p>
-  category works!
-</p>
+<div class="card card-body">
+  <div class="form-group text-right">
+    <button tlimsButton type="button" (click)="isOpenModal = true">
+      New
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let d of categoryItems; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{d.categoryCode?.dataCode}}</td>
+        <td>{{d.titleDescription?.title}}</td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="alert text-center" *ngIf="categoryItems?.length <= 0">No Category Created</div>
+  </div>
+</div>
+
+<tlims-modal [dismissAble]="true" (close)="isOpenModal = $event" [visible]="isOpenModal" size="medium">
+  <h3>New Category</h3>
+  <form [formGroup]="catForm" novalidate>
+    <div class="row">
+      <div class="col-md-12">
+        <div formGroupName="categoryCode">
+          <tlims-form-group label="Code">
+            <input tlimsInput placeholder="code" formControlName="dataCode"/>
+          </tlims-form-group>
+        </div>
+        <div formGroupName="titleDescription">
+          <tlims-form-group label="Title">
+            <input tlimsInput placeholder="title" formControlName="title"/>
+          </tlims-form-group>
+          <tlims-form-group label="Description">
+            <textarea tlimsInput placeholder="description" formControlName="description"></textarea>
+          </tlims-form-group>
+        </div>
+        <tlims-form-group label="Parent Category">
+          <select tlimsInput formControlName="parentCategory">
+            <option [ngValue]="null">--Select category--</option>
+            <option *ngFor="let d of categories" [ngValue]="d">{{d.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+        <tlims-form-group label="Image">
+          <input type="file" tlimsInput placeholder="title" #myFileUpload/>
+        </tlims-form-group>
+
+        <div class="form-group text-center">
+          <button [tlimsButton]="isLoading" (click)="create()">Save</button>
+          <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="isOpenModal = false">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</tlims-modal>
+

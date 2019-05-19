@@ -1,0 +1,85 @@
+.ngdialog, .ngdialog-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.ngdialog {
+  box-sizing: border-box;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 10000;
+}
+
+.custom-popup {
+  padding: 0 !important;
+  align-items: normal !important;
+  justify-content: normal !important;
+  flex-direction: column;
+  display: flex;
+}
+
+.ngdialog-overlay {
+  background: rgba(0,0,0,0.4);
+}
+
+.ngdialog *, .ngdialog :after, .ngdialog :before {
+  box-sizing: inherit;
+}
+
+.ngdialog-content{
+  pointer-events: all;
+}
+
+.custom-popup .ngdialog-content {
+  width: auto !important;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  //-webkit-animation: ngdialog-flyin .5s;
+  //animation: ngdialog-flyin .5s;
+  background: #fafafa;
+  border-radius: 2px;
+  margin: 50px auto;
+  max-width: 90vw;
+  max-height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: table;
+}
+
+.custom-popup .ngdialog-content .section-popup {
+  display: flex;
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,0.37);
+}
+
+.custom-popup.x-large-width .section-popup {
+  width: 800px;
+  min-width: 800px;
+}
+
+.custom-popup .ngdialog-content .section-popup .popup-main-content {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-close {
+  cursor: pointer;
+  position: absolute;
+  z-index: 999;
+  right: 0px;
+  top: 0px;
+  padding: 8px;
+  font-size: 20px;
+  border-radius: 0;
+  width: 36px;
+  height: 36px;
+  line-height: 1;
+  user-select: none;
+  background: none;
+  border: 0;
+  color: inherit;
+}

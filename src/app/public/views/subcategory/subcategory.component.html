@@ -1,0 +1,54 @@
+<tlims-search-box title="Ads"></tlims-search-box>
+<tlims-content>
+  <div class="container-fluid">
+    <div class="d-md-flex align-items-md-start mb-5">
+      <div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-left border-0 shadow-0 sidebar-expand-md">
+        <tlims-accordion title="All Categories" bodyClass="py-1" styleClass="border-0 shadow-none">
+          <ul class="list list-unstyled mb-0">
+            <li><a routerLink="/tlims/all-ads"><i
+              class="ti-angle-left f-10 mr-1"></i>{{category.titleDescription?.title}}</a>
+              <ul class="list subcat-list">
+                <li *ngFor="let subCat of subCategories" class="mt-0">
+                  <a [routerLink]="currentUrl" [queryParams]="{subCat: subCat.categoryCode?.dataCode}"
+                     queryParamsHandling="merge">
+                    {{subCat.titleDescription?.title}}</a></li>
+              </ul>
+            </li>
+          </ul>
+        </tlims-accordion>
+        <tlims-accordion title="Featured Brands" styleClass="border-0 shadow-none" bodyClass="py-1">
+          <tlims-brand [brands]="brands"></tlims-brand>
+        </tlims-accordion>
+
+        <tlims-accordion title="Price Range" styleClass="border-0 shadow-none" bodyClass="py-1">
+          <span action>
+            <a [routerLink]="currentUrl" [queryParams]="{price: '0'}" queryParamsHandling="merge" class="f-10">clear</a>
+          </span>
+          <tlims-price-range></tlims-price-range>
+        </tlims-accordion>
+
+        <tlims-accordion title="Condition" styleClass="border-0 shadow-none" bodyClass="py-1">
+          <tlims-condition></tlims-condition>
+        </tlims-accordion>
+      </div>
+
+      <div class="flex-fill">
+        <tlims-tool-box (view)="getView($event)"></tlims-tool-box>
+        <div class="row" *blockUI="'subAdList'">
+          <ng-container *ngIf="viewType === 'GRID'">
+            <div class="col-md-3" *ngFor="let ad of ads">
+              <tlims-grid [ad]="ad"></tlims-grid>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="viewType === 'LIST'">
+            <div class="col-md-12 col-sm-12 col-12">
+              <tlims-media *ngFor="let ad of ads" [ad]="ad"></tlims-media>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <tlims-recommended></tlims-recommended>
+  </div>
+</tlims-content>

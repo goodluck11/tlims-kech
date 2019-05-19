@@ -1,5 +1,5 @@
 import {Ad} from '../ad';
-import {CodeValue} from '../../../core/model/base-model';
+import {CodeValue} from 'core/model/base-model';
 
 export class Electronic extends  Ad {
   electMake: CodeValue = new CodeValue();

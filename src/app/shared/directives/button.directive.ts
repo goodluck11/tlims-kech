@@ -14,6 +14,8 @@ export class ButtonDirective implements  OnChanges, OnInit {
   color: string;
   originalText: string;
   icon = '<i class="fa fa-spinner fa-spin"></i>';
+  @Input()
+  render = true;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {
   }
@@ -27,7 +29,9 @@ export class ButtonDirective implements  OnChanges, OnInit {
     if (!isNullOrUndefined(this.color)) {
       this.renderer.addClass(this.el.nativeElement, this.color);
     }
-    this.originalText = this.el.nativeElement.innerHTML;
+    if (this.render) {
+      this.originalText = this.el.nativeElement.innerHTML;
+    }
   }
 
 

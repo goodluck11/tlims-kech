@@ -2,7 +2,7 @@
 <div class="fixed-top">
   <!-- Main navbar -->
   <div class="navbar tlims-bg-default navbar-expand-md">
-    <a class="navbar-brand text-warning-600" routerLink="/">TLims-Kech</a>
+    <a class="navbar-brand text-warning-600 font-weight-bold" routerLink="/">TLims-Kech</a>
     <div class="d-xl-none">
       <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar-mobile" aria-expanded="false">
         <i class="icon-grid3"></i>
@@ -12,7 +12,7 @@
 
       <ul class="navbar-nav mx-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="javascript:void(0)">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/tlims">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)">Link</a>
@@ -34,6 +34,9 @@
       </ul>
 
       <ul class="navbar-nav ml-xl-auto">
+        <li class="nav-item">
+          <a routerLink="/tlims/all-ads" class="navbar-nav-link font-weight-semibold text-success-800">All Ads</a>
+        </li>
         <li class="nav-item" *ngIf="!activeUser">
           <a routerLink="/tlims/sign-in" class="navbar-nav-link font-weight-semibold">Sign In</a>
         </li>
@@ -45,13 +48,13 @@
           </a>
 
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="javascript:void(0)" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
-            <a href="javascript:void(0)" class="dropdown-item"><i class="icon-coins"></i> My balance</a>
-            <a href="javascript:void(0)" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span
-              class="badge badge-pill bg-blue ml-auto">58</span></a>
-            <div class="dropdown-divider"></div>
-            <a href="javascript:void(0)" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>
-            <a href="javascript:void(0)" class="dropdown-item" (click)="logout()"><i class="icon-switch2"></i> Logout</a>
+            <a [routerLink]="APP_URL.bo?.user?.profile" class="dropdown-item"><i class="ti-user"></i> My profile</a>
+            <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-coins"></i> My balance</a>-->
+            <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span-->
+              <!--class="badge badge-pill bg-blue ml-auto">58</span></a>-->
+            <!--<div class="dropdown-divider"></div>-->
+            <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>-->
+            <a href="javascript:void(0)" class="dropdown-item" (click)="logout()"><i class="ti-power-off"></i> Logout</a>
           </div>
         </li>
       </ul>
@@ -61,68 +64,42 @@
 </div>
 <!-- /navbars wrapper -->
 
-<!-- Bottom full width position -->
-<div class="mb-3 border-top-1 border-top-primary">
-  <div class="page-header page-header-light"
-       style="border-left: 1px solid #ddd; border-right: 1px solid #ddd; margin-bottom: 0;">
-    <div class="row pl-4 pr-4">
-      <div class="col-md-4">
-        <div class="page-title">
-          <h5>
-            <i class="fa fa-arrow-circle-left mr-2"></i> <span class="font-weight-semibold">Post AD</span>
-            <!--<small class="d-block text-muted">Sign in to your account</small>-->
-          </h5>
-        </div>
-      </div>
 
-      <div class="col-md-4">
-        <div class="tlims-link pt-3 text-center">
-          <input type="search" class="form-control" placeholder="Search">
-        </div>
-      </div>
 
-      <div class="col-md-4">
-        <div class="form-group pt-3 text-md-right text-center">
-          <a routerLink="/tlims/bo/post-ad" class="btn btn-success">Post AD</a>
-        </div>
-      </div>
-    </div>
+<!--<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">-->
+  <!--<div class="d-flex">-->
+    <!--<div class="breadcrumb">-->
+      <!--<a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>-->
+      <!--<a href="components_breadcrumbs.html" class="breadcrumb-item">Components</a>-->
+      <!--<span class="breadcrumb-item active">Breadcrumbs</span>-->
+    <!--</div>-->
 
-    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
-      <div class="d-flex">
-        <div class="breadcrumb">
-          <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-          <a href="components_breadcrumbs.html" class="breadcrumb-item">Components</a>
-          <span class="breadcrumb-item active">Breadcrumbs</span>
-        </div>
+    <!--<a href="javascript:void(0)" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>-->
+  <!--</div>-->
 
-        <a href="javascript:void(0)" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-      </div>
+  <!--<div class="header-elements d-none">-->
+    <!--<div class="breadcrumb justify-content-center">-->
+      <!--<a href="javascript:void(0)" class="breadcrumb-elements-item">-->
+        <!--<i class="icon-comment-discussion mr-2"></i>-->
+        <!--Support-->
+      <!--</a>-->
 
-      <div class="header-elements d-none">
-        <div class="breadcrumb justify-content-center">
-          <a href="javascript:void(0)" class="breadcrumb-elements-item">
-            <i class="icon-comment-discussion mr-2"></i>
-            Support
-          </a>
+      <!--&lt;!&ndash;<div class="breadcrumb-elements-item dropdown p-0">&ndash;&gt;-->
+      <!--&lt;!&ndash;<a href="javascript:void(0)" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="icon-gear mr-2"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;Settings&ndash;&gt;-->
+      <!--&lt;!&ndash;</a>&ndash;&gt;-->
 
-          <!--<div class="breadcrumb-elements-item dropdown p-0">-->
-            <!--<a href="javascript:void(0)" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">-->
-              <!--<i class="icon-gear mr-2"></i>-->
-              <!--Settings-->
-            <!--</a>-->
-
-            <!--<div class="dropdown-menu dropdown-menu-right">-->
-              <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-user-lock"></i> Account security</a>-->
-              <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-statistics"></i> Analytics</a>-->
-              <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-accessibility"></i> Accessibility</a>-->
-              <!--<div class="dropdown-divider"></div>-->
-              <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-gear"></i> All settings</a>-->
-            <!--</div>-->
-          <!--</div>-->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <!--&lt;!&ndash;<div class="dropdown-menu dropdown-menu-right">&ndash;&gt;-->
+      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-user-lock"></i> Account security</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-statistics"></i> Analytics</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-accessibility"></i> Accessibility</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="dropdown-divider"></div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-gear"></i> All settings</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 <!-- /bottom full width position -->
+

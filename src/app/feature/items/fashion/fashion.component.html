@@ -1,111 +1,245 @@
 <form [formGroup]="fForm" novalidate>
   <div class="row">
     <div class="col-md-6">
-      <tlims-form-group label="Title">
-        <input tlimsInput placeholder="title"/>
-      </tlims-form-group>
+      <div formGroupName="subCategory">
+        <tlims-form-group label="Subcategory">
+          <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
+            <option *ngFor="let subCat of subCategories"
+                    [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Item Type">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Item Type--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
-    </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Brand">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Brand--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
+      <div formGroupName="titleDescription">
+        <tlims-form-group label="Title">
+          <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-error [control]="fForm.get('titleDescription').get('title')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
     </div>
     <div class="col-md-6">
       <tlims-form-group label="Gender" [checkBox]="true">
-        <tlims-checkbox label="Male" styleClass="mr-2">
-          <input type="radio" class="form-check-input" name="gender" checked>
-        </tlims-checkbox>
-        <tlims-checkbox label="Female">
-          <input type="radio" class="form-check-input" name="gender">
+        <tlims-checkbox [label]="gend.value" styleClass="mr-2" *ngFor="let gend of genders; index as i">
+          <input type="radio" class="form-check-input" formControlName="gender" id="gender{{i}}" [value]="gend.name">
         </tlims-checkbox>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Material">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Material--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+    <div class="col-md-6" *ngIf="isField1 || isField3">
+      <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
+        <select tlimsInput formControlName="subCatType">
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option *ngFor="let iType of itemTypes" [ngValue]="iType">{{iType.name}}</option>
         </select>
+        <tlims-form-error [control]="fForm.get('subCatType')"></tlims-form-error>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField1 || isField2 || isField4 || isField5">
+      <tlims-form-group label="Brand">
+        <select tlimsInput formControlName="brand">
+          <option [ngValue]="null">--Select Brand--</option>
+          <option *ngFor="let bd of brands" [ngValue]="bd">{{bd.name}}</option>
+        </select>
+        <tlims-form-error [control]="fForm.get('brand')" label="Brand"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField5">
+      <tlims-form-group label="Movement">
+        <select tlimsInput formControlName="movement">
+          <option [ngValue]="null">--Select Movement--</option>
+          <option *ngFor="let bd of movements" [ngValue]="bd">{{bd.name}}</option>
+        </select>
+        <tlims-form-error [control]="fForm.get('movement')" label="Movement"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField5">
+      <tlims-form-group label="Display">
+        <select tlimsInput formControlName="display">
+          <option [ngValue]="null">--Select Display--</option>
+          <option *ngFor="let bd of displays" [ngValue]="bd">{{bd.name}}</option>
+        </select>
+        <tlims-form-error [control]="fForm.get('display')" label="Display"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField1 || isField2 || isField4">
       <tlims-form-group label="Color">
-        <select tlimsInput>
+        <select tlimsInput formControlName="colorTemp" (change)="addOrRemoveColor(null, false, true)">
           <option [ngValue]="null">--Select Color--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let col of colors" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField3 || isField5">
+      <tlims-form-group label="Main Material">
+        <select tlimsInput formControlName="materialTemp" (change)="addOrRemoveMaterial(null, false, true)">
+          <option [ngValue]="null">--Select Material--</option>
+          <option *ngFor="let col of materials" [ngValue]="col">{{col.name}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField3">
+      <tlims-form-group label="Main Stone">
+        <select tlimsInput formControlName="jewelStone">
+          <option [ngValue]="null">--Select Stone--</option>
+          <option *ngFor="let col of stones" [ngValue]="col">{{col.name}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12" *ngIf="isField3 || isField5">
+      <tlims-form-group label="Color">
+        <div class="row w-100">
+          <div class="col-md-3" *ngFor="let mat of colors; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="color{{i}}" [value]="mat" (click)="addOrRemoveColor(mat, $event.target.checked, false)"> {{mat.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12" *ngIf="isField2 || isField4">
+      <tlims-form-group label="Type">
+        <div class="row w-100">
+          <div class="col-md-3" *ngFor="let mat of itemTypes2; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="itemType{{i}}" [value]="mat" (click)="addOrRemoveType(mat, $event.target.checked)"> {{mat.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12" *ngIf="isField1 || isField4">
+      <tlims-form-group label="Material">
+        <div class="row w-100">
+          <div class="col-md-3" *ngFor="let mat of materials; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="material{{i}}" [value]="mat"
+                       (click)="addOrRemoveMaterial(mat, $event.target.checked, false)"> {{mat.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12" *ngIf="isField4">
+      <tlims-form-group label="Outsole Material">
+        <div class="row w-100">
+          <div class="col-md-3" *ngFor="let mat of outSoleMaterials; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="outsole{{i}}" [value]="mat" (click)="addOrRemoveMaterial2(mat, $event.target.checked)"> {{mat.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12" *ngIf="isField1">
       <tlims-form-group label="Closure">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Closure--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
+        <div class="row w-100">
+          <div class="col-md-3" *ngFor="let cs of closures; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="closure{{i}}" [value]="cs"
+                       (click)="addOrRemoveClosure(cs, $event.target.checked)"> {{cs.name}}
+              </label>
+            </div>
+          </div>
+        </div>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-12" *ngIf="isField2 || isField4">
       <tlims-form-group label="Size">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Size--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
+        <div class="row w-100">
+          <div class="col" *ngFor="let cs of sizes; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="size{{i}}" [value]="cs" (click)="addOrRemoveSize(cs, $event.target.checked)"> {{cs.name}}
+              </label>
+            </div>
+          </div>
+        </div>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField2 || isField4">
       <tlims-form-group label="Style">
-        <select tlimsInput>
+        <select tlimsInput formControlName="fashionStyleTemp" (change)="addOrRemoveStyle(null, false, true)">
           <option [ngValue]="null">--Select Style--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
-    </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Stones">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Stones--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
-    </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Features">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Features--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let sty of styles" [ngValue]="sty">{{sty.name}}</option>
         </select>
       </tlims-form-group>
     </div>
     <div class="col-md-6">
       <tlims-form-group label="Price">
-        <tlims-amount></tlims-amount>
+        <tlims-amount formControlName="price"></tlims-amount>
+        <tlims-form-error [control]="fForm.get('price')"></tlims-form-error>
       </tlims-form-group>
     </div>
+    <div class="col-md-12" *ngIf="isField4">
+      <tlims-form-group label="Fastening">
+        <div class="row w-100">
+          <div class="col" *ngFor="let cs of fastenings; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="fasten{{i}}" (click)="addOrRemoveFastening(cs, $event.target.checked)" [value]="cs"> {{cs.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12" *ngIf="isField5">
+      <tlims-form-group label="Style">
+        <div class="row w-100">
+          <div class="col" *ngFor="let cs of styles; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="style{{i}}" [value]="cs" (click)="addOrRemoveStyle(cs, $event.target.checked, false)"> {{cs.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12" *ngIf="isField5">
+      <tlims-form-group label="Features">
+        <div class="row w-100">
+          <div class="col-md-3" *ngFor="let cs of features; index as i">
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input type="checkbox" id="feature{{i}}" [value]="cs" (click)="addOrRemoveFeature(cs, $event.target.checked)"> {{cs.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12">
+      <div formGroupName="titleDescription">
+        <tlims-description-box formControlName="description"></tlims-description-box>
+        <tlims-form-error [control]="fForm.get('titleDescription').get('description')"></tlims-form-error>
+      </div>
+    </div>
     <div class="col-md-6">
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" name="negotiable" class="form-input-styled" data-fouc> Negotiable
-        </label>
+      <tlims-form-group>
+        <div class="form-check mt-3">
+          <label class="form-check-label">
+            <input type="checkbox" name="negotiable" formControlName="negotiable"> Negotiable
+          </label>
+        </div>
+      </tlims-form-group>
+    </div>
+  </div>
+  <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group text-center">
+        <button [tlimsButton]="isLoading" (click)="create()" [disabled]="fForm.invalid">Save</button>
+        <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="cancel()">Cancel</button>
       </div>
     </div>
   </div>

@@ -1,26 +1,20 @@
-<!-- Middle placement -->
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Middle placement Middle placement Middle placement</h5>
-    <p class="card-text">Example of <code>middle</code> placement -
-      image placed between card content containers (card header, card body and card footer). Image requires <code>.img-fluid</code> class for proper sizing.</p>
-  </div>
-
-  <div class="card-img-actions">
-    <img class="img-fluid" src="../../../../assets/images/5.png" alt="">
-    <div class="card-img-actions-overlay">
-      <a href="../../../../assets/images/5.png" class="btn btn-outline bg-white text-white border-white border-2" data-popup="lightbox">
-        Preview
-      </a>
-      <a href="javascript:void(0)" class="btn btn-outline bg-white text-white border-white border-2 ml-2">
-        Details
-      </a>
+<div class="card h-100 border-0 box-shadow-none border-radius-0">
+  <img class="card-img-top img-fluid" [src]="ad?.images[0] ? baseUrl + ad?.images[0] : '../../../../assets/images/blank.jpg'"
+       [attr.alt]="ad?.images[0] ? ad?.images[0] : '../../../../assets/images/blank.jpg'">
+  <div class="card-body bg-light text-center">
+    <h6 class="font-weight-normal mb-0">
+      <a [routerLink]="[routerLink, ad.id, ad.titleDescription?.title, ad.code]" class="text-default mb-0">{{ad.titleDescription?.title}}</a>
+    </h6>
+    <a [routerLink]="[routerLink, ad.category?.code]" class="text-orange-700 f-12">{{ad.category?.name}}</a>
+    <h6 class="mb-0 font-weight-semibold text-success">{{ad.price?.value}}</h6>
+    <div>
+      <i class="ti-star font-size-base text-warning-300"></i>
+      <i class="ti-star font-size-base text-warning-300"></i>
+      <i class="ti-star font-size-base text-warning-300"></i>
+      <i class="ti-star font-size-base text-warning-300"></i>
+      <i class="icon-star-half font-size-base text-warning-300"></i>
     </div>
-  </div>
-
-  <div class="card-footer d-flex justify-content-between">
-    <span class="font-size-sm text-uppercase font-weight-semibold">Nov 12, 11:25 am</span>
-    <span class="font-size-sm text-uppercase text-success font-weight-semibold">N900,000,000</span>
+    <!--<div class="text-muted mb-3">34 reviews</div>-->
   </div>
 </div>
-<!-- /middle placement -->
+

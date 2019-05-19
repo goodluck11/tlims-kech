@@ -1,0 +1,5 @@
+<ul class="list-unstyled pl-1">
+  <li><a [routerLink]="url" [queryParams]="{condition: 'USED'}" class="view-link" queryParamsHandling="merge">Used</a></li>
+  <li><a [routerLink]="url" [queryParams]="{condition: 'REPLICA'}" class="view-link" queryParamsHandling="merge">Replica</a></li>
+  <li><a [routerLink]="url" [queryParams]="{condition: 'NEW'}"  class="view-link" queryParamsHandling="merge">New</a></li>
+</ul>

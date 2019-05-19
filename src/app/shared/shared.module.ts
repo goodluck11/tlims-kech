@@ -19,8 +19,20 @@ import {CheckboxComponent} from './components/checkbox/checkbox.component';
 import {RadioComponent} from './components/radio/radio.component';
 import {ImageUploadComponent} from './components/image-upload/image-upload.component';
 import {ImageUploadModule} from 'angular2-image-upload';
-import { SideMenuComponent } from './components/menu/side-menu/side-menu.component';
-import { SideSubMenuComponent } from './components/menu/side-sub-menu/side-sub-menu.component';
+import {SideMenuComponent} from './components/menu/side-menu/side-menu.component';
+import {SideSubMenuComponent} from './components/menu/side-sub-menu/side-sub-menu.component';
+import {ModalComponent} from './components/modal/modal.component';
+import {BlockUIModule} from 'ng-block-ui';
+import {DisabledDirective} from 'shared/directives/disabled.directive';
+import {DescriptionBoxComponent} from './components/description-box/description-box.component';
+import {NgxEditorModule} from 'ngx-editor';
+import {BreadcrumbComponent} from './components/breadcrumb/breadcrumb.component';
+import {SearchBoxComponent} from './components/search-box/search-box.component';
+import {ToolBoxComponent} from './components/tool-box/tool-box.component';
+import {NgPipesModule} from 'ngx-pipes';
+import {LightBoxComponent} from './components/light-box/light-box.component';
+import {RouterModule} from '@angular/router';
+
 
 const SHARED_COMPONENTS: any = [
   FormGroupComponent,
@@ -40,7 +52,14 @@ const SHARED_COMPONENTS: any = [
   CheckboxComponent,
   RadioComponent,
   SideMenuComponent,
-  SideSubMenuComponent
+  SideSubMenuComponent,
+  ModalComponent,
+  DescriptionBoxComponent,
+  DisabledDirective,
+  BreadcrumbComponent,
+  SearchBoxComponent,
+  ToolBoxComponent,
+  LightBoxComponent
 ];
 
 @NgModule({
@@ -49,10 +68,15 @@ const SHARED_COMPONENTS: any = [
     HttpClientModule,
     ReactiveFormsModule,
     ImageUploadModule.forRoot(),
-    FormsModule
+    FormsModule,
+    RouterModule,
+    BlockUIModule.forRoot(),
+    NgxEditorModule,
+    NgPipesModule
   ],
   declarations: [...SHARED_COMPONENTS],
-  exports: [...SHARED_COMPONENTS, ReactiveFormsModule, HttpClientModule, FormsModule, ImageUploadModule],
+  exports: [...SHARED_COMPONENTS, ReactiveFormsModule, HttpClientModule, FormsModule, RouterModule, ImageUploadModule, BlockUIModule,
+    NgPipesModule],
   providers: [DecimalPipe]
 })
 export class SharedModule { }

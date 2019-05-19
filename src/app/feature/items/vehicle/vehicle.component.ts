@@ -1,5 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Category} from 'core/model/category';
 
 @Component({
   selector: 'tlims-vehicle',
@@ -9,6 +10,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 export class VehicleComponent implements OnInit, OnDestroy {
 
   vehicleForm: FormGroup;
+  @Input()
+  subCategories: Array<Category> = [];
 
   constructor(private fb: FormBuilder) {
   }

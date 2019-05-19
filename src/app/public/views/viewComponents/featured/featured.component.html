@@ -1,0 +1,25 @@
+<div class="card card-body border-0 shadow-0">
+  <div class="d-flex justify-content-between">
+    <h5 class="card-title font-weight-bold">Our Featured Items</h5>
+    <div class="btn-group">
+      <button (click)="slickModal.slickGoTo(1)" class="btn-prev"></button>
+      <button (click)="slickModal.slickGoTo(2)" class="btn-next"></button>
+    </div>
+  </div>
+  <ngx-slick-carousel class="carousel" [config]="slideConfigs" #slickModal="slick-carousel">
+    <div ngxSlickItem *ngFor="let slide of images" class="slide px-1">
+      <div class="card border-0 box-shadow-none border-radius-0 mb-0">
+        <div class="card-img-actions">
+          <img class="card-img img-fluid border-radius-0" [src]="slide.image" alt="">
+        </div>
+        <div class="card-body px-0 py-1">
+          <div class="d-flex align-items-start flex-nowrap">
+            <span class="font-weight-semibold f-14 text-ellipsis">
+              {{slide.text}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+</div>

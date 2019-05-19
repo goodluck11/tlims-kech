@@ -1,8 +1,9 @@
 <div class="card {{styleClass}}" [ngClass]="{'no-bor-mar-red': noRadiusBorder}">
-  <div class="card-header bg-transparent header-elements-inline">
+  <div class="card-header bg-transparent header-elements-inline border-0 pt-2 pb-0">
     <a (click)="toggleIcon()" href="javascript:void(0)" class="text-default">
-      <h6 class="card-title" [ngClass]="{'text-uppercase': isUpperCase}">{{title? title : 'Title'}}</h6>
+      <h6 class="font-weight-bold mb-0 f-13" [ngClass]="{'text-uppercase': isUpperCase}">{{title? title : 'Title'}}</h6>
     </a>
+    <ng-content select="[action]"></ng-content>
   </div>
 
   <div class="card-body {{bodyClass}}" [@collapseInOut]="isCollapsed ? 'out' : 'in'">

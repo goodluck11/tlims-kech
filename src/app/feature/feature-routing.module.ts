@@ -14,13 +14,17 @@ import {PickListComponent} from './admin/pick-list/pick-list.component';
 import {AdComponent} from './items/ad/ad.component';
 import {ItemsHomeComponent} from './items/items-home/items-home.component';
 import {AdminHomeComponent} from 'feature/admin/admin-home/admin-home.component';
+import {CategoryResolver} from 'core/resolvers/category.resolver';
+import {ColorResolver} from 'core/resolvers/app.resolver';
+import {UserHomeComponent} from './user/user-home/user-home.component';
+import {AuthGuard} from 'core/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '', component: FeatureHomeComponent, children: [
       {path: 'dashboard', component: DashboardComponent},
       {
-        path: 'user', children: [
+        path: 'user', component: UserHomeComponent, children: [
           {path: '', component: ProfileComponent},
           {path: 'edit/:id', component: ProfileEditComponent},
           {path: 'reset', component: PasswordFormComponent},
@@ -30,18 +34,25 @@ const routes: Routes = [
       },
       {
         path: 'admin', component: AdminHomeComponent, children: [
-          {path: '', component: UsersComponent},
-          {path: 'pending', component: PendingAdsComponent},
-          {path: 'categories', component: CategoryComponent},
-          {path: 'pick-list', component: PickListComponent},
+          {path: '', component: PendingAdsComponent},
+          {path: 'users', component: UsersComponent},
+          {path: 'categories', component: CategoryComponent, resolve: {
+              categories: CategoryResolver
+            }},
+          {path: 'pick-list', component: PickListComponent, resolve: {
+              categories: CategoryResolver
+            }},
         ]
       },
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
-    ]
+    ], canActivate: [AuthGuard], canActivateChild: [AuthGuard]
   },
   {path: 'post-ad', component: ItemsHomeComponent, children: [
-      {path: '', component: AdComponent}
-    ]}
+      {path: '', component: AdComponent, resolve: {
+          categories: CategoryResolver,
+          colors: ColorResolver
+        }}
+    ], canActivate: [AuthGuard], canActivateChild: [AuthGuard]}
 ];
 
 @NgModule({

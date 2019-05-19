@@ -6,6 +6,7 @@ const getHost = () => {
 };
 
 const apiURI = _isDev ? 'http://localhost:9000' : '';
+const storageURI = _isDev ? 'http://localhost:9000/storage/' : '';
 
 // console.log('inside const');
 
@@ -13,5 +14,6 @@ const apiURI = _isDev ? 'http://localhost:9000' : '';
 
 export const ENV = {
   BASE_URI: getHost(),
-  BASE_API: apiURI
+  BASE_API: apiURI,
+  STORAGE_API: storageURI
 };

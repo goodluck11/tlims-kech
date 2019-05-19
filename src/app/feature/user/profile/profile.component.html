@@ -1,28 +1,29 @@
-<div class="row">
-  <div class="col-xl-3 col-sm-6">
-    <div class="card">
-      <div class="card-body text-center">
-        <div class="card-img-actions d-inline-block mb-3">
-          <img class="img-fluid rounded-circle" src="../../../../assets/images/face1.jpg" width="170" height="170" alt="">
-          <div class="card-img-actions-overlay card-img rounded-circle">
-            <a href="#" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
-              <i class="icon-plus3"></i>
-            </a>
-            <a href="user_pages_profile.html" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2">
-              <i class="icon-link"></i>
-            </a>
+<div class="card">
+  <div class="card-header ">
+    <h4 class="font-weight-bold">Profile</h4>
+  </div>
+  <div class="card-body">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-sm-12">
+        <form [formGroup]="userForm">
+          <tlims-form-group label="First Name" required="true">
+            <input formControlName="firstName" tlimsInput/>
+          </tlims-form-group>
+          <tlims-form-group label="Last Name" required="true">
+            <input formControlName="lastName" tlimsInput/>
+          </tlims-form-group>
+          <tlims-form-group label="Email" required="true">
+            <input formControlName="email" readonly tlimsInput/>
+          </tlims-form-group>
+          <tlims-form-group label="Phone Number" required="true">
+            <input formControlName="phoneNumber" tlimsInput/>
+          </tlims-form-group>
+          <div class="form-group text-center">
+            <button [tlimsButton]="isLoading" [disabled]="userForm.invalid" (click)="update()">Update</button>
           </div>
-        </div>
-
-        <h6 class="font-weight-semibold mb-0">James Alexander</h6>
-        <span class="d-block text-muted">Lead developer</span>
-
-        <div class="list-icons list-icons-extended mt-3">
-          <a href="#" class="list-icons-item" data-popup="tooltip" title="Google Drive" data-container="body"><i class="icon-google-drive"></i></a>
-          <a href="#" class="list-icons-item" data-popup="tooltip" title="Twitter" data-container="body"><i class="icon-twitter"></i></a>
-          <a href="#" class="list-icons-item" data-popup="tooltip" title="Github" data-container="body"><i class="icon-github"></i></a>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
+

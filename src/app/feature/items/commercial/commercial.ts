@@ -8,5 +8,5 @@ export class Commercial extends Ad {
   maxTemperature: string;
   shape: string;
   weight: string;
-  contactForPrice: boolean;
+  contactForPrice = false;
 }

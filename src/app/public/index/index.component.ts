@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'prefix-index',
@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  public show = true;
+
+  public type = 'component';
+
+  public disabled = false;
+
+  constructor() {}
 
   ngOnInit() {
   }

@@ -1,0 +1,14 @@
+.page-header{
+  background-image: url("../../../../assets/images/wallpaper/panel_bg.png");
+  background-size: contain;
+  background-color: #0e3357;
+  height: 60px;
+  margin-bottom: 0;
+}
+
+
+@media (max-width: 768px) {
+  .page-header{
+    height: auto;
+  }
+}

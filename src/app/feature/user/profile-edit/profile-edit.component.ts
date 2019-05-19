@@ -1,15 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {User} from 'core/model/user';
+import {AuthService} from 'core/services/auth.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'tlims-profile-edit',
   templateUrl: './profile-edit.component.html',
   styleUrls: ['./profile-edit.component.scss']
 })
-export class ProfileEditComponent implements OnInit {
+export class ProfileEditComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  userForm: FormGroup;
+  user: User = new User();
 
-  ngOnInit() {
+  constructor(private fb: FormBuilder, private authService: AuthService, private location: Location) {
   }
 
+  ngOnInit() {
+    this.user = this.authService.getCurrentUser();
+    console.log(this.user);
+    if (!this.user) {
+      this.location.back();
+    }
+    this.initForm();
+  }
+
+  initForm() {
+    this.userForm = this.fb.group({
+      firstName: [this.user.firstName],
+      lastName: [this.user.lastName],
+      phoneNumber: [this.user.phoneNumber],
+      email: [this.user.email]
+    });
+  }
+
+  ngOnDestroy(): void {
+  }
 }

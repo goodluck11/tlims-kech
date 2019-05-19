@@ -1,5 +1,11 @@
-<div class="form-group">
+<div class="form-group w-100" [ngClass]="styleClass">
   <label *ngIf="label && !checkBox" class="font-weight-semibold">{{label}}:</label>
   <label class="d-block font-weight-semibold" *ngIf="label && checkBox">{{label}}:</label>
-  <ng-content></ng-content>
+  <div class="input-group">
+    <ng-content></ng-content>
+    <span class="input-group-append" *ngIf="isLoading">
+      <span class="input-group-text"><i class="fa fa-spinner fa-spin"></i></span>
+    </span>
+  </div>
+  <ng-content select="tlims-form-error"></ng-content>
 </div>

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="form-group">
+    <tlims-form-group label="Images">
       <image-upload
         [max]="5"
         buttonCaption="Click"
@@ -11,6 +11,6 @@
         (removed)="onRemoved($event)">
       </image-upload>
       <small class="form-text text-muted">Add up to 5 photos. Use a real image of your product, not catalogs.</small>
-    </div>
+    </tlims-form-group>
   </div>
 </div>

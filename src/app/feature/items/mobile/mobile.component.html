@@ -1,6 +1,14 @@
 <form [formGroup]="mForm" novalidate>
   <div class="row">
     <div class="col-md-6">
+      <tlims-form-group label="Subcategory">
+        <select tlimsInput>
+          <option [ngValue]="null">--Select Subcategory--</option>
+          <option *ngFor="let subCat of subCategories" [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
       <tlims-form-group label="Title">
         <input tlimsInput placeholder="title"/>
       </tlims-form-group>
@@ -97,5 +105,6 @@
       </div>
     </div>
   </div>
+  <!--<tlims-image-upload (images)="getImages($event)"></tlims-image-upload>-->
 </form>
 
