@@ -25,6 +25,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   isHide = true;
   @BlockUI() blockUI: NgBlockUI;
   baseUrl = `${ENV.STORAGE_API}`;
+  selectedImg: string;
+  fullImg = 'https://freakyjolly.com/demo/jquery/PreloadJS/images/1.jpg';
 
   constructor(private activatedRoute: ActivatedRoute, private toastr: ToastrService, private coreService: CoreService,
               private location: Location, private authService: AuthService) {
@@ -38,12 +40,17 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     });
   }
 
+  setImage(img) {
+    this.selectedImg = img;
+  }
+
   getAd() {
     if (!isNaN(this.dataId)) {
       this.blockUI.start('Loading details');
       this.coreService.getAd(this.dataId).pipe(untilDestroyed(this)).subscribe((data: any) => {
         if (data) {
           this.ad = data;
+          this.selectedImg = this.baseUrl + this.ad.images[0];
           this.findByUsername();
         }
       }, (err) => {

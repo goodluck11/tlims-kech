@@ -170,8 +170,34 @@ a {
   border-color: transparent;
 }
 
+.avatar {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ddd;
+
+  &:not(:last-child) {
+    margin-right: 7px;
+  }
+
+  .avatar:hover {
+    border: 1px solid #483add;
+  }
+}
+
+.click {
+  cursor: pointer;
+}
+
 tlims-amount, image-upload, app-ngx-editor {
   width: 100%;
+}
+
+ngx-image-zoom, .ngxImageZoomContainer {
+  //width: 100% !important;
+}
+
+.ngxImageZoomContainer {
+  //height: 392px !important;
 }
 
 .slick-prev, .slick-next {

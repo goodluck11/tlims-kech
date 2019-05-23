@@ -32,6 +32,7 @@ import { SizeComponent } from './public/views/viewComponents/size/size.component
 import { FeaturedComponent } from './public/views/viewComponents/featured/featured.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { RecommendedComponent } from './public/views/viewComponents/recommended/recommended.component';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { RecommendedComponent } from './public/views/viewComponents/recommended/
     SwiperModule,
     OwlModule,
     NgbModule,
-    Ng5SliderModule
+    Ng5SliderModule,
+    NgxImageZoomModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
