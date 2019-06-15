@@ -1,15 +1,15 @@
-<div class="card card-body">
-  <div class="form-group text-right">
-    <button tlimsButton type="button" (click)="isOpenModal = true">
+<div class="card card-body" *blockUI="'category-list'">
+  <div class="d-flex justify-content-between">
+    <h5 class="card-title font-weight-bold">Categories</h5>
+    <button tlimsButton class="btn-outline-success" type="button" (click)="modal(null, isCreate)">
       New
     </button>
   </div>
   <div class="table-responsive">
-    <table class="table table-sm">
+    <table tlimsTable>
       <thead>
       <tr>
         <th>#</th>
-        <th>Code</th>
         <th>Name</th>
         <th></th>
       </tr>
@@ -17,8 +17,7 @@
       <tbody>
       <tr *ngFor="let d of categoryItems; index as i">
         <td>{{i + 1}}</td>
-        <td>{{d.categoryCode?.dataCode}}</td>
-        <td>{{d.titleDescription?.title}}</td>
+        <td><a href="javascript:;" (click)="modal(d.categoryCode?.dataCode, isSubCategory)">{{d.titleDescription?.title}}</a></td>
         <td></td>
       </tr>
       </tbody>
@@ -27,40 +26,67 @@
   </div>
 </div>
 
-<tlims-modal [dismissAble]="true" (close)="isOpenModal = $event" [visible]="isOpenModal" size="medium">
-  <h3>New Category</h3>
-  <form [formGroup]="catForm" novalidate>
-    <div class="row">
-      <div class="col-md-12">
-        <div formGroupName="categoryCode">
-          <tlims-form-group label="Code">
-            <input tlimsInput placeholder="code" formControlName="dataCode"/>
+<tlims-modal [dismissAble]="true" (close)="closeModal($event)" [visible]="isOpenModal" size="medium">
+  <ng-container *ngIf="lookUp === isCreate">
+    <h5 class="font-weight-bold">New Category</h5>
+    <form [formGroup]="catForm" novalidate>
+      <div class="row">
+        <div class="col-md-12">
+          <div formGroupName="categoryCode">
+            <tlims-form-group label="Code">
+              <input tlimsInput placeholder="code" formControlName="dataCode"/>
+            </tlims-form-group>
+          </div>
+          <div formGroupName="titleDescription">
+            <tlims-form-group label="Title">
+              <input tlimsInput placeholder="title" formControlName="title"/>
+            </tlims-form-group>
+            <tlims-form-group label="Description">
+              <textarea tlimsInput placeholder="description" formControlName="description"></textarea>
+            </tlims-form-group>
+          </div>
+          <tlims-form-group label="Parent Category">
+            <select tlimsInput formControlName="parentCategory">
+              <option [ngValue]="null">--Select category--</option>
+              <option *ngFor="let d of categories" [ngValue]="d">{{d.titleDescription?.title}}</option>
+            </select>
           </tlims-form-group>
-        </div>
-        <div formGroupName="titleDescription">
-          <tlims-form-group label="Title">
-            <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-group label="Image">
+            <input type="file" tlimsInput placeholder="title" #myFileUpload/>
           </tlims-form-group>
-          <tlims-form-group label="Description">
-            <textarea tlimsInput placeholder="description" formControlName="description"></textarea>
-          </tlims-form-group>
-        </div>
-        <tlims-form-group label="Parent Category">
-          <select tlimsInput formControlName="parentCategory">
-            <option [ngValue]="null">--Select category--</option>
-            <option *ngFor="let d of categories" [ngValue]="d">{{d.titleDescription?.title}}</option>
-          </select>
-        </tlims-form-group>
-        <tlims-form-group label="Image">
-          <input type="file" tlimsInput placeholder="title" #myFileUpload/>
-        </tlims-form-group>
 
-        <div class="form-group text-center">
-          <button [tlimsButton]="isLoading" (click)="create()">Save</button>
-          <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="isOpenModal = false">Cancel</button>
+          <div class="form-group text-center">
+            <button [tlimsButton]="isLoading" (click)="create()">Save</button>
+            <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="isOpenModal = false">Cancel</button>
+          </div>
         </div>
       </div>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="lookUp === isSubCategory">
+    <h5 class="font-weight-bold">Subcategories</h5>
+    <div class="table-responsive" *blockUI="'subcategory-list'">
+      <table tlimsTable>
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Code</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let d of subCategories; index as i">
+          <td>{{i + 1}}</td>
+          <td>{{d.categoryCode?.dataCode}}</td>
+          <td>{{d.titleDescription?.title}}</td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="alert text-center" *ngIf="categoryItems?.length <= 0">No Category Created</div>
     </div>
-  </form>
+  </ng-container>
 </tlims-modal>
 

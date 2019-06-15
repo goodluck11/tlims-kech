@@ -14,8 +14,12 @@ export class CoreService {
     return this.http.post(`${this.baseUrl}/ads/adList`, data);
   }
 
+  featuredAds(data) {
+    return this.http.post(`${this.baseUrl}/ads/featuredAds`, data);
+  }
+
   allAdsAdvance(data) {
-    return this.http.post(`${this.baseUrl}/ads/adListAdvance`, data);
+    return this.http.post(`${this.baseUrl}/ads/advanceAdListing`, data);
   }
 
   getBrands(catCode) {

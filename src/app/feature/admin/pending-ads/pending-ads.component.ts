@@ -15,7 +15,7 @@ import {Ad} from 'feature/items/ad';
 export class PendingAdsComponent implements OnInit, OnDestroy {
 
   ads: Array<any> = [];
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('pendingList') blockUI: NgBlockUI;
   searchTerm = '';
   query: Paging = new Paging();
 

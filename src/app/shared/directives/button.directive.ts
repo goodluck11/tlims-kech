@@ -22,12 +22,11 @@ export class ButtonDirective implements  OnChanges, OnInit {
 
   ngOnInit() {
     this.renderer.addClass(this.el.nativeElement, 'btn');
-    this.renderer.addClass(this.el.nativeElement, 'btn-success');
-    // this.renderer.addClass(this.el.nativeElement, 'waves-effect');
-    // this.renderer.addClass(this.el.nativeElement, 'waves-light');
-    // this.renderer.addClass(this.el.nativeElement, 'mr-1');
+    this.renderer.addClass(this.el.nativeElement, 'btn-sm');
     if (!isNullOrUndefined(this.color)) {
       this.renderer.addClass(this.el.nativeElement, this.color);
+    } else {
+      this.renderer.addClass(this.el.nativeElement, 'btn-success');
     }
     if (this.render) {
       this.originalText = this.el.nativeElement.innerHTML;

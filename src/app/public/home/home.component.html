@@ -1,10 +1,10 @@
-<tlims-search-box></tlims-search-box>
-<!--<ngx-slick class="carousel" [config]="slideConfig">-->
-  <!--<div ngxSlickItem *ngFor="let slide of slidess" class="slide">-->
-    <!--&lt;!&ndash;<img [src]="slide.img" alt="" class="img" height="400" width="100%">&ndash;&gt;-->
-    <!--<div class="slider-image" [ngStyle]="{'background-image':'url(' + slide.img + ')'}"></div>-->
-  <!--</div>-->
-<!--</ngx-slick>-->
+<tlims-search-box [withBreadCrumb]="false"></tlims-search-box>
+<ngx-slick-carousel class="carousel" [config]="slideConfig">
+  <div ngxSlickItem *ngFor="let slide of slidess" class="slide">
+    <!--<img [src]="slide.img" alt="" class="img" height="400" width="100%">-->
+    <div class="slider-image" [ngStyle]="{'background-image':'url(' + slide.img + ')'}"></div>
+  </div>
+</ngx-slick-carousel>
 
 <div class="container">
   <div class="card tlims-card border-0 shadow-0">
@@ -15,7 +15,7 @@
           <div class="d-flex flex-column justify-content-center align-items-center">
             <img src="../../../assets/images/category/{{cat.image}}" [alt]="cat.image" class="img rounded" width="100"
                  height="100">
-            <span class="font-weight-semibold text-center f-14 text-ellipsis">{{cat.titleDescription?.title}}</span>
+            <a [routerLink]="['/tlims/ad', cat.categoryCode?.dataCode]"><span class="font-weight-semibold text-center f-14 text-ellipsis">{{cat.titleDescription?.title}}</span></a>
           </div>
         </div>
       </div>

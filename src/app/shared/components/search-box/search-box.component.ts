@@ -9,6 +9,8 @@ export class SearchBoxComponent implements OnInit {
 
   @Input()
   title: string;
+  @Input()
+  withBreadCrumb = true;
 
   constructor() { }
 

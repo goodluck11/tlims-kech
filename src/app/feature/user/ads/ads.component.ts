@@ -14,7 +14,7 @@ import {UserService} from '../user.service';
 export class AdsComponent implements OnInit, OnDestroy {
 
   ads: Array<any> = [];
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('ad-list') blockUI: NgBlockUI;
   searchTerm = '';
   query: Paging = new Paging();
 

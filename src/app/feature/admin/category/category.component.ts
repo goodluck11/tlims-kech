@@ -18,15 +18,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   catForm: FormGroup;
   isOpenModal = false;
+  lookUp = -1;
   category: Category = new Category();
   @ViewChild('myFileUpload') myFileUpload;
   file: File;
   isLoading = false;
   categories: Array<Category> = [];
+  subCategories: Array<Category> = [];
   categoryItems: Array<Category> = [];
-  @BlockUI() blockUI: NgBlockUI;
-  searchTerm = '';
-  query: Paging = new Paging();
+  @BlockUI('category-list') blockUI: NgBlockUI;
+  @BlockUI('subcategory-list') blockSubcat: NgBlockUI;
+  isSubCategory = 1;
+  isCreate = 2;
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private activatedRoute: ActivatedRoute,
               private categoryService: CategoryService) {
@@ -34,26 +37,42 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getAllCategoryItem();
-    this.getParentCategories();
     this.initForm();
   }
 
+  modal(d, state) {
+    this.isOpenModal = true;
+    this.lookUp = state;
+    if (this.lookUp === this.isSubCategory) {
+      this.blockSubcat.start('Loading ...');
+      this.categoryService.getSubCategories(d).pipe(untilDestroyed(this)).subscribe((data: any) => {
+        if (Array(data)) {
+          this.subCategories = data;
+        }
+        this.blockSubcat.stop();
+      }, (err) => {
+        this.blockSubcat.stop();
+        this.toastr.error('Error loading subcategories');
+      });
+    }
+  }
+
+  closeModal($event) {
+    this.isOpenModal = $event;
+    this.lookUp = -1;
+  }
+
   getAllCategoryItem() {
-    this.blockUI.start('Loading Categories');
-    this.categoryService.findAll(new SearchRequest(this.searchTerm, this.query)).pipe(untilDestroyed(this)).subscribe((data: any) => {
-      if (Array(data['content'])) {
-        this.categoryItems = data['content'];
+    this.blockUI.start('Loading categories...');
+    this.categoryService.getParentCategories().pipe(untilDestroyed(this)).subscribe((data: any) => {
+      if (Array(data)) {
+        this.categoryItems = data;
+        this.categories = data;
       }
       this.blockUI.stop();
     }, (err) => {
       this.blockUI.stop();
       this.toastr.error('Error loading categories');
-    });
-  }
-
-  getParentCategories() {
-    this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((data) => {
-      this.categories = data.categories;
     });
   }
 
@@ -66,10 +85,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.reset();
       this.isLoading = false;
       if (!this.category.parentCategory) {
-        this.getParentCategories();
+        this.getAllCategoryItem();
       }
     }, (err) => {
-      console.log(err);
       this.toastr.error('Category creation failed');
       this.isLoading = false;
     });

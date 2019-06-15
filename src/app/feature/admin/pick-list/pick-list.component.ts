@@ -29,7 +29,7 @@ export class PickListComponent implements OnInit, OnDestroy {
   pickLists: Array<Picklist> = [];
   pickListItems: Array<Picklist> = [];
   listTypes: Array<any> = [];
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('pick-list') blockUI: NgBlockUI;
   searchTerm = '';
   isSearch = false;
   query: Paging = new Paging();

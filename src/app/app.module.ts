@@ -33,6 +33,7 @@ import { FeaturedComponent } from './public/views/viewComponents/featured/featur
 import { Ng5SliderModule } from 'ng5-slider';
 import { RecommendedComponent } from './public/views/viewComponents/recommended/recommended.component';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
+import { SafetyComponent } from './public/views/safety/safety.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { NgxImageZoomModule } from 'ngx-image-zoom';
     ColorComponent,
     SizeComponent,
     FeaturedComponent,
-    RecommendedComponent
+    RecommendedComponent,
+    SafetyComponent
   ],
   imports: [
     BrowserModule,

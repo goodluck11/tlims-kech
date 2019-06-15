@@ -10,6 +10,7 @@ import {PickListService} from 'core/services/picklist.service';
 import {ColorResolver} from 'core/resolvers/app.resolver';
 import {CoreService} from 'core/services/core.service';
 import {AuthGuard} from 'core/guards/auth.guard';
+import {SharedService} from 'core/services/shared.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {AuthGuard} from 'core/guards/auth.guard';
   declarations: [],
   providers: [
     AuthService, StorageService, FileService, CategoryService, CategoryResolver, CoreService,
-    PickListService, ColorResolver, SubcategoryResolver, AuthGuard, BrandResolver]
+    PickListService, ColorResolver, SubcategoryResolver, AuthGuard, BrandResolver,
+    SharedService]
 })
 export class CoreModule { }

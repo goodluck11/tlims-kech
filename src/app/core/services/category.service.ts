@@ -30,6 +30,10 @@ export class CategoryService {
     return this.http.get(`${this.baseUrl}/categories`);
   }
 
+  getParentCategories() {
+    return this.http.get(`${this.baseUrl}/parentCategories`);
+  }
+
   getSubCategories(code) {
     return this.http.get(`${this.baseUrl}/subcategories/${code}`);
   }

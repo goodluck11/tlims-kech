@@ -1,8 +1,9 @@
 <tlims-search-box title="Ads"></tlims-search-box>
 <tlims-content>
-  <div class="container-fluid">
+  <div class="container">
     <div class="d-md-flex align-items-md-start mb-5">
-      <div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-left border-0 shadow-0 sidebar-expand-md">
+      <div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-left border-0 shadow-0 sidebar-expand-md
+        border-right-1">
         <tlims-accordion title="All Categories" bodyClass="py-1" styleClass="border-0 shadow-none">
           <ul class="list list-unstyled mb-0">
             <li><a routerLink="/tlims/all-ads"><i
@@ -16,7 +17,7 @@
             </li>
           </ul>
         </tlims-accordion>
-        <tlims-accordion title="Featured Brands" styleClass="border-0 shadow-none" bodyClass="py-1">
+        <tlims-accordion title="Brands" *ngIf="brands.length > 0" styleClass="border-0 shadow-none" bodyClass="py-1">
           <tlims-brand [brands]="brands"></tlims-brand>
         </tlims-accordion>
 
@@ -32,9 +33,9 @@
         </tlims-accordion>
       </div>
 
-      <div class="flex-fill">
+      <div class="flex-fill" *blockUI="'subAdList'">
         <tlims-tool-box (view)="getView($event)"></tlims-tool-box>
-        <div class="row" *blockUI="'subAdList'">
+        <div class="row">
           <ng-container *ngIf="viewType === 'GRID'">
             <div class="col-md-3" *ngFor="let ad of ads">
               <tlims-grid [ad]="ad"></tlims-grid>
@@ -46,6 +47,7 @@
             </div>
           </ng-container>
         </div>
+        <tlims-empty-state *ngIf="ads.length === 0"></tlims-empty-state>
       </div>
     </div>
 

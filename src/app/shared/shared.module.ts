@@ -32,6 +32,10 @@ import {ToolBoxComponent} from './components/tool-box/tool-box.component';
 import {NgPipesModule} from 'ngx-pipes';
 import {LightBoxComponent} from './components/light-box/light-box.component';
 import {RouterModule} from '@angular/router';
+import {SpinnerComponent} from './components/spinner/spinner.component';
+import {TableDirective} from 'shared/directives/table.directive';
+import { EmptyStateComponent } from './components/empty-state/empty-state.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 const SHARED_COMPONENTS: any = [
@@ -59,7 +63,10 @@ const SHARED_COMPONENTS: any = [
   BreadcrumbComponent,
   SearchBoxComponent,
   ToolBoxComponent,
-  LightBoxComponent
+  LightBoxComponent,
+  SpinnerComponent,
+  TableDirective,
+  EmptyStateComponent
 ];
 
 @NgModule({

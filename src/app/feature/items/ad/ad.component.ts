@@ -18,7 +18,7 @@ export class AdComponent implements OnInit, OnDestroy {
   subCategories: Array<Category> = [];
   title = '';
   categoryCode: string;
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('adForm') blockUI: NgBlockUI;
   CATEGORY = CATEGORY;
 
   constructor(private activatedRoute: ActivatedRoute, private categoryService: CategoryService, private toastr: ToastrService) {

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {ToastrService} from 'ngx-toastr';
 import {AuthService} from '../../core/services/auth.service';
@@ -25,12 +25,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.registerForm = this.fb.group({
-      email: [null],
-      password: [null],
+      email: [null, Validators.required],
+      password: [null, Validators.required],
       phoneNumber: [null],
-      firstName: [null],
-      lastName: [null]
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      displayName: [null]
     });
+  }
+
+  buildDisplayName() {
+    const firstName = this.registerForm.get('firstName').value;
+    const lName = this.registerForm.get('lastName').value;
+    const dName = this.registerForm.get('displayName');
+    if (dName.pristine) {
+      if (lName && firstName) {
+        dName.setValue(lName + ' ' + firstName);
+      }
+    }
   }
 
   register() {

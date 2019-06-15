@@ -1,29 +1,42 @@
-<div class="card">
-  <div class="card-header ">
-    <h4 class="font-weight-bold">Profile</h4>
-  </div>
-  <div class="card-body">
-    <div class="row justify-content-center">
-      <div class="col-md-6 col-sm-12">
-        <form [formGroup]="userForm">
-          <tlims-form-group label="First Name" required="true">
-            <input formControlName="firstName" tlimsInput/>
-          </tlims-form-group>
-          <tlims-form-group label="Last Name" required="true">
-            <input formControlName="lastName" tlimsInput/>
-          </tlims-form-group>
-          <tlims-form-group label="Email" required="true">
-            <input formControlName="email" readonly tlimsInput/>
-          </tlims-form-group>
-          <tlims-form-group label="Phone Number" required="true">
-            <input formControlName="phoneNumber" tlimsInput/>
-          </tlims-form-group>
-          <div class="form-group text-center">
-            <button [tlimsButton]="isLoading" [disabled]="userForm.invalid" (click)="update()">Update</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <tlims-user-home></tlims-user-home>
+    </div>
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header ">
+          <h4 class="font-weight-bold">Profile</h4>
+        </div>
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-12">
+              <form [formGroup]="userForm">
+                <tlims-form-group label="First Name" required="true">
+                  <input formControlName="firstName" tlimsInput/>
+                </tlims-form-group>
+                <tlims-form-group label="Last Name" required="true">
+                  <input formControlName="lastName" tlimsInput/>
+                </tlims-form-group>
+                <tlims-form-group label="Email" required="true">
+                  <input formControlName="email" readonly tlimsInput/>
+                </tlims-form-group>
+                <tlims-form-group label="Phone Number" required="true">
+                  <input formControlName="phoneNumber" tlimsInput/>
+                </tlims-form-group>
+                <div class="form-group text-center">
+                  <button [tlimsButton]="isLoading" [disabled]="userForm.invalid" (click)="update()">Update</button>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
+
+      <tlims-password-form></tlims-password-form>
+
     </div>
   </div>
 </div>
+
 

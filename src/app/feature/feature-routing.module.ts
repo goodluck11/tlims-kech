@@ -24,7 +24,7 @@ const routes: Routes = [
     path: '', component: FeatureHomeComponent, children: [
       {path: 'dashboard', component: DashboardComponent},
       {
-        path: 'user', component: UserHomeComponent, children: [
+        path: 'user', children: [
           {path: '', component: ProfileComponent},
           {path: 'edit/:id', component: ProfileEditComponent},
           {path: 'reset', component: PasswordFormComponent},

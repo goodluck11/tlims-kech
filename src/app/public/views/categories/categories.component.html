@@ -1,12 +1,14 @@
 <tlims-search-box title="Ads"></tlims-search-box>
 <!--<tlims-light-box></tlims-light-box>-->
 <tlims-content>
-  <div class="container-fluid">
-    <div class="d-md-flex align-items-md-start mt-4">
-      <div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-left border-0 shadow-0 sidebar-expand-md">
+  <div class="container">
+    <div class="d-md-flex align-items-md-start">
+      <div
+        class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-left border-0 shadow-0 sidebar-expand-md">
         <tlims-accordion title="All Categories" [isUpperCase]="true" bodyClass="py-1" styleClass="border-0 shadow-none">
           <div class="list-group border-0 p-0">
-            <a [routerLink]="['/tlims/ad', cat.categoryCode?.dataCode]" class="list-group-item list-group-item-action p-0"
+            <a [routerLink]="['/tlims/ad', cat.categoryCode?.dataCode]"
+               class="list-group-item list-group-item-action p-0"
                *ngFor="let cat of categories">{{cat.titleDescription?.title}}</a>
           </div>
         </tlims-accordion>
@@ -15,23 +17,21 @@
         </tlims-accordion>
       </div>
 
-      <div class="flex-fill">
+      <div class="flex-fill" *blockUI="'categories'">
         <tlims-tool-box></tlims-tool-box>
-        <block-ui>
-          <div class="row">
-            <ng-container *ngIf="viewType === 'GRID'">
-              <div class="col-md-3" *ngFor="let ad of ads">
-                <tlims-grid [ad]="ad"></tlims-grid>
-              </div>
-            </ng-container>
-
-            <ng-container *ngIf="viewType === 'LIST'">
-              <div class="col-md-12 col-sm-12 col-12">
-                <tlims-media *ngFor="let ad of ads" [ad]="ad"></tlims-media>
-              </div>
-            </ng-container>
-          </div>
-        </block-ui>
+        <div class="row">
+          <ng-container *ngIf="viewType === 'GRID'">
+            <div class="col-md-3" *ngFor="let ad of ads">
+              <tlims-grid [ad]="ad"></tlims-grid>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="viewType === 'LIST'">
+            <div class="col-md-12 col-sm-12 col-12">
+              <tlims-media *ngFor="let ad of ads" [ad]="ad"></tlims-media>
+            </div>
+          </ng-container>
+        </div>
+        <tlims-empty-state *ngIf="ads.length === 0"></tlims-empty-state>
       </div>
     </div>
   </div>

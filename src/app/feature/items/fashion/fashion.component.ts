@@ -90,8 +90,8 @@ export class FashionComponent implements OnInit, OnDestroy {
     this.fashion = this.fForm.value;
     this.itemService.create('fashion', this.fashion, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
-      this.reset();
       this.toastr.success('Ad ' + this.fashion.titleDescription.title + ' successfully created');
+      this.reset();
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
       this.toastr.error('Error creating AD ' + this.fashion.titleDescription.title);

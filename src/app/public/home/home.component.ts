@@ -51,12 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     'slidesToScroll': 1,
     'autoplay': true,
     'autoplaySpeed': 4000,
-    'dots': true,
-    'infinite': true,
-    'speed': 500,
-    'nextArrow': '<div class=\'nav-btn next-slide\'></div>',
-    'prevArrow': '<div class=\'nav-btn prev-slide\'></div>',
-    'arrows': true
+    'infinite': true
   };
 
   constructor(private activatedRoute: ActivatedRoute) {

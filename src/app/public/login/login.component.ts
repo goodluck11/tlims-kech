@@ -5,6 +5,7 @@ import {AuthService} from 'core/services/auth.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Router} from '@angular/router';
 import {StorageService} from 'core/services/storage.service';
+import {SharedService} from 'core/services/shared.service';
 
 @Component({
   selector: 'prefix-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthService,
-              private router: Router, private storageService: StorageService) { }
+              private router: Router, private storageService: StorageService, private sharedService: SharedService) { }
 
   ngOnInit() {
     this.authService.logout();
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         const user = JSON.parse(data.user);
         this.toastr.success('Welcome ' + user.firstName + ' ' + user.lastName);
         this.authService.removeRedirectUrl();
+        this.sharedService.broadCast(true);
       }
       this.isLoading = false;
     }, (err) => {

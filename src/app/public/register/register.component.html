@@ -4,8 +4,8 @@
       <div class="card mb-0">
         <div class="card-body">
           <div class="text-center mb-3">
-            <h3 class="mb-0 font-weight-semibold">Sign Up</h3>
-            <span class="d-block text-muted">All fields are required</span>
+            <h3 class="mb-0 font-weight-bold">Sign Up</h3>
+            <span class="d-block text-muted">* fields are required</span>
           </div>
 
           <div class="form-group text-center text-muted content-divider">
@@ -13,11 +13,17 @@
           </div>
 
           <tlims-form-group>
-            <input class="form-control" placeholder="First Name" formControlName="firstName">
+            <input class="form-control" placeholder="First Name" formControlName="firstName" (change)="buildDisplayName()">
+            <tlims-form-error [control]="registerForm.get('firstName')"></tlims-form-error>
           </tlims-form-group>
 
           <tlims-form-group>
-            <input class="form-control" placeholder="Last Name" formControlName="lastName">
+            <input class="form-control" placeholder="Last Name" formControlName="lastName" (change)="buildDisplayName()">
+            <tlims-form-error [control]="registerForm.get('lastName')"></tlims-form-error>
+          </tlims-form-group>
+
+          <tlims-form-group>
+            <input class="form-control" placeholder="Display Name" formControlName="displayName" (change)="buildDisplayName()">
           </tlims-form-group>
 
           <tlims-form-group>
@@ -30,10 +36,12 @@
 
           <tlims-form-group>
             <input type="email" class="form-control" placeholder="Email" formControlName="email">
+            <tlims-form-error [control]="registerForm.get('email')"></tlims-form-error>
           </tlims-form-group>
 
           <tlims-form-group>
             <input type="password" class="form-control" placeholder="Password" formControlName="password">
+            <tlims-form-error [control]="registerForm.get('password')"></tlims-form-error>
           </tlims-form-group>
 
           <div class="form-group text-center text-muted content-divider">
@@ -41,18 +49,13 @@
           </div>
 
           <div class="form-group">
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" name="remember" class="form-input-styled" checked data-fouc>
-                Subscribe to monthly newsletter
-              </label>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="subscribe" required>
+              <label class="custom-control-label" for="subscribe">Subscribe to monthly newsletter</label>
             </div>
-
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" name="remember" class="form-input-styled" data-fouc>
-                Accept <a href="#">terms of service</a>
-              </label>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="accept" required>
+              <label class="custom-control-label" for="accept">Accept <a href="#">terms of service</a></label>
             </div>
           </div>
           <div class="form-group">
@@ -62,7 +65,7 @@
           <tlims-divider>Already have an account?</tlims-divider>
 
           <div class="form-group">
-            <a routerLink="/tlims/sign-in" class="btn btn-dark btn-block">Sign in</a>
+            <a routerLink="/tlims/sign-in" class="btn btn-warning btn-block">Sign in</a>
           </div>
         </div>
       </div>

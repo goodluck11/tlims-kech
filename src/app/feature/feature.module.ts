@@ -30,6 +30,7 @@ import {ItemService} from 'feature/items/item.service';
 import { UserHomeComponent } from './user/user-home/user-home.component';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from 'core/interceptor/auth.interceptor';
+import { AdHistoryComponent } from './admin/admin-home/ad-history/ad-history.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,7 @@ import {AuthInterceptor} from 'core/interceptor/auth.interceptor';
   declarations: [UsersComponent, PickListComponent, CategoryComponent, PendingAdsComponent, FavoritesComponent, AdsComponent,
     PasswordFormComponent, ProfileComponent, ProfileEditComponent, DashboardComponent, FeatureHomeComponent,
     ElectronicsComponent, FashionComponent, BeautyHealthComponent, CommercialComponent, AdComponent,
-    MobileComponent, VehicleComponent, RepairComponent, CategoryViewComponent, ItemsHomeComponent, AdminHomeComponent, UserHomeComponent],
+    MobileComponent, VehicleComponent, RepairComponent, CategoryViewComponent, ItemsHomeComponent, AdminHomeComponent, UserHomeComponent, AdHistoryComponent],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     AdminService, UserService, ItemService]

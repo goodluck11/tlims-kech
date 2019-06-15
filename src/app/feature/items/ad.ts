@@ -1,4 +1,4 @@
-import {BaseModel, CodeValue, Condition, TitleDescription} from 'core/model/base-model';
+import {BaseModel, CodeValue, Condition, Contact, TitleDescription} from 'core/model/base-model';
 
 export class Ad extends BaseModel {
   titleDescription: TitleDescription = new TitleDescription();
@@ -16,5 +16,6 @@ export class Ad extends BaseModel {
   archived: boolean;
   amount: string;
   brands: string;
+  contact: Contact = new Contact();
 }
 
