@@ -71,6 +71,7 @@ export class MobileComponent implements OnInit, OnDestroy {
     const subCatCode = this.getValueFromCodeValue('subCategory');
     this.subCatCode = subCatCode;
     console.log(subCatCode);
+
     this.resetField();
     switch (subCatCode) {
       case this.CATEGORY.MOBILE.SUBCATEGORY.accessories:
