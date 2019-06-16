@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "@ng-bootstrap/ng-bootstrap": "2.0.0",
+    "@ngx-lite/loaders": "^0.3.1",
+    "@ngx-lite/progress": "^0.3.4",
     "angular2-image-upload": "^1.0.0-rc.2",
     "angular2-useful-swiper": "^5.0.1",
     "core-js": "^2.4.1",
