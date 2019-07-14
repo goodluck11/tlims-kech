@@ -1,0 +1,67 @@
+<div class="card card-body" *blockUI="'message-list'">
+  <h5 class="card-title font-weight-bold">Messages</h5>
+  <div class="table-responsive">
+    <table tlimsTable>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Sender</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Date</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let d of messages; trackBy: trackByFn; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{d.contact?.name}}</td>
+        <td>{{d.contact?.email}}</td>
+        <td>{{d.contact?.phoneNumber}}</td>
+        <td>{{d.createdDate | date: 'dd-MMM-yy'}}</td>
+        <td>
+          <button tlimsButton (click)="viewMessage(d)">View</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="alert text-center" *ngIf="messages?.length <= 0">No messages yet</div>
+  </div>
+</div>
+
+<tlims-modal [dismissAble]="false" (close)="isOpenModal = $event" [visible]="isOpenModal">
+  <h5>Message Details</h5>
+  <div class="table-responsive">
+    <table tlimsTable>
+      <tr>
+        <th>Name</th>
+        <td>{{message.contact?.name}}</td>
+      </tr>
+      <tr>
+        <th>Phone Number</th>
+        <td>{{message.contact?.phoneNumber}}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{message.contact?.email}}</td>
+      </tr>
+      <tr *ngIf="message.postCode">
+        <th>Post</th>
+        <td>
+          <a [routerLink]="[APP_URL.adView, message.post?.code, message.post?.name, message.postCode]">{{message.post?.name}}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>Content</th>
+        <td>
+          <div [innerHTML]="message.content"></div>
+        </td>
+      </tr>
+      <tr>
+        <th>Date Sent</th>
+        <td>{{message.createdDate | date: 'dd-MMM-yy'}}</td>
+      </tr>
+    </table>
+  </div>
+</tlims-modal>
+

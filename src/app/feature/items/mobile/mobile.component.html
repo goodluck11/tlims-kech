@@ -1,39 +1,52 @@
 <form [formGroup]="mForm" novalidate>
   <div class="row">
     <div class="col-md-6">
-      <tlims-form-group label="Subcategory">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Subcategory--</option>
-          <option *ngFor="let subCat of subCategories" [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
-        </select>
-      </tlims-form-group>
+      <div formGroupName="subCategory">
+        <tlims-form-group label="Subcategory">
+          <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
+            <option *ngFor="let subCat of subCategories"
+                    [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Title">
-        <input tlimsInput placeholder="title"/>
-      </tlims-form-group>
+      <div formGroupName="titleDescription">
+        <tlims-form-group label="Title">
+          <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-error [control]="mForm.get('titleDescription').get('title')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
     </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Item Type">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Item Type--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
+    <div class="col-md-6" *ngIf="isField1">
+      <div formGroupName="subCatType">
+        <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
+          <select tlimsInput formControlName="code" (change)="populateCodeValueName('subCatType')"
+                  [disableControl]="itemTypes.length === 0">
+            <option [ngValue]="null">--Select Item Type--</option>
+            <option *ngFor="let iType of itemTypes"
+                    [value]="iType.pickListcode?.dataCode">{{iType.titleDescription?.title}}</option>
+          </select>
+          <tlims-form-error [control]="mForm.get('subCatType').get('code')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
     </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Brand">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Brand--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
+    <div class="col-md-6" *ngIf="isField2">
+      <div formGroupName="brand">
+        <tlims-form-group label="Brand">
+          <select tlimsInput formControlName="code" (change)="populateCodeValueName('brand')"
+                  [disableControl]="brands.length === 0">
+            <option [ngValue]="null">--Select Brand--</option>
+            <option *ngFor="let bd of brands"
+                    [value]="bd.pickListcode?.dataCode">{{bd.titleDescription?.title}}</option>
+          </select>
+          <tlims-form-error [control]="mForm.get('brand').get('code')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField2">
       <tlims-form-group label="Model">
-        <select tlimsInput>
+        <select tlimsInput formControlName="model">
           <option [ngValue]="null">--Select Model--</option>
           <option>Electronic</option>
           <option>Fashion</option>
@@ -41,70 +54,88 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6">
+      <tlims-form-group label="Condition" [checkBox]="true">
+        <tlims-checkbox [label]="cond.value" styleClass="mr-2" *ngFor="let cond of conditions; index as i">
+          <input type="radio" class="form-check-input" formControlName="itemCondition" id="condition{{i}}"
+                 [value]="cond.name">
+        </tlims-checkbox>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField2">
       <tlims-form-group label="Color">
-        <select tlimsInput>
+        <select tlimsInput formControlName="color">
           <option [ngValue]="null">--Select Color--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let col of colors" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField2">
+      <tlims-form-group label="Storage Capacity">
+        <select tlimsInput formControlName="storageCapacity">
+          <option [ngValue]="null">--Select Storage Capacity--</option>
+          <option *ngFor="let col of capacities" [ngValue]="col">{{col.name}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField2">
       <tlims-form-group label="Screen Size">
-        <select tlimsInput>
+        <select tlimsInput formControlName="screenSize">
           <option [ngValue]="null">--Select Screen Size--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let col of sizes" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField2">
       <tlims-form-group label="Ram">
-        <select tlimsInput>
+        <select tlimsInput formControlName="ram">
           <option [ngValue]="null">--Select Ram Size--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let col of rams" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Style">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Style--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField2">
       <tlims-form-group label="Operation System (OS)">
-        <select tlimsInput>
+        <select tlimsInput formControlName="os">
           <option [ngValue]="null">--Select Operation System (OS)--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let col of operatings" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
     <div class="col-md-6">
       <tlims-form-group label="Price">
-        <tlims-amount></tlims-amount>
+        <tlims-amount formControlName="price"></tlims-amount>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" name="isExchangeable" class="form-input-styled" data-fouc> Exchangeable
-        </label>
+    <div class="col-md-12">
+      <div formGroupName="titleDescription">
+        <tlims-description-box formControlName="description"></tlims-description-box>
+        <tlims-form-error [control]="mForm.get('titleDescription').get('description')"></tlims-form-error>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" name="negotiable" class="form-input-styled" data-fouc> Negotiable
-        </label>
+      <div class="d-flex justify-content-between">
+        <div class="form-check mt-3">
+          <label class="form-check-label">
+            <input type="checkbox" name="negotiable" formControlName="negotiable"> Negotiable
+          </label>
+        </div>
+        <div class="form-check mt-3" *ngIf="isField2">
+          <label class="form-check-label">
+            <input type="checkbox" name="negotiable" formControlName="isExchangeable"> Exchangeable
+          </label>
+        </div>
       </div>
     </div>
   </div>
-  <!--<tlims-image-upload (images)="getImages($event)"></tlims-image-upload>-->
+  <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
+  <tlims-contact (contactDetails)="getContact($event)"></tlims-contact>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group text-center">
+        <button [tlimsButton]="isLoading" (click)="create()" [disabled]="mForm.invalid">Save</button>
+        <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
 </form>
 

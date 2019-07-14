@@ -32,6 +32,15 @@ import {ToolBoxComponent} from './components/tool-box/tool-box.component';
 import {NgPipesModule} from 'ngx-pipes';
 import {LightBoxComponent} from './components/light-box/light-box.component';
 import {RouterModule} from '@angular/router';
+import {SpinnerComponent} from './components/spinner/spinner.component';
+import {TableDirective} from 'shared/directives/table.directive';
+import {EmptyStateComponent} from './components/empty-state/empty-state.component';
+import {NgxTabsModule} from '@ngx-lite/tabs';
+import {NgxLoadersModule} from '@ngx-lite/loaders';
+import {TranslateModule} from '@ngx-translate/core';
+import {MessageFormComponent} from './components/message-form/message-form.component';
+import { HeaderComponent } from './components/header/header.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 
 const SHARED_COMPONENTS: any = [
@@ -59,7 +68,13 @@ const SHARED_COMPONENTS: any = [
   BreadcrumbComponent,
   SearchBoxComponent,
   ToolBoxComponent,
-  LightBoxComponent
+  LightBoxComponent,
+  SpinnerComponent,
+  TableDirective,
+  EmptyStateComponent,
+  MessageFormComponent,
+  HeaderComponent,
+  DropdownComponent
 ];
 
 @NgModule({
@@ -72,11 +87,14 @@ const SHARED_COMPONENTS: any = [
     RouterModule,
     BlockUIModule.forRoot(),
     NgxEditorModule,
-    NgPipesModule
+    NgPipesModule,
+    NgxTabsModule,
+    NgxLoadersModule,
+    TranslateModule.forChild()
   ],
   declarations: [...SHARED_COMPONENTS],
   exports: [...SHARED_COMPONENTS, ReactiveFormsModule, HttpClientModule, FormsModule, RouterModule, ImageUploadModule, BlockUIModule,
-    NgPipesModule],
+    NgPipesModule, NgxTabsModule, NgxLoadersModule, TranslateModule],
   providers: [DecimalPipe]
 })
 export class SharedModule { }

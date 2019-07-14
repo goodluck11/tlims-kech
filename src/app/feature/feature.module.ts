@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SharedModule} from '../shared/shared.module';
+import {SharedModule} from 'shared/shared.module';
 import {FeatureRoutingModule} from './feature-routing.module';
 import {UsersComponent} from './admin/users/users.component';
 import {PickListComponent} from './admin/pick-list/pick-list.component';
@@ -27,9 +27,15 @@ import {AdminHomeComponent} from './admin/admin-home/admin-home.component';
 import {AdminService} from 'feature/admin/admin.service';
 import {UserService} from './user/user.service';
 import {ItemService} from 'feature/items/item.service';
-import { UserHomeComponent } from './user/user-home/user-home.component';
+import {UserHomeComponent} from './user/user-home/user-home.component';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from 'core/interceptor/auth.interceptor';
+import {ManageAdsComponent} from './admin/manage-ads/manage-ads.component';
+import {AdHistoryComponent} from 'feature/admin/ad-history/ad-history.component';
+import {ContactComponent} from './items/contact/contact.component';
+import {UserMessagesComponent} from './user/user-messages/user-messages.component';
+import {JobComponent} from './items/job/job.component';
+import { ContactsComponent } from './admin/contacts/contacts.component';
 
 @NgModule({
   imports: [
@@ -40,7 +46,9 @@ import {AuthInterceptor} from 'core/interceptor/auth.interceptor';
   declarations: [UsersComponent, PickListComponent, CategoryComponent, PendingAdsComponent, FavoritesComponent, AdsComponent,
     PasswordFormComponent, ProfileComponent, ProfileEditComponent, DashboardComponent, FeatureHomeComponent,
     ElectronicsComponent, FashionComponent, BeautyHealthComponent, CommercialComponent, AdComponent,
-    MobileComponent, VehicleComponent, RepairComponent, CategoryViewComponent, ItemsHomeComponent, AdminHomeComponent, UserHomeComponent],
+    MobileComponent, VehicleComponent, RepairComponent, CategoryViewComponent, ItemsHomeComponent,
+    AdminHomeComponent, UserHomeComponent, AdHistoryComponent, ManageAdsComponent, ContactComponent,
+    UserMessagesComponent, JobComponent, ContactsComponent],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     AdminService, UserService, ItemService]

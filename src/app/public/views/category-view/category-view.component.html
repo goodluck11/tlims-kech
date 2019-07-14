@@ -1,92 +1,99 @@
 <tlims-search-box title="Item Details"></tlims-search-box>
 <tlims-content>
   <div class="container">
-    <div class="d-md-flex align-items-md-start mb-4" *ngIf="ad">
-      <div class="flex-fill">
-        <block-ui>
-          <div class="row">
-            <div class="col-md-9 col-12">
-              <div class="card border-0 border-radius-0 box-shadow-none">
-                <!--<div class="card-header">-->
-                <!--<h4 class="font-weight-semibold">{{ad.titleDescription?.title}}</h4>-->
-                <!--</div>-->
-                <div class="card-body py-1">
-                  <div class="row">
-                    <div class="col-md-9 col-12">
-                      <div class="d-flex">
-                        <!--<img [src]="selectedImg" class="card-img" height="392" [attr.alt]="selectedImg">-->
-                        <ngx-image-zoom [thumbImage]="selectedImg" [fullImage]="selectedImg" zoomMode="hover" magnification="1"></ngx-image-zoom>
+    <div class="d-block mb-4" *ngIf="ad">
+      <div class="row" *blockUI="'view'">
+        <div class="col-md-9 col-12">
+          <div class="card border-0 border-radius-0 box-shadow-none">
+            <div class="card-header">
+              <h4 class="card-title"><i class="fa fa-arrow-left mr-3 font-weight-light cursor-pointer" (click)="location.back()"></i>
+                <span class="font-weight-bold">{{ad.titleDescription?.title}}</span></h4>
+            </div>
+            <div class="card-body py-1">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="d-block">
+                    <ngx-slick-carousel class="carousel" [config]="slideConfig" #slickModal="slick-carousel">
+                      <div ngxSlickItem *ngFor="let img of ad?.images" class="slide">
+                        <img [src]="baseUrl + img" alt="" class="img" height="400" width="100%">
+                        <!--<div class="single-image" [ngStyle]="{'background-image':'url(' + baseUrl + img + ')'}"></div>-->
                       </div>
-                      <div class="d-flex flex-row justify-content-start mt-3">
-                        <img *ngFor="let img of ad?.images" [src]="baseUrl + img"
-                             class="img avatar click" (mouseover)="setImage(baseUrl + img)"
-                             [attr.alt]="img">
-                      </div>
-                    </div>
-                    <div class="col-md-3 col-12 mt-md-0 mt-3">
-                      <h3>{{ad.titleDescription?.title}}</h3>
-                      <div class="d-md-block d-flex flex-sm-wrap mb-1">
-                        <div class="font-weight-semibold">Category:</div>
-                        <div class="ml-md-0 ml-auto mt-sm-0">{{ad.category?.name}}</div>
-                      </div>
-                      <div class="d-md-block d-flex flex-sm-wrap mb-1">
-                        <div class="font-weight-semibold">Subcategory:</div>
-                        <div class="ml-md-0 ml-auto mt-sm-0">{{ad.subCategory?.name}}</div>
-                      </div>
-                      <div class="d-md-block d-flex flex-sm-wrap mb-1" *ngIf="ad.subCatType">
-                        <div class="font-weight-semibold">Item Type:</div>
-                        <div class="ml-md-0 ml-auto mt-sm-0">{{ad.subCatType?.name}}</div>
-                      </div>
-                      <div class="d-md-block d-flex flex-sm-wrap mb-1" *ngIf="ad.brand">
-                        <div class="font-weight-semibold">Brand:</div>
-                        <div class="ml-md-0 ml-auto mt-sm-0">{{ad.brand?.name}}</div>
-                      </div>
-                      <div class="d-md-block d-flex flex-sm-wrap mb-1" *ngIf="ad?.gender">
-                        <div class="font-weight-semibold">Gender:</div>
-                        <div class="ml-md-0 ml-auto mt-sm-0">{{ad.gender | titlecase}}</div>
-                      </div>
-                      <div class="d-md-block d-flex flex-sm-wrap mb-1" *ngIf="ad?.itemCondition">
-                        <div class="font-weight-semibold">Condition:</div>
-                        <div class="ml-md-0 ml-auto mt-sm-0">{{ad.itemCondition | titlecase}}</div>
-                      </div>
-                      <div class="d-md-block d-flex flex-sm-wrap mb-1" *ngIf="ad?.color">
-                        <div class="font-weight-semibold">Color:</div>
-                        <div class="ml-md-0 ml-auto mt-sm-0">{{ad.color | codeValueTokenizer}}</div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-12 mt-3">
-                      <h5 class="font-weight-semibold">Description</h5>
-                      <p [innerHTML]="ad.titleDescription?.description"></p>
+                    </ngx-slick-carousel>
+                    <div class="d-flex flex-row justify-content-start mt-3">
+                      <img *ngFor="let img of ad?.images; index as i" [src]="baseUrl + img"
+                           class="img avatar click" (click)="slickModal.slickGoTo(i)"
+                           [attr.alt]="img">
+                      <!--(mouseover)="setImage(baseUrl + img)"-->
                     </div>
                   </div>
+                  <!--<div class="d-flex">
+                  <img [src]="selectedImg" class="card-img" height="392" [attr.alt]="selectedImg">
+                </div>-->
                 </div>
-                <div class="card-footer">
-                  <button tlimsButton>Send Message</button>
+                <div class="col-md-4 mt-sm-0 mt-2">
+                  <div class="d-flex flex-sm-wrap justify-content-md-between mb-1">
+                    <div class="font-weight-bold">Category:</div>
+                    <div class="ml-md-0 ml-auto mt-sm-0">{{ad.category?.name}}</div>
+                  </div>
+                  <div class="d-flex flex-sm-wrap justify-content-md-between mb-1">
+                    <div class="font-weight-bold">Subcategory:</div>
+                    <div class="ml-md-0 ml-auto mt-sm-0">{{ad.subCategory?.name}}</div>
+                  </div>
+                  <div class="d-flex flex-sm-wrap justify-content-md-between mb-1" *ngIf="ad.subCatType">
+                    <div class="font-weight-bold">Item Type:</div>
+                    <div class="ml-md-0 ml-auto mt-sm-0">{{ad.subCatType?.name}}</div>
+                  </div>
+                  <div class="d-flex flex-sm-wrap justify-content-md-between mb-1" *ngIf="ad.brand">
+                    <div class="font-weight-bold">Brand:</div>
+                    <div class="ml-md-0 ml-auto mt-sm-0">{{ad.brand?.name}}</div>
+                  </div>
+                  <div class="d-flex flex-sm-wrap justify-content-md-between mb-1" *ngIf="ad?.gender">
+                    <div class="font-weight-bold">Gender:</div>
+                    <div class="ml-md-0 ml-auto mt-sm-0">{{ad.gender | titlecase}}</div>
+                  </div>
+                  <div class="d-flex flex-sm-wrap justify-content-md-between mb-1" *ngIf="ad?.itemCondition">
+                    <div class="font-weight-bold">Condition:</div>
+                    <div class="ml-md-0 ml-auto mt-sm-0">{{ad.itemCondition | titlecase}}</div>
+                  </div>
+                  <div class="d-flex flex-sm-wrap justify-content-md-between mb-1" *ngIf="ad?.color">
+                    <div class="font-weight-bold">Color:</div>
+                    <div class="ml-md-0 ml-auto mt-sm-0">{{ad.color | codeValueTokenizer}}</div>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-3">
+                  <h5 class="font-weight-bold">Description</h5>
+                  <p [innerHTML]="ad.titleDescription?.description | shorten: 500: readMore"></p>
                 </div>
               </div>
             </div>
-
-            <div class="col-md-3 col-12">
-              <div class="card card-body text-center">
-                <i
-                  class="fa fa-bone icon-2x text-success-400 border-success-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
-                <h5 class="card-title mb-0">{{user.firstName}} {{user.lastName}}</h5>
-                <p class="text-muted mb-0">{{ad.createdBy}}</p>
-                <h6
-                  class="text-danger font-weight-semibold"> {{user.phoneNumber | shorten: numberLength: 'XXXXX'}}</h6>
-                <!--<p class="mb-3">Ouch found swore much dear conductively hid submissively hatchet vexed far</p>-->
-                <div class="d-flex flex-column justify-content-around">
-                  <button tlimsButton class="mb-2 btn-sm">Send Message</button>
-                  <button class="btn-sm btn bg-warning" (click)="toggleNumber()"> {{btnTitle}}</button>
-                </div>
-              </div>
+            <div class="card-footer bg-white d-flex justify-content-between">
+              <button tlimsButton (click)="isOpenModal = true" translate>app.core.sendmessage <i class="fa fa-envelope-o ml-1"></i></button>
+              <button tlimsButton [tlimsFavorite]="ad" color="bg-light"></button>
             </div>
           </div>
-        </block-ui>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="card card-body text-center">
+            <i class="fa fa-user f-32 border-1 rounded-round p-3 mb-3 mt-1"></i>
+            <h5 class="card-title mb-0 font-weight-bold">{{ad.contact?.name}}</h5>
+            <p class="text-muted mb-0">{{ad.contact?.email}}</p>
+            <h6
+              class="text-danger font-weight-semibold"> {{ad.contact?.phoneNumber | shorten: numberLength: 'XXXXX'}}</h6>
+            <!--<p class="mb-3">Ouch found swore much dear conductively hid submissively hatchet vexed far</p>-->
+            <div class="d-flex flex-column justify-content-around">
+              <button tlimsButton class="mb-2 btn-sm" (click)="isOpenModal = true" translate>app.core.sendmessage <i class="fa fa-envelope-o ml-1"></i></button>
+              <button class="btn-sm btn bg-warning" (click)="toggleNumber()"> {{btnTitle | translate}}</button>
+            </div>
+          </div>
+          <tlims-safety></tlims-safety>
+        </div>
       </div>
     </div>
-
     <tlims-recommended></tlims-recommended>
   </div>
 </tlims-content>
+
+<tlims-modal [dismissAble]="false" (close)="isOpenModal = $event" [visible]="isOpenModal" size="medium">
+  <tlims-message-form *ngIf="ad && isOpenModal" [recipient]="ad.contact?.email" [postId]="ad.id" (messageOutput)="sendMessage($event)"
+  [isLoading]="isLoading"></tlims-message-form>
+</tlims-modal>

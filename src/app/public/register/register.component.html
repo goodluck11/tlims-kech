@@ -4,20 +4,26 @@
       <div class="card mb-0">
         <div class="card-body">
           <div class="text-center mb-3">
-            <h3 class="mb-0 font-weight-semibold">Sign Up</h3>
-            <span class="d-block text-muted">All fields are required</span>
+            <h3 class="mb-0 font-weight-bold">{{'app.core.signup' | translate}}</h3>
+            <span class="d-block text-muted">* {{'app.core.fieldsrequired' | translate}}</span>
           </div>
 
           <div class="form-group text-center text-muted content-divider">
-            <span class="px-2">Your contacts</span>
+            <span class="px-2">{{'app.core.contact' | translate}}</span>
           </div>
 
           <tlims-form-group>
-            <input class="form-control" placeholder="First Name" formControlName="firstName">
+            <input class="form-control" placeholder="First Name" formControlName="firstName" (change)="buildDisplayName()">
+            <tlims-form-error [control]="registerForm.get('firstName')"></tlims-form-error>
           </tlims-form-group>
 
           <tlims-form-group>
-            <input class="form-control" placeholder="Last Name" formControlName="lastName">
+            <input class="form-control" placeholder="Last Name" formControlName="lastName" (change)="buildDisplayName()">
+            <tlims-form-error [control]="registerForm.get('lastName')"></tlims-form-error>
+          </tlims-form-group>
+
+          <tlims-form-group>
+            <input class="form-control" placeholder="Display Name" formControlName="displayName" (change)="buildDisplayName()">
           </tlims-form-group>
 
           <tlims-form-group>
@@ -25,44 +31,41 @@
           </tlims-form-group>
 
           <div class="form-group text-center text-muted content-divider">
-            <span class="px-2">Your credentials</span>
+            <span class="px-2">{{'app.core.credentials' | translate}}</span>
           </div>
 
           <tlims-form-group>
             <input type="email" class="form-control" placeholder="Email" formControlName="email">
+            <tlims-form-error [control]="registerForm.get('email')"></tlims-form-error>
           </tlims-form-group>
 
           <tlims-form-group>
             <input type="password" class="form-control" placeholder="Password" formControlName="password">
+            <tlims-form-error [control]="registerForm.get('password')"></tlims-form-error>
           </tlims-form-group>
 
           <div class="form-group text-center text-muted content-divider">
-            <span class="px-2">Additions</span>
+            <span class="px-2">{{'app.core.additions' | translate}}</span>
           </div>
 
           <div class="form-group">
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" name="remember" class="form-input-styled" checked data-fouc>
-                Subscribe to monthly newsletter
-              </label>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="subscribe" required>
+              <label class="custom-control-label" for="subscribe">{{'app.core.subscribenewsletter' | translate}}</label>
             </div>
-
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" name="remember" class="form-input-styled" data-fouc>
-                Accept <a href="#">terms of service</a>
-              </label>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="accept" required>
+              <label class="custom-control-label" for="accept">{{'app.core.accept' | translate}} <a href="#">{{'app.core.termsofservice' | translate}}</a></label>
             </div>
           </div>
           <div class="form-group">
-            <button type="button" [tlimsButton]="isLoading" (click)="register()" class="btn-block">Register <i class="fa fa-check ml-2"></i></button>
+            <button type="button" [tlimsButton]="isLoading" (click)="register()" class="btn-block" translate>app.core.register <i class="fa fa-check ml-2"></i></button>
           </div>
 
-          <tlims-divider>Already have an account?</tlims-divider>
+          <tlims-divider>{{'app.core.alreadyhaveaccount' | translate}}?</tlims-divider>
 
           <div class="form-group">
-            <a routerLink="/tlims/sign-in" class="btn btn-dark btn-block">Sign in</a>
+            <a routerLink="/tlims/sign-in" class="btn btn-warning btn-block">{{'app.core.signin' | translate}}</a>
           </div>
         </div>
       </div>

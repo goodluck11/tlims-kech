@@ -1,0 +1,12 @@
+{
+	"app": {
+		"core": {
+			"allads": "所有广告",
+			"logout": "登出",
+			"postad": "后",
+			"profile": "轮廓",
+			"signin": "登入",
+      "signintitle": "登录到您的帐户"
+		}
+	}
+}

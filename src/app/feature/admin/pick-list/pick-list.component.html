@@ -1,156 +1,155 @@
-<block-ui>
-  <div class="card card-body">
-    <div class="form-group text-right">
-      <button tlimsButton type="button" (click)="isOpenModal = true">
-        New
-      </button>
+<div class="card card-body" *blockUI="'pick-list'">
+  <div class="d-flex justify-content-between">
+    <h5 class="card-title font-weight-bold">Picklist Items</h5>
+    <button tlimsButton class="btn-outline-success" type="button" (click)="isOpenModal = true">
+      New
+    </button>
+  </div>
+  <form [formGroup]="pSearchForm" novalidate>
+    <div class="row">
+      <div class="col-md-6">
+        <tlims-form-group label="List Type">
+          <select tlimsInput formControlName="picklistType">
+            <option [ngValue]="null">--Select List Type --</option>
+            <option *ngFor="let d of listTypes"
+                    [value]="d.name">{{d.value}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+      <div class="col-md-6">
+        <tlims-form-group label="Category">
+          <select tlimsInput formControlName="category" (change)="getSearchSubCategories()">
+            <option [ngValue]="null">--Select category--</option>
+            <option *ngFor="let d of categories"
+                    [value]="d.categoryCode?.dataCode">{{d.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+      <div class="col-md-6">
+        <tlims-form-group label="Subcategory">
+          <select tlimsInput formControlName="subCategory" [disableControl]="subcategories?.length === 0">
+            <option [ngValue]="null">--Select subcategory--</option>
+            <option *ngFor="let d of subcategories"
+                    [value]="d.categoryCode?.dataCode">{{d.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group text-right">
+          <button tlimsButton type="button" (click)="searchItem()">
+            Search
+          </button>
+        </div>
+      </div>
     </div>
-    <form [formGroup]="pSearchForm" novalidate>
-      <div class="row">
-        <div class="col-md-6">
-          <tlims-form-group label="List Type">
-            <select tlimsInput formControlName="picklistType">
-              <option [ngValue]="null">--Select List Type --</option>
-              <option *ngFor="let d of listTypes"
-                      [value]="d.name">{{d.value}}</option>
-            </select>
+  </form>
+  <div class="table-responsive">
+    <table tlimsTable>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>List Type</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let d of pickListItems; trackBy: trackByFn; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{d.pickListcode?.dataCode}}</td>
+        <td>{{d.titleDescription?.title}}</td>
+        <td>{{d.picklistType}}</td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="alert text-center" *ngIf="pickListItems?.length <= 0">No Picklist Created</div>
+  </div>
+</div>
+
+<tlims-modal [dismissAble]="true" (close)="isOpenModal = $event" [visible]="isOpenModal" size="medium">
+  <h4 class="font-weight-semibold">New Picklist</h4>
+  <form [formGroup]="pForm" novalidate>
+    <div class="row">
+      <div class="col-md-6">
+        <tlims-form-group label="List Type">
+          <select tlimsInput formControlName="picklistType">
+            <option [ngValue]="null">--Select List Type --</option>
+            <option *ngFor="let d of listTypes"
+                    [value]="d.name">{{d.value}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+      <div class="col-md-6">
+        <div formGroupName="pickListcode">
+          <tlims-form-group label="Code">
+            <input tlimsInput placeholder="code" formControlName="dataCode"/>
           </tlims-form-group>
         </div>
-        <div class="col-md-6">
+      </div>
+      <div class="col-md-6">
+        <div formGroupName="titleDescription">
+          <tlims-form-group label="Title">
+            <input tlimsInput placeholder="title" formControlName="title"/>
+          </tlims-form-group>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div formGroupName="category">
           <tlims-form-group label="Category">
-            <select tlimsInput formControlName="category" (change)="getSearchSubCategories()">
+            <select tlimsInput formControlName="code" (change)="getSubCategories()">
               <option [ngValue]="null">--Select category--</option>
               <option *ngFor="let d of categories"
                       [value]="d.categoryCode?.dataCode">{{d.titleDescription?.title}}</option>
             </select>
           </tlims-form-group>
         </div>
-        <div class="col-md-6">
+      </div>
+      <div class="col-md-6">
+        <div formGroupName="subCategory">
           <tlims-form-group label="Subcategory">
-            <select tlimsInput formControlName="subCategory" [disableControl]="subcategories?.length === 0">
-              <option [ngValue]="null">--Select subcategory--</option>
+            <select tlimsInput formControlName="code" [disableControl]="subcategories?.length === 0"
+                    (change)="populateCodeValueName('subCategory', $event.target.value)">
+              <option [ngValue]="null">--Select category--</option>
               <option *ngFor="let d of subcategories"
                       [value]="d.categoryCode?.dataCode">{{d.titleDescription?.title}}</option>
             </select>
           </tlims-form-group>
         </div>
-        <div class="col-md-12">
-          <div class="form-group text-right">
-            <button tlimsButton type="button" (click)="searchItem()">
-              Search
-            </button>
-          </div>
+      </div>
+      <div class="col-md-6">
+        <tlims-form-group label="Parent List Type">
+          <select tlimsInput formControlName="parentpickListType" (change)="getParentList()">
+            <option [ngValue]="null">--Select Parent List Type --</option>
+            <option *ngFor="let d of listTypes"
+                    [value]="d.name">{{d.value}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+      <div class="col-md-6">
+        <tlims-form-group label="Parent List">
+          <select tlimsInput formControlName="parentList">
+            <option [ngValue]="null">--Select Parent List--</option>
+            <option *ngFor="let d of pickLists"
+                    [ngValue]="d">{{d.titleDescription?.title}} [{{d.parentList?.titleDescription?.title}}]
+            </option>
+          </select>
+        </tlims-form-group>
+      </div>
+      <div class="col-md-6">
+        <div formGroupName="titleDescription">
+          <tlims-form-group label="Description">
+            <textarea tlimsInput placeholder="description" formControlName="description"></textarea>
+          </tlims-form-group>
         </div>
       </div>
-    </form>
-    <div class="table-responsive">
-      <table class="table table-sm">
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>Code</th>
-          <th>Name</th>
-          <th>List Type</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let d of pickListItems; trackBy: trackByFn; index as i">
-          <td>{{i + 1}}</td>
-          <td>{{d.pickListcode?.dataCode}}</td>
-          <td>{{d.titleDescription?.title}}</td>
-          <td>{{d.picklistType}}</td>
-          <td></td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="alert text-center" *ngIf="pickListItems?.length <= 0">No Picklist Created</div>
+      <div class="col-md-12">
+        <div class="form-group text-center">
+          <button [tlimsButton]="isLoading" (click)="create()" [disabled]="pForm.invalid">Save</button>
+          <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="isOpenModal = false">Cancel</button>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <tlims-modal [dismissAble]="true" (close)="isOpenModal = $event" [visible]="isOpenModal">
-    <h3>New Category</h3>
-    <form [formGroup]="pForm" novalidate>
-      <div class="row">
-        <div class="col-md-6">
-          <tlims-form-group label="List Type">
-            <select tlimsInput formControlName="picklistType">
-              <option [ngValue]="null">--Select List Type --</option>
-              <option *ngFor="let d of listTypes"
-                      [value]="d.name">{{d.value}}</option>
-            </select>
-          </tlims-form-group>
-        </div>
-        <div class="col-md-6">
-          <div formGroupName="pickListcode">
-            <tlims-form-group label="Code">
-              <input tlimsInput placeholder="code" formControlName="dataCode"/>
-            </tlims-form-group>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div formGroupName="titleDescription">
-            <tlims-form-group label="Title">
-              <input tlimsInput placeholder="title" formControlName="title"/>
-            </tlims-form-group>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div formGroupName="category">
-            <tlims-form-group label="Category">
-              <select tlimsInput formControlName="code" (change)="getSubCategories()">
-                <option [ngValue]="null">--Select category--</option>
-                <option *ngFor="let d of categories"
-                        [value]="d.categoryCode?.dataCode">{{d.titleDescription?.title}}</option>
-              </select>
-            </tlims-form-group>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div formGroupName="subCategory">
-            <tlims-form-group label="Subcategory">
-              <select tlimsInput formControlName="code" [disableControl]="subcategories?.length === 0"
-                      (change)="populateCodeValueName('subCategory', $event.target.value)">
-                <option [ngValue]="null">--Select category--</option>
-                <option *ngFor="let d of subcategories"
-                        [value]="d.categoryCode?.dataCode">{{d.titleDescription?.title}}</option>
-              </select>
-            </tlims-form-group>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <tlims-form-group label="Parent List Type">
-            <select tlimsInput formControlName="parentpickListType" (change)="getParentList()">
-              <option [ngValue]="null">--Select Parent List Type --</option>
-              <option *ngFor="let d of listTypes"
-                      [value]="d.name">{{d.value}}</option>
-            </select>
-          </tlims-form-group>
-        </div>
-        <div class="col-md-6">
-          <tlims-form-group label="Parent List">
-            <select tlimsInput formControlName="parentList">
-              <option [ngValue]="null">--Select Parent List--</option>
-              <option *ngFor="let d of pickLists"
-                      [ngValue]="d">{{d.titleDescription?.title}} [{{d.parentList?.titleDescription?.title}}]
-              </option>
-            </select>
-          </tlims-form-group>
-        </div>
-        <div class="col-md-6">
-          <div formGroupName="titleDescription">
-            <tlims-form-group label="Description">
-              <textarea tlimsInput placeholder="description" formControlName="description"></textarea>
-            </tlims-form-group>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="form-group text-center">
-            <button [tlimsButton]="isLoading" (click)="create()" [disabled]="pForm.invalid">Save</button>
-            <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="isOpenModal = false">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </tlims-modal>
-</block-ui>
+  </form>
+</tlims-modal>

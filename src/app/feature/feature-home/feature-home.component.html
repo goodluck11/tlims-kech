@@ -1,28 +1,27 @@
 <tlims-search-box title="User Account"></tlims-search-box>
-<tlims-breadcrumb></tlims-breadcrumb>
 <tlims-content>
-  <div class="container-fluid">
-    <div class="d-flex bg-grey-700">
+  <div class="container">
+    <div class="d-flex bg-grey-600">
       <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo">Dashboard</a>
+        <a routerLink="/tlims/bo"><i class="fa fa-dashboard mr-2"></i>Dashboard</a>
       </div>
       <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/user">Profile</a>
+        <a routerLink="/tlims/bo/user"><i class="fa fa-user mr-2"></i>Profile</a>
       </div>
       <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/user/ads">Ads</a>
+        <a routerLink="/tlims/bo/user/ads"><i class="mr-2 fa fa-list"></i>My Ads</a>
       </div>
       <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/user/favorites">Favorites</a>
+        <a routerLink="/tlims/bo/user/favorites"><i class="mr-2 fa fa-heart"></i>My Favorite Ads</a>
       </div>
       <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/admin">Settings</a>
+        <a routerLink="/tlims/bo/admin"><i class="fa fa-cogs mr-2"></i>System Management</a>
       </div>
       <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/messages">Messages</a>
+        <a routerLink="/tlims/bo/user/messages"><i class="mr-2 fa fa-inbox"></i>Messages</a>
       </div>
     </div>
-    <div class="content">
+    <div class="d-block py-4">
       <router-outlet></router-outlet>
     </div>
   </div>

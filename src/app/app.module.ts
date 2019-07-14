@@ -14,25 +14,39 @@ import {FooterComponent} from './public/footer/footer.component';
 import {HomeComponent} from './public/home/home.component';
 import {CoreModule} from 'core/core.module';
 import {ToastrModule} from 'ngx-toastr';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
+import {SlickCarouselModule} from 'ngx-slick-carousel';
 import {CategoriesComponent} from './public/views/categories/categories.component';
 import {CategoryViewComponent} from './public/views/category-view/category-view.component';
 import {SubcategoryComponent} from './public/views/subcategory/subcategory.component';
-import {SwiperModule} from 'angular2-useful-swiper';
 import {OwlModule} from 'ngx-owl-carousel';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {AuthInterceptor} from 'core/interceptor/auth.interceptor';
-import { CodeValueTokenizerPipe } from './public/views/view-pipe/code-value-tokenizer.pipe';
+import {CodeValueTokenizerPipe} from './public/views/view-pipe/code-value-tokenizer.pipe';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { PriceRangeComponent } from './public/views/viewComponents/price-range/price-range.component';
-import { ConditionComponent } from './public/views/viewComponents/condition/condition.component';
-import { BrandComponent } from './public/views/viewComponents/brand/brand.component';
-import { ColorComponent } from './public/views/viewComponents/color/color.component';
-import { SizeComponent } from './public/views/viewComponents/size/size.component';
-import { FeaturedComponent } from './public/views/viewComponents/featured/featured.component';
-import { Ng5SliderModule } from 'ng5-slider';
-import { RecommendedComponent } from './public/views/viewComponents/recommended/recommended.component';
-import { NgxImageZoomModule } from 'ngx-image-zoom';
+import {PriceRangeComponent} from './public/views/viewComponents/price-range/price-range.component';
+import {ConditionComponent} from './public/views/viewComponents/condition/condition.component';
+import {BrandComponent} from './public/views/viewComponents/brand/brand.component';
+import {ColorComponent} from './public/views/viewComponents/color/color.component';
+import {SizeComponent} from './public/views/viewComponents/size/size.component';
+import {FeaturedComponent} from './public/views/viewComponents/featured/featured.component';
+import {Ng5SliderModule} from 'ng5-slider';
+import {RecommendedComponent} from './public/views/viewComponents/recommended/recommended.component';
+import {NgxImageZoomModule} from 'ngx-image-zoom';
+import {SafetyComponent} from './public/views/safety/safety.component';
+import {FavoriteDirective} from './public/views/viewComponents/favorite.directive';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
+import { AboutComponent } from './public/static/about/about.component';
+import { FaqComponent } from './public/static/faq/faq.component';
+import { PrivacyComponent } from './public/static/privacy/privacy.component';
+import { TermsComponent } from './public/static/terms/terms.component';
+import { ContactComponent } from './public/static/contact/contact.component';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new MultiTranslateHttpLoader(http, [
+    {prefix: './assets/i18n/core/', suffix: '.json'}
+  ]);
+}
 
 @NgModule({
   declarations: [
@@ -53,7 +67,14 @@ import { NgxImageZoomModule } from 'ngx-image-zoom';
     ColorComponent,
     SizeComponent,
     FeaturedComponent,
-    RecommendedComponent
+    RecommendedComponent,
+    SafetyComponent,
+    FavoriteDirective,
+    AboutComponent,
+    FaqComponent,
+    PrivacyComponent,
+    TermsComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
@@ -67,11 +88,17 @@ import { NgxImageZoomModule } from 'ngx-image-zoom';
       preventDuplicates: true,
     }),
     SlickCarouselModule,
-    SwiperModule,
     OwlModule,
     NgbModule,
     Ng5SliderModule,
-    NgxImageZoomModule.forRoot()
+    NgxImageZoomModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

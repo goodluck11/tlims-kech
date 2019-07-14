@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Utils} from 'core/utils/utils';
 
@@ -18,6 +18,12 @@ export class DescriptionBoxComponent implements OnInit, ControlValueAccessor {
 
   htmlContent: string;
   myCkeditorConfig: any;
+  @Input()
+  label = 'Description';
+  @Input()
+  showToolbar = true;
+  @Input()
+  plainText = false;
   @Output()
   change = new EventEmitter();
   onChange: Function = (content: any) => {};
@@ -34,7 +40,7 @@ export class DescriptionBoxComponent implements OnInit, ControlValueAccessor {
       height: '10rem',
       minHeight: '5rem',
       enableToolbar: true,
-      showToolbar: true,
+      showToolbar: this.showToolbar,
     };
   }
 
@@ -46,6 +52,12 @@ export class DescriptionBoxComponent implements OnInit, ControlValueAccessor {
       this.change.emit(this.htmlContent);
     }
   }
+
+  // getPlainText() {
+  //   const oParser = new DOMParser();
+  //   const oDOM = oParser.parseFromString(this.htmlContent, 'text/html');
+  //   this.htmlContent = oDOM.body.innerText;
+  // }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;

@@ -137,7 +137,8 @@
     </div>
   </div>
   <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
-  <div class="row">
+  <tlims-contact (contactDetails)="getContact($event)"></tlims-contact>
+  <div class="row mt-4">
     <div class="col-md-12">
       <div class="form-group text-center">
         <button [tlimsButton]="isLoading" (click)="create()" [disabled]="eForm.invalid">Save</button>

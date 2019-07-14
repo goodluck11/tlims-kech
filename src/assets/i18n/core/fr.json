@@ -1,0 +1,41 @@
+{
+	"app": {
+		"core": {
+			"accept": "Acceptez",
+			"additions": "Ajouts",
+			"allads": "Toutes les annonces",
+			"alreadyhaveaccount": "Vous avez déjà un compte",
+			"category": "Les catégories",
+			"contact": "Contact",
+			"credentials": "Lettres de créance",
+			"display": "Afficher",
+			"email": "",
+			"featureditems": "Articles en vedette",
+			"fieldsrequired": "les champs sont obligatoires",
+			"forgotpassword": "Mot de passe oublié",
+			"logout": "Connectez - Out",
+			"message": "",
+			"name": "",
+			"newhere": "nouveau ici",
+			"password": "Mot de passe",
+			"phonenumber": "",
+			"postad": "Après la",
+			"profile": "Profil",
+			"recommeneditems": "Articles recommandés",
+			"register": "registre",
+			"search": "Chercher",
+			"send": "",
+			"sendmessage": "",
+			"show": "Spectacle",
+			"showingitems": "Affichage des éléments",
+			"signin": "Se connecter",
+			"signintitle": "Connectez-vous à votre compte",
+			"signinwith": "se connecter avec",
+			"signup": "S'inscrire",
+			"sortby": "Filtrer par",
+			"subscribenewsletter": "Abonnez-vous à la newsletter mensuelle",
+			"termsofservice": "conditions d'utilisation",
+			"username": "Nom d'utilisateur"
+		}
+	}
+}

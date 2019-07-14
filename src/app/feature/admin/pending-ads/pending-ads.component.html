@@ -1,15 +1,18 @@
-<block-ui>
-  <div class="card card-body">
+<div class="card">
+  <div class="card-body pt-0">
+    <!--<h5 class="card-title font-weight-bold">Pending Ads</h5>-->
+    <div class="row justify-content-end pb-3">
+      <div class="col-md-4">
+        <input class="form-control form-control-sm" [formControl]="searchField" placeholder="Search">
+      </div>
+    </div>
     <div class="table-responsive">
-      <table class="table table-sm">
+      <table tlimsTable>
         <thead>
         <tr>
           <th>#</th>
           <th>Title</th>
           <th>Category</th>
-          <th>Price</th>
-          <th>Created By</th>
-          <th>Date Created</th>
           <th>Status</th>
           <th></th>
         </tr>
@@ -17,19 +20,28 @@
         <tbody>
         <tr *ngFor="let d of ads; trackBy: trackByFn; index as i">
           <td>{{i + 1}}</td>
-          <td>{{d.titleDescription?.title}}</td>
-          <td>{{d.category?.name}}</td>
-          <td>{{d.price?.value}}</td>
-          <td>{{d.createdBy}}</td>
-          <td>{{d.createdDate | date: 'dd-MMM-yy'}}</td>
+          <td>
+            <div class="d-flex flex-column">
+              <span class="mb-1">{{d.titleDescription?.title}}</span>
+              <span><strong>Category:</strong> {{d.category?.name}}</span>
+              <span><strong>Created By:</strong> {{d.createdBy}}</span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex flex-column">
+              <span><strong>Price:</strong> {{d.price?.value}}</span>
+              <span><strong>Date Created:</strong> {{d.createdDate | date: 'dd-MMM-yy'}}</span>
+            </div>
+          </td>
           <td>{{d.status}}</td>
           <td>
-            <button tlimsButton color="bg-orange-600" (click)="authorize(d)">Activate</button>
+            <button tlimsButton class="btn-outline-success" (click)="authorize(d)"><i class="fa fa-check"></i></button>
           </td>
         </tr>
         </tbody>
       </table>
+      <ngx-loading-bar *ngIf="isLoading"></ngx-loading-bar>
       <div class="alert text-center" *ngIf="ads?.length <= 0">No Pending Ad</div>
     </div>
   </div>
-</block-ui>
+</div>

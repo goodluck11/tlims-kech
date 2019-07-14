@@ -18,8 +18,20 @@ export class AdminService {
     return this.http.post(`${this.baseUrl}/ads/pendingAds`, data);
   }
 
+  adHistory(data) {
+    return this.http.post(`${this.baseUrl}/ads/adHistory`, data);
+  }
+
   findAll(data) {
     return this.http.post(`${this.baseUrl}/api/users/findAll`, data);
+  }
+
+  createContact(data) {
+    return this.http.post(`${this.baseUrl}/api/contacts/create`, data);
+  }
+
+  findAllContacts(data) {
+    return this.http.post(`${this.baseUrl}/api/contacts/findAll`, data);
   }
 
 }

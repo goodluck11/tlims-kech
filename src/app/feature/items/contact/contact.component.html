@@ -1,0 +1,21 @@
+<h6 class="font-weight-bold mb-0">
+  Contact Details
+</h6>
+<hr class="mt-1"/>
+<div class="row">
+  <div class="col-md-6">
+    <tlims-form-group label="Name">
+      <input type="text" readonly class="form-control-plaintext" [value]="userDetails.displayName">
+    </tlims-form-group>
+  </div>
+  <div class="col-md-6">
+    <tlims-form-group label="Phone Number">
+      <input tlimsInput placeholder="phone number" [value]="userDetails.phoneNumber" #phone (change)="updateNumber(phone.value)"/>
+    </tlims-form-group>
+  </div>
+  <div class="col-md-6">
+    <tlims-form-group label="Email">
+      <input type="text" readonly class="form-control-plaintext" [value]="userDetails.email">
+    </tlims-form-group>
+  </div>
+</div>

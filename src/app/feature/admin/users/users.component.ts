@@ -15,7 +15,7 @@ import {AdminService} from 'feature/admin/admin.service';
 export class UsersComponent implements OnInit, OnDestroy {
 
   users: Array<User> = [];
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('usersList') blockUI: NgBlockUI;
   searchTerm = '';
   query: Paging = new Paging();
 

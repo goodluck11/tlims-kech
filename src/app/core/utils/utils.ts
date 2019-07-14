@@ -16,7 +16,7 @@ export class Utils {
   }
 
   static getNameFromCategory(list: Array<Category>, code) {
-    return list.filter(l => l.categoryCode.dataCode === code)[0].titleDescription.title;
+    return code ? list.filter(l => l.categoryCode.dataCode === code)[0].titleDescription.title : null;
   }
 
   static getCategoryFromSubCategory(list: Array<Category>, code) {
@@ -25,7 +25,7 @@ export class Utils {
   }
 
   static getNameFromPicklist(list: Array<Picklist>, code) {
-    return list.filter(l => l.pickListcode.dataCode === code)[0].titleDescription.title;
+    return code ? list.filter(l => l.pickListcode.dataCode === code)[0].titleDescription.title : null;
   }
 
   static getIdFromPicklist(list: Array<Picklist>, code) {

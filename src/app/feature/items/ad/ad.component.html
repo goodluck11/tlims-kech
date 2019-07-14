@@ -1,36 +1,34 @@
-<block-ui>
-  <div class="row">
-    <div class="col-md-3 col-sm-12">
-      <tlims-accordion title="Categories" bodyClass="p-1" [isUpperCase]="true">
-        <div class="list-group border-0 p-0">
-          <a href="javascript:void(0)" class="list-group-item list-group-item-action f-14 py-1"
-             (click)="getSubCategories(cat)"
-             *ngFor="let cat of categories"
-             [ngClass]="{'active': cat.categoryCode?.dataCode === categoryCode }">{{cat.titleDescription?.title}}</a>
-        </div>
-      </tlims-accordion>
-    </div>
-    <div class="col-md-9 col-sm-12">
-      <div class="card card-body py-2">
-        <h6 class="card-title">
-          <span class="font-weight-bold" *ngIf="!title">Post Ad </span>
-          <span class="font-weight-bold" *ngIf="title">{{title}} Ad</span>
-        </h6>
-        <tlims-vehicle *ngIf="CATEGORY.VEHICLE.code === categoryCode" [subCategories]="subCategories"></tlims-vehicle>
-        <tlims-beauty-health *ngIf="CATEGORY.BEAUTY.code === categoryCode"
-                             [subCategories]="subCategories"></tlims-beauty-health>
-        <tlims-commercial *ngIf="CATEGORY.COMM.code === categoryCode"
-                          [subCategories]="subCategories"></tlims-commercial>
-        <tlims-electronics *ngIf="CATEGORY.ELECT.code === categoryCode"
-                           [subCategories]="subCategories"></tlims-electronics>
-        <tlims-fashion *ngIf="CATEGORY.FASHION.code === categoryCode" [subCategories]="subCategories"></tlims-fashion>
-        <tlims-mobile *ngIf="CATEGORY.MOBILE.code === categoryCode || !categoryCode"
-                      [subCategories]="subCategories"></tlims-mobile>
-        <tlims-repair *ngIf="CATEGORY.REPAIR.code === categoryCode" [subCategories]="subCategories"></tlims-repair>
+<div class="row">
+  <div class="col-md-3 col-sm-12">
+    <tlims-accordion title="Categories" bodyClass="p-1" [isUpperCase]="true">
+      <div class="list-group border-0 p-0">
+        <a routerLink="/tlims/bo/post-ad" [queryParams]="{cat: cat.categoryCode?.dataCode}"
+           class="list-group-item list-group-item-action f-14 py-1"
+           *ngFor="let cat of categories"
+           [ngClass]="{'active': cat.categoryCode?.dataCode === categoryCode }">{{cat.titleDescription?.title}}</a>
       </div>
+    </tlims-accordion>
+  </div>
+  <div class="col-md-9 col-sm-12" *blockUI="'adForm'">
+    <div class="card card-body py-2">
+      <h6 class="card-title">
+        <span class="font-weight-bold" *ngIf="!title">Post Ad </span>
+        <span class="font-weight-bold" *ngIf="title">{{title}} Ad</span>
+      </h6>
+      <tlims-vehicle *ngIf="CATEGORY.VEHICLE.code === categoryCode" [subCategories]="subCategories"></tlims-vehicle>
+      <tlims-beauty-health *ngIf="CATEGORY.BEAUTY.code === categoryCode"
+                           [subCategories]="subCategories"></tlims-beauty-health>
+      <tlims-commercial *ngIf="CATEGORY.COMM.code === categoryCode"
+                        [subCategories]="subCategories"></tlims-commercial>
+      <tlims-electronics *ngIf="CATEGORY.ELECT.code === categoryCode"
+                         [subCategories]="subCategories"></tlims-electronics>
+      <tlims-fashion *ngIf="CATEGORY.FASHION.code === categoryCode" [subCategories]="subCategories"></tlims-fashion>
+      <tlims-mobile *ngIf="CATEGORY.MOBILE.code === categoryCode" [subCategories]="subCategories"></tlims-mobile>
+      <tlims-repair *ngIf="CATEGORY.REPAIR.code === categoryCode" [subCategories]="subCategories"></tlims-repair>
+      <tlims-job *ngIf="CATEGORY.JOB.code === categoryCode" [subCategories]="subCategories"></tlims-job>
     </div>
   </div>
-</block-ui>
+</div>
 <!--<tlims-category-view></tlims-category-view>-->
 
 

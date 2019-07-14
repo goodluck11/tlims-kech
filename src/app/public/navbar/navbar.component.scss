@@ -8,3 +8,20 @@
     color: #000;
   }
 }
+
+.post-link {
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 576px) {
+  .global-search {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .global-search {
+    width: 400px;
+  }
+}

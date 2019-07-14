@@ -3,11 +3,14 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Category} from 'core/model/category';
 import {ENV} from 'core/config/env.config';
 import {FileService} from 'core/services/file.service';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {shareReplay} from 'rxjs/operators';
 
 @Injectable()
 export class CategoryService {
 
   private baseUrl = `${ENV.BASE_API}/categories`;
+  private categories$: Observable<any>;
 
   constructor(private http: HttpClient, private fileService: FileService) { }
 
@@ -27,7 +30,15 @@ export class CategoryService {
   }
 
   getCategories() {
-    return this.http.get(`${this.baseUrl}/categories`);
+    if (!this.categories$) {
+      this.categories$ = this.http.get(`${this.baseUrl}/categories`).pipe(shareReplay());
+    }
+    return this.categories$;
+    // return this.http.get(`${this.baseUrl}/categories`);
+  }
+
+  getParentCategories() {
+    return this.http.get(`${this.baseUrl}/parentCategories`);
   }
 
   getSubCategories(code) {

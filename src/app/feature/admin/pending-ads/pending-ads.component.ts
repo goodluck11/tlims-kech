@@ -6,6 +6,9 @@ import {ToastrService} from 'ngx-toastr';
 import {SearchRequest} from 'core/model/search-request';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Ad} from 'feature/items/ad';
+import {FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs/observable/of';
 
 @Component({
   selector: 'tlims-pending-ads',
@@ -15,15 +18,21 @@ import {Ad} from 'feature/items/ad';
 export class PendingAdsComponent implements OnInit, OnDestroy {
 
   ads: Array<any> = [];
-  @BlockUI() blockUI: NgBlockUI;
+  isLoading = false;
   searchTerm = '';
   query: Paging = new Paging();
-
+  searchField: FormControl;
 
   constructor(private adminService: AdminService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
+    this.searchField = new FormControl();
+    this.searchField.valueChanges.pipe(debounceTime(400), distinctUntilChanged(),
+      switchMap((value) => of(value)), untilDestroyed(this)).subscribe((res) => {
+      this.searchTerm = res;
+      this.getAllPendingAds();
+    });
     this.getAllPendingAds();
   }
 
@@ -37,15 +46,15 @@ export class PendingAdsComponent implements OnInit, OnDestroy {
   }
 
   getAllPendingAds() {
-    this.blockUI.start('Loading pending ads...');
+    this.isLoading = true;
     this.adminService.pendingAds(new SearchRequest(this.searchTerm, this.query)).pipe(untilDestroyed(this)).subscribe((res) => {
       if (Array(res['content'])) {
         this.ads = res['content'];
       }
-      this.blockUI.stop();
+      this.isLoading = false;
     }, (err) => {
       this.toastr.error('Error loading pending ads');
-      this.blockUI.stop();
+      this.isLoading = false;
     });
   }
 

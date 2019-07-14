@@ -1,6 +1,6 @@
 <div class="form-group w-100" [ngClass]="styleClass">
-  <label *ngIf="label && !checkBox" class="font-weight-semibold">{{label}}:</label>
-  <label class="d-block font-weight-semibold" *ngIf="label && checkBox">{{label}}:</label>
+  <label *ngIf="label && !checkBox" class="font-weight-semibold">{{label | translate}}:</label>
+  <label class="d-block font-weight-semibold" *ngIf="label && checkBox">{{label | translate}}:</label>
   <div class="input-group">
     <ng-content></ng-content>
     <span class="input-group-append" *ngIf="isLoading">

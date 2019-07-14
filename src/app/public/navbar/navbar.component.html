@@ -5,12 +5,25 @@
     <a class="navbar-brand text-warning-600 font-weight-bold" routerLink="/">TLims-Kech</a>
     <div class="d-xl-none">
       <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar-mobile" aria-expanded="false">
-        <i class="icon-grid3"></i>
+        <i class="fa fa-navicon"></i>
       </button>
     </div>
     <div class="collapse navbar-collapse" id="navbar-mobile">
       <div class="navbar-nav mx-auto">
-        <input type="search" class="form-control" placeholder="Search">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <select class="form-control form-control-sm">
+              <option selected value="all">All</option>
+              <option *ngFor="let cat of categories" [value]="cat.categoryCode?.dataCode">{{cat.titleDescription?.title}}</option>
+            </select>
+          </div>
+          <input type="search" class="form-control global-search" [placeholder]="'app.core.search' | translate">
+          <div class="input-group-prepend" [hidden]="true">
+            <button class="btn bg-white">
+              <i class="fa fa-remove"></i>
+            </button>
+          </div>
+        </div>
       </div>
       <!--<ul class="navbar-nav mx-auto">
         <li class="nav-item active">
@@ -35,29 +48,39 @@
         </li>
       </ul>-->
 
-      <ul class="navbar-nav ml-xl-auto">
+      <ul class="navbar-nav ml-xl-auto align-items-center">
         <li class="nav-item">
-          <a routerLink="/tlims/all-ads" class="navbar-nav-link font-weight-semibold text-success-800">All Ads</a>
+          <select #lang (change)="changeLanguage(lang.value)" class="form-control simple custom-select font-weight-bold" style="height: 2rem">
+            <option value="en" selected>EN</option>
+            <option value="fr">FR</option>
+            <option value="zh">ZH</option>
+          </select>
         </li>
-        <li class="nav-item" *ngIf="!activeUser">
-          <a routerLink="/tlims/sign-in" class="navbar-nav-link font-weight-semibold">Sign In</a>
+        <li class="nav-item">
+          <a routerLink="/tlims/all-ads" class="navbar-nav-link font-weight-bold text-success-800">{{'app.core.allads' | translate}}</a>
         </li>
-        <li class="nav-item dropdown dropdown-user show" *ngIf="activeUser">
-          <a href="javascript:void(0)" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown"
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a routerLink="/tlims/sign-in" class="navbar-nav-link font-weight-bold">{{'app.core.signin' | translate}}</a>
+        </li>
+        <li class="nav-item dropdown dropdown-user show" *ngIf="isLoggedIn">
+          <a href="javascript:void(0)" class="navbar-nav-link d-flex align-items-center" data-toggle="dropdown"
              aria-expanded="true">
             <img src="./assets/images/face18.jpg" class="rounded-circle mr-2" height="34" alt="">
             <span>{{activeUser}}</span>
           </a>
 
           <div class="dropdown-menu dropdown-menu-right">
-            <a [routerLink]="APP_URL.bo?.user?.profile" class="dropdown-item"><i class="ti-user"></i> My profile</a>
+            <a [routerLink]="APP_URL.bo?.user?.profile" class="dropdown-item"><i class="ti-user"></i> {{'app.core.profile' | translate}}</a>
             <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-coins"></i> My balance</a>-->
             <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span-->
               <!--class="badge badge-pill bg-blue ml-auto">58</span></a>-->
             <!--<div class="dropdown-divider"></div>-->
             <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>-->
-            <a href="javascript:void(0)" class="dropdown-item" (click)="logout()"><i class="ti-power-off"></i> Logout</a>
+            <a href="javascript:void(0)" class="dropdown-item" (click)="logout()"><i class="ti-power-off"></i> {{'app.core.logout' | translate}}</a>
           </div>
+        </li>
+        <li class="nav-item post-link">
+          <a routerLink="/tlims/bo/post-ad" class="btn btn-warning text-white btn-sm">{{'app.core.postad' | translate}}</a>
         </li>
       </ul>
     </div>
@@ -65,43 +88,3 @@
   <!-- /main navbar -->
 </div>
 <!-- /navbars wrapper -->
-
-
-
-<!--<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">-->
-  <!--<div class="d-flex">-->
-    <!--<div class="breadcrumb">-->
-      <!--<a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>-->
-      <!--<a href="components_breadcrumbs.html" class="breadcrumb-item">Components</a>-->
-      <!--<span class="breadcrumb-item active">Breadcrumbs</span>-->
-    <!--</div>-->
-
-    <!--<a href="javascript:void(0)" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>-->
-  <!--</div>-->
-
-  <!--<div class="header-elements d-none">-->
-    <!--<div class="breadcrumb justify-content-center">-->
-      <!--<a href="javascript:void(0)" class="breadcrumb-elements-item">-->
-        <!--<i class="icon-comment-discussion mr-2"></i>-->
-        <!--Support-->
-      <!--</a>-->
-
-      <!--&lt;!&ndash;<div class="breadcrumb-elements-item dropdown p-0">&ndash;&gt;-->
-      <!--&lt;!&ndash;<a href="javascript:void(0)" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">&ndash;&gt;-->
-      <!--&lt;!&ndash;<i class="icon-gear mr-2"></i>&ndash;&gt;-->
-      <!--&lt;!&ndash;Settings&ndash;&gt;-->
-      <!--&lt;!&ndash;</a>&ndash;&gt;-->
-
-      <!--&lt;!&ndash;<div class="dropdown-menu dropdown-menu-right">&ndash;&gt;-->
-      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-user-lock"></i> Account security</a>&ndash;&gt;-->
-      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-statistics"></i> Analytics</a>&ndash;&gt;-->
-      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-accessibility"></i> Accessibility</a>&ndash;&gt;-->
-      <!--&lt;!&ndash;<div class="dropdown-divider"></div>&ndash;&gt;-->
-      <!--&lt;!&ndash;<a href="javascript:void(0)" class="dropdown-item"><i class="icon-gear"></i> All settings</a>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-<!-- /bottom full width position -->
-

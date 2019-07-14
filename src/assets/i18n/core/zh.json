@@ -1,0 +1,41 @@
+{
+	"app": {
+		"core": {
+			"accept": "",
+			"additions": "",
+			"allads": "所有广告",
+			"alreadyhaveaccount": "",
+			"category": "",
+			"contact": "",
+			"credentials": "",
+			"display": "",
+			"email": "",
+			"featureditems": "",
+			"fieldsrequired": "",
+			"forgotpassword": "忘记密码",
+			"logout": "登出",
+			"message": "",
+			"name": "",
+			"newhere": "新来的",
+			"password": "密码",
+			"phonenumber": "",
+			"postad": "后",
+			"profile": "轮廓",
+			"recommeneditems": "",
+			"register": "寄存器",
+			"search": "",
+			"send": "",
+			"sendmessage": "",
+			"show": "",
+			"showingitems": "",
+			"signin": "登入",
+			"signintitle": "登录到您的帐户",
+			"signinwith": "",
+			"signup": "注册",
+			"sortby": "",
+			"subscribenewsletter": "",
+			"termsofservice": "",
+			"username": "用户名"
+		}
+	}
+}

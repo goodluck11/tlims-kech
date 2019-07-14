@@ -1,13 +1,13 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Category, Picklist, PickListType} from 'core/model/category';
+import {Category, PickListType} from 'core/model/category';
 import {CATEGORY} from 'core/constant/category.const';
 import {Fashion} from 'feature/items/fashion/fashion';
 import {PickListService} from 'core/services/picklist.service';
 import {ItemService} from 'feature/items/item.service';
 import {ToastrService} from 'ngx-toastr';
 import {EnumValues} from 'enum-values';
-import {CodeValue, Condition, Gender} from 'core/model/base-model';
+import {CodeValue, Condition, Contact, Gender} from 'core/model/base-model';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Utils} from 'core/utils/utils';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -60,6 +60,7 @@ export class FashionComponent implements OnInit, OnDestroy {
   fastenStore: Array<CodeValue> = [];
   featureStore: Array<CodeValue> = [];
   styleStore: Array<CodeValue> = [];
+  contact: Contact = new Contact();
 
 
   constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
@@ -85,13 +86,18 @@ export class FashionComponent implements OnInit, OnDestroy {
     this.files = $event;
   }
 
+  getContact($event) {
+    this.contact = $event;
+  }
+
   create() {
     this.isLoading = true;
     this.fashion = this.fForm.value;
+    this.fashion.contact = this.contact;
     this.itemService.create('fashion', this.fashion, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
-      this.reset();
       this.toastr.success('Ad ' + this.fashion.titleDescription.title + ' successfully created');
+      this.reset();
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
       this.toastr.error('Error creating AD ' + this.fashion.titleDescription.title);

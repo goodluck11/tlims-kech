@@ -1,4 +1,3 @@
-import {PageRequest} from 'core/model/page-request';
 import {Paging} from 'core/model/paging';
 
 export class BaseModel {
@@ -19,6 +18,20 @@ export class Code {
 export class TitleDescription {
   title: string;
   description: string;
+}
+
+export class Contact {
+  name: string;
+  phoneNumber: string;
+  email: string;
+
+  static of(name, phoneNumber, email) {
+    const contact = new Contact();
+    contact.name = name;
+    contact.phoneNumber = phoneNumber;
+    contact.email = email;
+    return contact;
+  }
 }
 
 export class CodeValue {

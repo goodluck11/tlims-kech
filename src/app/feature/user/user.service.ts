@@ -25,4 +25,8 @@ export class UserService {
   findUserAds(data) {
     return this.http.post(`${this.baseUrl}/listUserAds`, data);
   }
+
+  findFavoriteAds(data) {
+    return this.http.post(`${ENV.BASE_API}/api/favorites/list`, data);
+  }
 }

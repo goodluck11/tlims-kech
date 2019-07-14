@@ -1,0 +1,88 @@
+<form [formGroup]="jForm" novalidate>
+  <div class="row">
+    <div class="col-md-6">
+      <div formGroupName="subCategory">
+        <tlims-form-group label="Subcategory">
+          <select tlimsInput formControlName="code">
+            <option *ngFor="let subCat of subCategories"
+                    [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div formGroupName="titleDescription">
+        <tlims-form-group label="Title">
+          <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-error [control]="jForm.get('titleDescription').get('title')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Company Name">
+        <input tlimsInput placeholder="company name" formControlName="companyName"/>
+        <tlims-form-error [control]="jForm.get('companyName')"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Job Type">
+        <select tlimsInput formControlName="jobType">
+          <option [ngValue]="null">--Select Job Type--</option>
+          <option *ngFor="let bd of jobTypes" [ngValue]="bd">{{bd.name}}</option>
+        </select>
+        <tlims-form-error [control]="jForm.get('jobType')" label="Job Type"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Years of Experience">
+        <select tlimsInput formControlName="minimumExp">
+          <option [ngValue]="null">--Select Years of Experience--</option>
+          <option *ngFor="let bd of experiences" [ngValue]="bd">{{bd.name}}</option>
+        </select>
+        <tlims-form-error [control]="jForm.get('minimumExp')" label="Years of Experience"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Salary Range">
+        <div class="row">
+          <div class="col-md-6">
+            <input tlimsInput placeholder="from" formControlName="salaryFrom"/>
+            <tlims-form-error [control]="jForm.get('salaryFrom')"></tlims-form-error>
+          </div>
+          <div class="col-md-6">
+            <input tlimsInput placeholder="to" formControlName="salaryTo"/>
+            <tlims-form-error [control]="jForm.get('salaryTo')"></tlims-form-error>
+          </div>
+        </div>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12">
+      <tlims-description-box label="Requirements" [showToolbar]="false" formControlName="requirements"></tlims-description-box>
+      <tlims-form-error [control]="jForm.get('requirements')"></tlims-form-error>
+    </div>
+    <div class="col-md-12">
+      <tlims-description-box label="Responsibilities" [showToolbar]="false" formControlName="responsibilities"></tlims-description-box>
+      <tlims-form-error [control]="jForm.get('responsibilities')"></tlims-form-error>
+    </div>
+    <div class="col-md-12">
+      <tlims-description-box label="Minimum Qualification" [showToolbar]="false" formControlName="miniQualification"></tlims-description-box>
+      <tlims-form-error [control]="jForm.get('miniQualification')"></tlims-form-error>
+    </div>
+    <div class="col-md-12">
+      <div formGroupName="titleDescription">
+        <tlims-description-box formControlName="description" [showToolbar]="false"></tlims-description-box>
+        <tlims-form-error [control]="jForm.get('titleDescription').get('description')"></tlims-form-error>
+      </div>
+    </div>
+  </div>
+  <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
+  <tlims-contact (contactDetails)="getContact($event)"></tlims-contact>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group text-center">
+        <button [tlimsButton]="isLoading" (click)="create()" [disabled]="jForm.invalid">Save</button>
+        <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</form>

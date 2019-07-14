@@ -30,5 +30,5 @@ export enum PickListType {
   TARGET_AREA = 'Target Area', AGE_GROUP = 'Age Group', PACKAGE = 'Package',
   PROCESSOR = 'Processor', OUTSOLE = 'Outsole Material', POWER_SOURCE = 'PowerSource',
   SHAPE = 'Shape', BREED = 'Breed', BREED_TYPE = 'Breed Type',
-  MOVEMENT = 'Movement', DISPLAY = 'Display'
+  MOVEMENT = 'Movement', DISPLAY = 'Display', JOB_TYPE = 'Job Type', JOB_EXPERIENCE = 'Years of Experience'
 }

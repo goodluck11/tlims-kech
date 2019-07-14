@@ -1,4 +1,4 @@
-<tlims-form-group label="Description">
+<tlims-form-group [label]="label">
   <app-ngx-editor [placeholder]="'Enter text here...'" [config]="myCkeditorConfig"
                   [spellcheck]="true" [(ngModel)]="htmlContent" (blur)="getContent()"></app-ngx-editor>
 </tlims-form-group>

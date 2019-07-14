@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ChangePasswordRequest} from 'core/model/user';
 import {UserService} from '../user.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
@@ -40,9 +40,9 @@ export class PasswordFormComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.passwordForm = this.fb.group({
-      currentPassword: [],
-      password: [],
-      cpassword: []
+      currentPassword: [null, Validators.required],
+      password: [null, Validators.required],
+      cpassword: [null, Validators.required]
     });
   }
 

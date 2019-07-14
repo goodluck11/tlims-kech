@@ -5,6 +5,7 @@ export class User extends BaseModel {
   lastName: string;
   email: string;
   phoneNumber: string;
+  displayName: string;
   role: any;
 }
 

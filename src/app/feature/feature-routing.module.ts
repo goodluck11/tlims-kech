@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ProfileComponent} from './user/profile/profile.component';
 import {ProfileEditComponent} from './user/profile-edit/profile-edit.component';
@@ -16,26 +16,34 @@ import {ItemsHomeComponent} from './items/items-home/items-home.component';
 import {AdminHomeComponent} from 'feature/admin/admin-home/admin-home.component';
 import {CategoryResolver} from 'core/resolvers/category.resolver';
 import {ColorResolver} from 'core/resolvers/app.resolver';
-import {UserHomeComponent} from './user/user-home/user-home.component';
 import {AuthGuard} from 'core/guards/auth.guard';
+import {ManageAdsComponent} from 'feature/admin/manage-ads/manage-ads.component';
+import {AdHistoryComponent} from 'feature/admin/ad-history/ad-history.component';
+import {UserMessagesComponent} from './user/user-messages/user-messages.component';
+import {ContactsComponent} from 'feature/admin/contacts/contacts.component';
 
 const routes: Routes = [
   {
     path: '', component: FeatureHomeComponent, children: [
       {path: 'dashboard', component: DashboardComponent},
       {
-        path: 'user', component: UserHomeComponent, children: [
+        path: 'user', children: [
           {path: '', component: ProfileComponent},
           {path: 'edit/:id', component: ProfileEditComponent},
           {path: 'reset', component: PasswordFormComponent},
           {path: 'ads', component: AdsComponent},
+          {path: 'messages', component: UserMessagesComponent},
           {path: 'favorites', component: FavoritesComponent},
         ]
       },
       {
         path: 'admin', component: AdminHomeComponent, children: [
-          {path: '', component: PendingAdsComponent},
+          {path: '', component: ManageAdsComponent, children: [
+              {path: '', component: AdHistoryComponent},
+              {path: '2', component: PendingAdsComponent}
+            ]},
           {path: 'users', component: UsersComponent},
+          {path: 'contacts', component: ContactsComponent},
           {path: 'categories', component: CategoryComponent, resolve: {
               categories: CategoryResolver
             }},

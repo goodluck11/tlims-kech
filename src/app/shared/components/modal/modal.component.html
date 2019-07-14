@@ -1,4 +1,4 @@
-<div class="overlay-container" [ngClass]="{'show': visible}">
+<!--<div class="overlay-container" [ngClass]="{'show': visible}">
   <div class="overlay-backdrop" (click)="dismiss()"></div>
   <div class="overlay-wrapper" [ngClass]="position? position : 'top'">
     <div class="overlay-pane" [ngStyle]="{'min-height': minHeight, 'min-width': minWidth}"  [ngClass]="size? size : 'large'">
@@ -6,5 +6,12 @@
         <ng-content></ng-content>
       </div>
     </div>
+  </div>
+</div>-->
+
+<div class="op-modal-overlay op-transition {{direction}}" [ngClass]="{'show': visible}" (click)="closeModal()"></div>
+<div class="op-modal op-transition {{size}} {{direction}}" [ngClass]="{'show': visible}">
+  <div class="op-modal-content">
+    <ng-content></ng-content>
   </div>
 </div>

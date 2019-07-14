@@ -10,6 +10,10 @@ import {CategoriesComponent} from './public/views/categories/categories.componen
 import {CategoryViewComponent} from './public/views/category-view/category-view.component';
 import {SubcategoryComponent} from './public/views/subcategory/subcategory.component';
 import {AuthGuard} from 'core/guards/auth.guard';
+import {AboutComponent} from './public/static/about/about.component';
+import {FaqComponent} from './public/static/faq/faq.component';
+import {PrivacyComponent} from './public/static/privacy/privacy.component';
+import {ContactComponent} from './public/static/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -21,6 +25,10 @@ const routes: Routes = [
             }},
           {path: 'sign-in', component: LoginComponent},
           {path: 'sign-up', component: RegisterComponent},
+          {path: 'about-us', component: AboutComponent},
+          {path: 'faq', component: FaqComponent},
+          {path: 'privacy', component: PrivacyComponent},
+          {path: 'contact-us', component: ContactComponent},
           {path: 'bo', loadChildren: './feature/feature.module#FeatureModule',
             canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
           {path: 'all-ads', component: CategoriesComponent, resolve: {

@@ -22,6 +22,18 @@ export class ModalComponent implements OnInit {
   @Input()
   dismissAble = false;
 
+  /*@Input()
+  visible = false;
+  @Output()
+  close = new EventEmitter();*/
+  @Input()
+  direction = 'top';
+
+  closeModal() {
+    this.visible = false;
+    this.close.emit(this.visible);
+  }
+
   constructor() { }
 
   ngOnInit() {  }

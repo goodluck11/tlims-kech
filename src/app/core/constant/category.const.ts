@@ -48,18 +48,41 @@ export const CATEGORY = {
     }
   },
   BEAUTY: {
-    code: 'beauty'
+    code: 'beauty',
+    SUBCATEGORY: {
+      body: 'beauty_body',
+      fragrance: 'beauty_fragrance',
+      hair: 'beauty_hair',
+      makeup: 'beauty_makeup',
+      sexual: 'beauty_sexual',
+      skin: 'beauty_skin',
+      supplements: 'beauty_supplements'
+    }
   },
   MOBILE: {
-    code: 'mobile'
+    code: 'mobile',
+    SUBCATEGORY: {
+      phones: 'mobile_phones',
+      tablets: 'mobile_tablets',
+      accessories: 'mobile_accessories'
+    }
   },
   ESTATE: {
     code: 'estate'
   },
   REPAIR: {
-    code: 'repair'
+    code: 'repair',
+    SUBCATEGORY: {
+      b_materials: 'b_materials',
+      solar_energy: 'solar_energy',
+      hand_tools: 'hand_tools',
+    }
   },
   VEHICLE: {
     code: 'vehicles'
+  },
+  JOB: {
+    code: 'job'
   }
 };
+

@@ -7,6 +7,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CoreService} from 'core/services/core.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Ad} from 'feature/items/ad';
+import {NTuple} from 'core/model/search-request';
 
 @Component({
   selector: 'tlims-subcategory',
@@ -25,7 +26,7 @@ export class SubcategoryComponent implements OnInit, OnDestroy {
   searchTerm = '';
   query: Paging = new Paging();
   viewType = 'LIST';
-  ad: Ad = new Ad();
+  searchParams: NTuple = new NTuple();
   currentUrl: string;
 
   constructor(private activatedRoute: ActivatedRoute, private toastr: ToastrService,
@@ -43,7 +44,7 @@ export class SubcategoryComponent implements OnInit, OnDestroy {
 
   getRequestParams() {
     this.activatedRoute.params.pipe(untilDestroyed(this)).subscribe((res) => {
-      this.ad.category.code = res.catCode;
+      this.searchParams.category = res.catCode;
       this.getView();
     });
   }
@@ -61,13 +62,13 @@ export class SubcategoryComponent implements OnInit, OnDestroy {
     const keys = Object.keys(res);
     keys.forEach(k => {
       if (QUERY_KEYS.SUBCATEGORY === k) {
-        this.ad.subCategory.code = res[k];
+        this.searchParams.subCategory = res[k];
       }
       if (QUERY_KEYS.PRICE === k) {
-        this.ad.amount = res[k];
+        this.searchParams.price = res[k];
       }
       if (QUERY_KEYS.CONDITION === k) {
-        this.ad.itemCondition = res[k];
+        this.searchParams.itemCondition = res[k];
       }
       if (QUERY_KEYS.LIMIT === k) {
         this.query.limit = res[k];
@@ -80,8 +81,8 @@ export class SubcategoryComponent implements OnInit, OnDestroy {
 
   getAllAdsAdvance() {
     this.blockUI.start('Loading Ads...');
-    this.ad.paging = this.query;
-    this.coreService.allAdsAdvance(this.ad).pipe(untilDestroyed(this)).subscribe((res) => {
+    this.searchParams.paging = this.query;
+    this.coreService.allAdsAdvance(this.searchParams).pipe(untilDestroyed(this)).subscribe((res) => {
       this.handleResponse(res);
       this.blockUI.stop();
     }, (err) => {
@@ -116,5 +117,6 @@ export const QUERY_KEYS = {
   VIEW: 'view',
   PRICE: 'price',
   CONDITION: 'condition',
+  BRAND: 'brands',
   LIMIT: 'limit'
 };

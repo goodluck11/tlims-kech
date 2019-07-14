@@ -4,7 +4,7 @@ import {Category, Picklist, PickListType} from 'core/model/category';
 import {Electronic} from 'feature/items/electronics/electronic';
 import {CATEGORY} from 'core/constant/category.const';
 import {EnumValues} from 'enum-values';
-import {CodeValue, Condition} from 'core/model/base-model';
+import {CodeValue, Condition, Contact} from 'core/model/base-model';
 import {Utils} from 'core/utils/utils';
 import {PickListService} from 'core/services/picklist.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
@@ -43,6 +43,7 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
   isLoading = false;
   files: File[] = [];
   parentCode: string;
+  contact: Contact = new Contact();
 
   constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
               private toastr: ToastrService, private router: Router) {
@@ -58,13 +59,18 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
     this.files = $event;
   }
 
+  getContact($event) {
+    this.contact = $event;
+  }
+
   create() {
     this.isLoading = true;
     this.electronic = this.eForm.value;
+    this.electronic.contact = this.contact;
     this.itemService.create('electronic', this.electronic, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
-      this.reset();
       this.toastr.success('Ad ' + this.electronic.titleDescription.title + ' successfully created');
+      this.reset();
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
       this.toastr.error('Error creating AD ' + this.electronic.titleDescription.title);
@@ -315,7 +321,8 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
       }),
       itemCondition: [this.electronic.itemCondition, [Validators.required]],
       price: [this.electronic.price, [Validators.required]],
-      negotiable: [this.electronic.negotiable]
+      negotiable: [this.electronic.negotiable],
+      contact: []
     });
     this.resolveField();
   }

@@ -7,6 +7,7 @@ import {Paging} from 'core/model/paging';
 import {ToastrService} from 'ngx-toastr';
 import {SearchRequest} from 'core/model/search-request';
 import {CoreService} from 'core/services/core.service';
+import {Ad} from 'feature/items/ad';
 
 @Component({
   selector: 'tlims-categories',
@@ -16,9 +17,9 @@ import {CoreService} from 'core/services/core.service';
 export class CategoriesComponent implements OnInit, OnDestroy {
 
   categories: Array<Category> = [];
-  ads: Array<Category> = [];
+  ads: Array<Ad> = [];
   categoryCode: string;
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('categories') blockUI: NgBlockUI;
   searchTerm = '';
   query: Paging = new Paging();
   viewType = 'LIST';

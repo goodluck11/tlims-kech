@@ -18,7 +18,7 @@ export class AdComponent implements OnInit, OnDestroy {
   subCategories: Array<Category> = [];
   title = '';
   categoryCode: string;
-  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI('adForm') blockUI: NgBlockUI;
   CATEGORY = CATEGORY;
 
   constructor(private activatedRoute: ActivatedRoute, private categoryService: CategoryService, private toastr: ToastrService) {
@@ -47,7 +47,17 @@ export class AdComponent implements OnInit, OnDestroy {
   getParentCategories() {
     this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((data) => {
       this.categories = data.categories;
-      this.getSubCategories(undefined, this.categories[0].categoryCode.dataCode);
+      this.getQueryParams();
+    });
+  }
+
+  getQueryParams() {
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((res) => {
+      if (res.cat) {
+        this.getSubCategories(undefined, res.cat);
+      } else {
+        this.getSubCategories(undefined, this.categories[0].categoryCode.dataCode);
+      }
     });
   }
 

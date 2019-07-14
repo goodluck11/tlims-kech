@@ -6,7 +6,7 @@ import {PickListService} from 'core/services/picklist.service';
 import {ItemService} from 'feature/items/item.service';
 import {ToastrService} from 'ngx-toastr';
 import {EnumValues} from 'enum-values';
-import {CodeValue, Condition} from 'core/model/base-model';
+import {CodeValue, Condition, Contact} from 'core/model/base-model';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Utils} from 'core/utils/utils';
 import {Commercial} from 'feature/items/commercial/commercial';
@@ -35,7 +35,7 @@ export class CommercialComponent implements OnInit, OnDestroy {
   shapes: Array<Picklist> = [];
   isField1 = false; // type, Power Source, condition, shape
   isField2 = false; // weight, condition
-
+  contact: Contact = new Contact();
 
   constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
               private toastr: ToastrService, private router: Router) {
@@ -47,6 +47,10 @@ export class CommercialComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
+  getContact($event) {
+    this.contact = $event;
+  }
+
   getImages($event) {
     this.files = $event;
   }
@@ -54,6 +58,7 @@ export class CommercialComponent implements OnInit, OnDestroy {
   create() {
     this.isLoading = true;
     this.commercial = this.commForm.value;
+    this.commercial.contact = this.contact;
     this.itemService.create('commercial', this.commercial, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
       this.reset();

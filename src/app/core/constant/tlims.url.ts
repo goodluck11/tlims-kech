@@ -5,5 +5,6 @@ export const APP_URL = {
       profile: '/tlims/bo/user'
     }
   },
-  login: '/tlims/sign-in'
+  login: '/tlims/sign-in',
+  adView: '/tlims/ad/'
 };
