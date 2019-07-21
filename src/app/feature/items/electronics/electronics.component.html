@@ -24,7 +24,7 @@
             <option [ngValue]="null">--Select Item Type--</option>
             <option *ngFor="let iType of itemTypes" [value]="iType.pickListcode?.dataCode">{{iType.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="eForm.get('subCatType').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="eForm.get('subCatType').get('code')" label="Item Type"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
@@ -35,7 +35,7 @@
             <option [ngValue]="null">--Select Brand--</option>
             <option *ngFor="let bd of brands" [value]="bd.pickListcode?.dataCode">{{bd.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="eForm.get('brand').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="eForm.get('brand').get('code')" label="Brand"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
@@ -46,7 +46,7 @@
             <option [ngValue]="null">--Select Make--</option>
             <option *ngFor="let mk of itemMakes" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="eForm.get('electMake').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="eForm.get('electMake').get('code')" label="Make"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
@@ -68,7 +68,7 @@
             <option [ngValue]="null">--Select Sub Type--</option>
             <option *ngFor="let mk of subTypes" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="eForm.get('electSubType').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="eForm.get('electSubType').get('code')" label="Sub Type"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
@@ -90,7 +90,7 @@
             <option [ngValue]="null">--Select Number of Core(s)--</option>
             <option *ngFor="let mk of cores" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="eForm.get('coreNo').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="eForm.get('coreNo').get('code')" label="Number of Core(s)"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
@@ -111,7 +111,7 @@
             <option [ngValue]="null">--Select Condition--</option>
             <option *ngFor="let cod of conditions" [value]="cod.name">{{cod.value}}</option>
           </select>
-          <tlims-form-error [control]="eForm.get('itemCondition')"></tlims-form-error>
+          <tlims-form-error [control]="eForm.get('itemCondition')" label="Condition"></tlims-form-error>
         </tlims-form-group>
     </div>
     <div class="col-md-6">

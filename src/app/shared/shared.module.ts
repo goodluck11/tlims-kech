@@ -39,8 +39,11 @@ import {NgxTabsModule} from '@ngx-lite/tabs';
 import {NgxLoadersModule} from '@ngx-lite/loaders';
 import {TranslateModule} from '@ngx-translate/core';
 import {MessageFormComponent} from './components/message-form/message-form.component';
-import { HeaderComponent } from './components/header/header.component';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
+import {HeaderComponent} from './components/header/header.component';
+import {DropdownComponent} from './components/dropdown/dropdown.component';
+import {SearchComponent} from 'shared/components/search-box/search/search.component';
+import { DetailComponent } from './components/detail/detail.component';
+import { SanitizePipe } from './pipes/sanitize.pipe';
 
 
 const SHARED_COMPONENTS: any = [
@@ -74,7 +77,10 @@ const SHARED_COMPONENTS: any = [
   EmptyStateComponent,
   MessageFormComponent,
   HeaderComponent,
-  DropdownComponent
+  DropdownComponent,
+  SearchComponent,
+  DetailComponent,
+  SanitizePipe
 ];
 
 @NgModule({

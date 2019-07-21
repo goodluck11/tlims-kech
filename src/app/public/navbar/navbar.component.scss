@@ -1,6 +1,22 @@
+.tk-header {
+  display: block;
+  background: #374252;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 4px 4px 0 rgba(23,23,23,.06);
+}
+
+.navbar-nav {
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+
 .navbar-brand {
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: 1.2rem;
 }
 
 .dropdown-menu{

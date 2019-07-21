@@ -12,6 +12,7 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Utils} from 'core/utils/utils';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APP_URL} from 'core/constant/tlims.url';
+import {TLIMS_CONST} from 'core/constant/tlims.const';
 
 @Component({
   selector: 'tlims-fashion',
@@ -19,6 +20,11 @@ import {APP_URL} from 'core/constant/tlims.url';
   styleUrls: ['./fashion.component.scss']
 })
 export class FashionComponent implements OnInit, OnDestroy {
+
+  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
+              private toastr: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) {
+    itemService.endPoint = 'fashions';
+  }
 
   fForm: FormGroup;
   fashion: Fashion = new Fashion();
@@ -51,6 +57,7 @@ export class FashionComponent implements OnInit, OnDestroy {
   isField4 = false; // brand, type, subtype, ram, processor, model, core
   isField5 = false; // brand, gender, movement
   isField6 = false;
+  isField7 = false;
   materialStore: Array<CodeValue> = [];
   material2Store: Array<CodeValue> = [];
   closureStore: Array<CodeValue> = [];
@@ -61,11 +68,11 @@ export class FashionComponent implements OnInit, OnDestroy {
   featureStore: Array<CodeValue> = [];
   styleStore: Array<CodeValue> = [];
   contact: Contact = new Contact();
+  kidsItemTypes = `${TLIMS_CONST.FASHION_KIDS_CODE}`;
 
-
-  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
-              private toastr: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) {
-    itemService.endPoint = 'fashions';
+  static markFields(control) {
+    control.markAsPristine();
+    control.markAsUntouched();
   }
 
   ngOnInit() {
@@ -101,7 +108,6 @@ export class FashionComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
       this.toastr.error('Error creating AD ' + this.fashion.titleDescription.title);
-      console.log(err);
       this.isLoading = false;
     });
   }
@@ -112,6 +118,16 @@ export class FashionComponent implements OnInit, OnDestroy {
 
   reset() {
     this.resolveField();
+  }
+
+  displayKidsFields() {
+    this.isField7 = false;
+    const subCatType = this.fForm.get('subCatType').value;
+    const itemCodes = this.kidsItemTypes.split(',');
+    const item = itemCodes.filter(value => value.includes(subCatType.code))[0];
+    if (item) {
+      this.isField7 = true;
+    }
   }
 
   addOrRemoveMaterial(mat, $event, isCheckBox: boolean) {
@@ -246,8 +262,7 @@ export class FashionComponent implements OnInit, OnDestroy {
     const subCatCode = this.getValueFromCodeValue('subCategory');
     this.subCatCode = subCatCode;
     this.fashion = new Fashion();
-    this.fashion.subCategory.code = this.subCatCode;
-    this.fashion.subCategory.name = Utils.getNameFromCategory(this.subCategories, this.subCatCode);
+    this.fashion.subCategory = CodeValue.of(this.subCatCode, Utils.getNameFromCategory(this.subCategories, this.subCatCode));
     this.initForm();
     this.resetField();
     this.clearArrays();
@@ -298,7 +313,11 @@ export class FashionComponent implements OnInit, OnDestroy {
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.FEATURE));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.STYLE));
         break;
-      case this.CATEGORY.FASHION.SUBCATEGORY.wedding:
+      case this.CATEGORY.FASHION.SUBCATEGORY.kids:
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.SIZE));
+        this.setRequiredField('subCatType', true);
+        this.isField6 = true;
         break;
     }
   }
@@ -392,8 +411,8 @@ export class FashionComponent implements OnInit, OnDestroy {
     if (isRequired) {
       code.setValidators([Validators.required]);
       name.setValidators([Validators.required]);
-      this.markFields(code);
-      this.markFields(name);
+      FashionComponent.markFields(code);
+      FashionComponent.markFields(name);
     } else {
       code.clearValidators();
       name.clearValidators();
@@ -406,16 +425,11 @@ export class FashionComponent implements OnInit, OnDestroy {
     const field = this.fForm.get(fieldName);
     if (isRequired) {
       field.setValidators([Validators.required]);
-      this.markFields(field);
+      FashionComponent.markFields(field);
     } else {
       field.clearValidators();
     }
     field.updateValueAndValidity();
-  }
-
-  markFields(control) {
-    control.markAsPristine();
-    control.markAsUntouched();
   }
 
   resetField() {

@@ -4,7 +4,7 @@ import {AbstractControl, AbstractControlDirective} from '@angular/forms';
 @Component({
   selector: 'tlims-form-error',
   template: `
-    <span class="form-text text-danger error-message" *ngIf="shouldShowErrors()"> {{getError()}}</span>
+    <span class="form-text text-danger error-message animated shake" *ngIf="shouldShowErrors()"> {{getError()}}</span>
   `,
   styleUrls: ['./form-error.component.scss']
 })

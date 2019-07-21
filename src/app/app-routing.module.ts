@@ -14,6 +14,7 @@ import {AboutComponent} from './public/static/about/about.component';
 import {FaqComponent} from './public/static/faq/faq.component';
 import {PrivacyComponent} from './public/static/privacy/privacy.component';
 import {ContactComponent} from './public/static/contact/contact.component';
+import {VerificationComponent} from './public/register/verification/verification.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
             }},
           {path: 'sign-in', component: LoginComponent},
           {path: 'sign-up', component: RegisterComponent},
+          {path: 'verify/:code', component: VerificationComponent},
           {path: 'about-us', component: AboutComponent},
           {path: 'faq', component: FaqComponent},
           {path: 'privacy', component: PrivacyComponent},

@@ -1,26 +1,22 @@
-<!-- Bottom full width position -->
-<!--<div class="border-top-1 border-top-primary page-header page-header-light">-->
-  <!--<div class="row pl-4 pr-4">-->
-    <!--<div class="col-md-4">-->
-      <!--<div class="page-title">-->
-        <!--<h5 *ngIf="title" class="text-white">-->
-          <!--<i class="fa fa-arrow-circle-left mr-2"></i> <span class="font-weight-bold">{{title}}</span>-->
-          <!--&lt;!&ndash;<small class="d-block text-muted">Sign in to your account</small>&ndash;&gt;-->
-        <!--</h5>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="col-md-4">-->
-      <!--<div class="tlims-link pt-2 text-center">-->
-        <!--<input type="search" class="form-control" placeholder="Search">-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="col-md-4">-->
-      <!--<div class="form-group pt-2 text-md-right text-center">-->
-        <!--<a routerLink="/tlims/bo/post-ad" class="btn btn-warning text-white btn-sm">Post AD</a>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-<tlims-breadcrumb *ngIf="withBreadCrumb"></tlims-breadcrumb>
+<div class="search-box">
+  <div class="container">
+    <div class="d-flex">
+      <div class="flex-grow-1">
+        <h1 class="h4-size">{{title | translate}}</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Library</li>
+        </ol>
+      </div>
+    </div>
+    <!--<div class="search-box-inner">
+      <tlims-search></tlims-search>
+    </div>-->
+  </div>
+</div>
+<div class="container" *ngIf="withBreadCrumb">
+  <div class="search-box-inner">
+    <tlims-search></tlims-search>
+  </div>
+</div>
+<!--<tlims-breadcrumb *ngIf="withBreadCrumb"></tlims-breadcrumb>-->

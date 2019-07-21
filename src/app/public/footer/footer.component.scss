@@ -1,11 +1,22 @@
 .site-footer {
   padding: 15px 30px;
   position: static;
-  background-color: #ffffff;
+  background-color: #e8e8e8;
   bottom: 0;
 }
 
 .nav-link {
   display: block;
   padding: .2rem 0;
+  color: #697A89;
+  font-size: 13px;
+}
+
+.footer-text-color {
+  color: #697A89;
+  font-size: 13px;
+}
+
+h6 {
+  color: #4a4a4a;
 }

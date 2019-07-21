@@ -11,21 +11,21 @@
     </div>
 
     <div class="media-body">
-      <h5 class="media-title font-weight-semibold">
+      <h5 class="media-title tk-bold">
         <a [routerLink]="[routerLink, ad.id, ad.titleDescription?.title, ad.code]">{{ad.titleDescription?.title}}</a>
       </h5>
-      <ul class="list-inline list-inline-dotted text-muted mb-2 f-12">
+      <ul class="list-inline list-inline-dotted text-muted mb-2 f-12 font-weight-bold">
         <li class="list-inline-item" *ngIf="ad.category?.name"><a [routerLink]="[routerLink, ad.category?.code]" class="text-orange-700">{{ad.category?.name}}</a></li>
         <li class="list-inline-item" *ngIf="ad.subCategory?.name"><a href="javascript:void(0)" class="text-orange-700">{{ad.subCategory?.name}}</a></li>
         <li class="list-inline-item" *ngIf="ad.brand?.name"><a href="javascript:void(0)" class="text-orange-700">{{ad.brand?.name}}</a></li>
         <li class="list-inline-item text-orange-700">Amsterdam, Netherlands</li>
       </ul>
-      <p [innerHTML]="ad.titleDescription?.description | shorten: 400: '...'"></p>
+      <p [innerHTML]="ad.titleDescription?.description | shorten: 200: '...'"></p>
     </div>
 
     <div class="ml-sm-3 mt-2 mt-sm-0">
       <div class="d-flex flex-column">
-        <h5 class="font-weight-semibold text-success">{{ad.price?.value}}</h5>
+        <h5 class="tk-bold text-success">{{ad.price?.value}}</h5>
         <!--<span class="badge bg-slate">New</span>-->
       </div>
     </div>

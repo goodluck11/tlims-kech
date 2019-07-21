@@ -24,7 +24,7 @@
             <option [ngValue]="null">--Select Item Type--</option>
             <option *ngFor="let iType of itemTypes" [value]="iType.pickListcode?.dataCode">{{iType.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="bForm.get('subCatType').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="bForm.get('subCatType').get('code')" label="Item Type"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
@@ -35,7 +35,7 @@
             <option [ngValue]="null">--Select Brand--</option>
             <option *ngFor="let bd of brands" [value]="bd.pickListcode?.dataCode">{{bd.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="bForm.get('brand').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="bForm.get('brand').get('code')" label="Brand"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>

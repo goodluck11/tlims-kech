@@ -37,3 +37,15 @@ export class Utils {
   }
 
 }
+
+export function isArray(val: any) {
+  return Array.isArray(val) && val.length > 0;
+}
+
+export function isEmpty(val: string) {
+  return val === undefined || val === null || !val;
+}
+
+export function isObjectEmpty(obj) {
+  return !obj || (Object.keys(obj).length === 0);
+}

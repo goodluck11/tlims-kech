@@ -64,7 +64,7 @@ export class FeaturedComponent implements OnInit, OnDestroy {
       this.images = [];
       if (Array(res['content'])) {
         this.ads = res['content'];
-        if (this.ads.length > 0) {
+        if (this.ads.length < 5) {
           this.ads.map(value => this.images.push({text: value.titleDescription.title, image: this.storagePath + value.images[0]}));
         }
       }

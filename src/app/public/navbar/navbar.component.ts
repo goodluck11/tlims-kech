@@ -14,6 +14,22 @@ import {CategoryService} from 'core/services/category.service';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
+  slidess = [
+    {img: '../../assets/images/wallpaper/3.jpg'},
+    {img: '../../assets/images/wallpaper/4.jpg'},
+    {img: '../../assets/images/wallpaper/5.jpg'},
+    {img: '../../assets/images/wallpaper/7.jpg'},
+    {img: '../../assets/images/wallpaper/10.jpg'},
+  ];
+
+  slideConfig = {
+    'slidesToShow': 1,
+    'slidesToScroll': 1,
+    'autoplay': true,
+    'autoplaySpeed': 4000,
+    'infinite': true
+  };
+
   activeUser = '';
   isLoggedIn: boolean;
   APP_URL = APP_URL;

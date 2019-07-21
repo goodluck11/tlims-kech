@@ -52,7 +52,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       }
       this.blockUI.stop();
     }, (err) => {
-      this.toastr.error('Error loading users');
+      this.toastr.error('Error loading ads');
       this.blockUI.stop();
     });
   }

@@ -147,7 +147,7 @@
       <div class="col-md-12">
         <div class="form-group text-center">
           <button [tlimsButton]="isLoading" (click)="create()" [disabled]="pForm.invalid">Save</button>
-          <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="isOpenModal = false">Cancel</button>
+          <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="isOpenModal = false; initForm();">Cancel</button>
         </div>
       </div>
     </div>

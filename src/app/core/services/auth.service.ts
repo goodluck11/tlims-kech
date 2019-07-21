@@ -39,6 +39,10 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/create`, data);
   }
 
+  verifyAccount(code) {
+    return this.http.get(`${this.baseUrl}/auth/verify/${code}`);
+  }
+
   getToken() {
     return this.storage.get('currentUser') ? this.storage.get('currentUser').token : null;
   }

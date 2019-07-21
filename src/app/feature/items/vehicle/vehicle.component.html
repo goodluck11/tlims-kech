@@ -1,117 +1,113 @@
 <form [formGroup]="vehicleForm" novalidate>
   <div class="row">
     <div class="col-md-6">
-      <tlims-form-group label="Subcategory">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Subcategory--</option>
-          <option *ngFor="let subCat of subCategories" [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
-        </select>
-      </tlims-form-group>
+      <div formGroupName="subCategory">
+        <tlims-form-group label="Subcategory">
+          <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
+            <option *ngFor="let subCat of subCategories"
+                    [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Title">
-        <input tlimsInput placeholder="title"/>
-      </tlims-form-group>
+      <div formGroupName="titleDescription">
+        <tlims-form-group label="Title">
+          <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-error [control]="vehicleForm.get('titleDescription').get('title')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField2 || isField4">
       <tlims-form-group label="Item Type">
-        <select tlimsInput>
+        <select tlimsInput formControlName="subCatType">
           <option [ngValue]="null">--Select Item Type--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let iTyp of itemTypes" [ngValue]="iTyp">{{iTyp.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField1">
       <tlims-form-group label="Brand">
-        <select tlimsInput>
+        <select tlimsInput formControlName="brand" (change)="getDependentList('brand')">
           <option [ngValue]="null">--Select Brand--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let bd of brands" [ngValue]="bd">{{bd.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField2 || isField3 || isField4">
       <tlims-form-group label="Make">
-        <select tlimsInput>
+        <select tlimsInput formControlName="make" (change)="getDependentList('make')">
+          <option [ngValue]="null">--Select Make--</option>
+          <option *ngFor="let make of makes" [ngValue]="make">{{make.name}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField1 || isField3">
+      <tlims-form-group label="Model" [isLoading]="isDataLoading">
+        <select tlimsInput formControlName="model" [disableControl]="models.length === 0">
           <option [ngValue]="null">--Select Model--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let make of models" [ngValue]="make">{{make.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField1 ||isField2 || isField3 || isField4">
       <tlims-form-group label="Year">
-        <select tlimsInput>
+        <select tlimsInput formControlName="year">
           <option [ngValue]="null">--Select Year--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let yr of years" [ngValue]="yr">{{yr.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Trim">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Trim--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
-      </tlims-form-group>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField1 || isField3">
       <tlims-form-group label="Mileage">
-        <select tlimsInput>
-          <option [ngValue]="null">--Select Mileage--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
-        </select>
+        <input tlimsInput placeholder="Mileage" formControlName="mileage"/>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" *ngIf="isField1 || isField3">
       <tlims-form-group label="Color">
-        <select tlimsInput>
+        <select tlimsInput formControlName="color">
           <option [ngValue]="null">--Select Color--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let col of colors" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
-      <tlims-form-group label="Transmission" [checkBox]="true">
-        <tlims-checkbox label="Manual" styleClass="mr-2">
-          <input type="radio" class="form-check-input" name="transmission" checked>
-        </tlims-checkbox>
-        <tlims-checkbox label="Automatic">
-          <input type="radio" class="form-check-input" name="transmission">
-        </tlims-checkbox>
+    <div class="col-md-6" *ngIf="isField1 || isField3">
+      <tlims-form-group label="Transmission">
+        <select tlimsInput formControlName="transmission">
+          <option [ngValue]="null">--Select Transmission--</option>
+          <option *ngFor="let trans of transmissions" [value]="trans.name">{{trans.value}}</option>
+        </select>
       </tlims-form-group>
     </div>
     <div class="col-md-6">
       <tlims-form-group label="Price">
-        <tlims-amount></tlims-amount>
+        <tlims-amount formControlName="price"></tlims-amount>
+        <tlims-form-error [control]="vehicleForm.get('price')"></tlims-form-error>
       </tlims-form-group>
     </div>
-    <div class="col-md-6">
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" name="registered" class="form-input-styled" data-fouc> Registered
-        </label>
+    <div class="col-md-12">
+      <div formGroupName="titleDescription">
+        <tlims-description-box formControlName="description"></tlims-description-box>
+        <tlims-form-error [control]="vehicleForm.get('titleDescription').get('description')"></tlims-form-error>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" name="isExchangeable" class="form-input-styled" data-fouc> Exchangeable
-        </label>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" name="negotiable" class="form-input-styled" data-fouc> Negotiable
-        </label>
-      </div>
+    <div class="col-md-6" *ngIf="isField1 || isField3">
+      <label class="form-check-label mr-3 ">
+        <input type="checkbox" formControlName="exchangeable"> Exchangeable
+      </label>
+      <label class="form-check-label">
+        <input type="checkbox" name="negotiable" formControlName="negotiable"> Negotiable
+      </label>
     </div>
   </div>
   <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
+  <tlims-contact (contactDetails)="getContact($event)"></tlims-contact>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group text-center">
+        <button [tlimsButton]="isLoading" (click)="create()" [disabled]="vehicleForm.invalid">Save</button>
+        <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
 </form>

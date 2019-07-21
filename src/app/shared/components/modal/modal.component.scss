@@ -12,6 +12,7 @@
   top: -25%;
   -webkit-tap-highlight-color: transparent;
   opacity: 0.5;
+  transition: all .3s ease-in-out;
 
   &.top {
     -webkit-transform: translateY(-100%);
@@ -43,6 +44,7 @@
   border-radius: 2px;
   will-change: top, bottom;
   z-index: 1005;
+  transition: all .3s ease-in-out;
 
   &.medium {
     width: 768px;

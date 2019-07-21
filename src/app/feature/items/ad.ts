@@ -17,5 +17,7 @@ export class Ad extends BaseModel {
   amount: string;
   brands: string;
   contact: Contact = new Contact();
+  primaryContact: Contact = new Contact();
+  rejectionReason: string;
 }
 

@@ -1,30 +1,69 @@
-<tlims-search-box [withBreadCrumb]="false"></tlims-search-box>
-<ngx-slick-carousel class="carousel" [config]="slideConfig">
-  <div ngxSlickItem *ngFor="let slide of slidess" class="slide">
-    <!--<img [src]="slide.img" alt="" class="img" height="400" width="100%">-->
-    <div class="slider-image" [ngStyle]="{'background-image':'url(' + slide.img + ')'}"></div>
-  </div>
-</ngx-slick-carousel>
+<main class="tk-main">
+  <section class="tk-row1">
+    <div class="home-search-card">
+      <h1 class="head-title tk-bold">Welcome to The Largest <span class="year">Marketplace</span></h1>
+      <p class="hm-text">Buy and sell everything from used cars to mobile phones and computers, or search for property,
+        jobs and
+        more</p>
+      <tlims-search></tlims-search>
+    </div>
+  </section>
 
-<div class="container">
-  <div class="card tlims-card border-0 shadow-0">
-    <div class="card-body">
-      <h5 class="card-title font-weight-bold">{{'app.core.category' | translate}}</h5>
-      <div class="row justify-content-center">
-        <div class="col category-col" *ngFor="let cat of categories">
+  <section class="tk-row2">
+    <div class="container">
+      <div class="tk-heading flexbox">
+        <h3 class="tk-bold">Popular {{'app.core.category' | translate}}</h3>
+      </div>
+      <div class="row justify-content-start">
+        <a class="col-md-2 col-sm-6 col-12 category-col" *ngFor="let cat of categories"
+           [routerLink]="['/tlims/ad', cat.categoryCode?.dataCode]">
           <div class="d-flex flex-column justify-content-center align-items-center">
             <img src="../../../assets/images/category/{{cat.image}}" [alt]="cat.image" class="img rounded" width="100"
                  height="100">
-            <a [routerLink]="['/tlims/ad', cat.categoryCode?.dataCode]"><span class="font-weight-semibold text-center f-14 text-ellipsis">{{cat.titleDescription?.title}}</span></a>
+            <span class="tk-bold text-center f-13">{{cat.titleDescription?.title}}</span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
-  </div>
+  </section>
+
+  <tlims-featured></tlims-featured>
+  <tlims-sponsored></tlims-sponsored>
+
+ <tlims-recommended></tlims-recommended>
+</main>
+
+
+<div class="carousel-wrapper">
+  <!--<div class="slider-wrapper">-->
+  <!--<ngx-slick-carousel class="carousel" [config]="slideConfig">-->
+  <!--<div ngxSlickItem *ngFor="let slide of slidess" class="slide">-->
+  <!--<img [src]="slide.img" alt="" class="img" height="400" width="100%">-->
+  <!--&lt;!&ndash;<div class="slider-image" [ngStyle]="{'background-image':'url(' + slide.img + ')'}"></div>&ndash;&gt;-->
+  <!--</div>-->
+  <!--</ngx-slick-carousel>-->
+  <!--</div>-->
+
+  <!--<div class="home-search-box">-->
+  <!--<div class="home-search-card">-->
+  <!--<h1 class="head-title">Welcome to The Largest <span class="year">Marketplace</span></h1>-->
+  <!--<p>Buy and sell everything from used cars to mobile phones and computers, or search for property, jobs and more</p>-->
+  <!--<tlims-search></tlims-search>-->
+  <!--</div>-->
+  <!--</div>-->
 </div>
 
-<div class="container">
-  <tlims-featured></tlims-featured>
-  <tlims-recommended></tlims-recommended>
-</div>
+
+
+<section class="tlims-postAds">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center text-white">
+        <h2 class="head-title tk-bold">Do you have something to sell?</h2>
+        <p class="hm-text">Post your ad for free on tlims-kech.com</p>
+        <a routerLink="/tlims/bo/post-ad" tlimsButton color="btn-warning">Post Your Ad</a>
+      </div>
+    </div><!-- row -->
+  </div>
+</section>
 

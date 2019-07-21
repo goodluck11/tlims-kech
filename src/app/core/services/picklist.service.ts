@@ -26,7 +26,6 @@ export class PickListService {
     return this.http.get(`${this.baseUrl}/categories`);
   }
 
-
   findByListType(listType) {
     return this.http.get(`${this.baseUrl}/findByPickListType/${listType}`);
   }

@@ -44,7 +44,9 @@ export const CATEGORY = {
       jewelry: 'fashion_jewelry',
       shoes: 'fashion_shoes',
       watches: 'fashion_watches',
-      wedding: 'fashion_wedding'
+      wedding: 'fashion_wedding',
+      kids: 'fashion_kids',
+      kids_access: 'fashion_kids_access'
     }
   },
   BEAUTY: {
@@ -79,10 +81,16 @@ export const CATEGORY = {
     }
   },
   VEHICLE: {
-    code: 'vehicles'
+    code: 'vehicles',
+    SUBCATEGORY: {
+      cars: 'cars',
+      heavy_equip: 'heavy_equip',
+      mcycles_scooter: 'mcycles_scooter',
+      watercrafts: 'watercrafts',
+      truck_trailer: 'truck_trailer'
+    }
   },
   JOB: {
     code: 'job'
   }
 };
-

@@ -1,17 +1,24 @@
-h1.title{
+.img-thumb {
   position: relative;
+  margin-left: 30px;
+  -webkit-transform: translateY(40px);
+  -moz-transform: translateY(40px);
+  transform: translateY(40px);
+}
 
-  //&:after {
-  //  content: "";
-  //  width: 100px;
-  //  height: 3px;
-  //  background: #1a75cf;
-  //  padding: 0;
-  //  position: absolute;
-  //  left: 45.6%;
-  //  //left: 50%;
-  //  //margin-left: -75px;
-  //  bottom: 0;
-  //  text-align: center;
-  //}
+.img-thumb img {
+  border: 3px solid #03A9F4;
+  border-radius: 50%;
+  width: auto;
+}
+
+.testimonial-item {
+  padding: 15px;
+  background: #fff;
+  border-radius: 0;
+  border: 1px solid #E6E6E6;
+}
+
+.testimonial-item .content {
+  padding: 50px 20px 15px;
 }

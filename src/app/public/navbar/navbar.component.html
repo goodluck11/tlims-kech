@@ -1,90 +1,39 @@
-<!-- Navbars wrapper -->
-<div class="fixed-top">
-  <!-- Main navbar -->
-  <div class="navbar tlims-bg-default navbar-expand-md">
-    <a class="navbar-brand text-warning-600 font-weight-bold" routerLink="/">TLims-Kech</a>
-    <div class="d-xl-none">
-      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar-mobile" aria-expanded="false">
-        <i class="fa fa-navicon"></i>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar-mobile">
-      <div class="navbar-nav mx-auto">
-        <div class="input-group input-group-sm">
-          <div class="input-group-prepend">
-            <select class="form-control form-control-sm">
-              <option selected value="all">All</option>
-              <option *ngFor="let cat of categories" [value]="cat.categoryCode?.dataCode">{{cat.titleDescription?.title}}</option>
-            </select>
-          </div>
-          <input type="search" class="form-control global-search" [placeholder]="'app.core.search' | translate">
-          <div class="input-group-prepend" [hidden]="true">
-            <button class="btn bg-white">
-              <i class="fa fa-remove"></i>
-            </button>
-          </div>
+<header class="tk-header">
+  <!-- Navbars wrapper -->
+  <div class="navbar tlims-bg-default">
+    <a class="navbar-brand text-white font-weight-bold" routerLink="/">TLims-Kech</a>
+    <ul class="navbar-nav ml-xl-auto align-items-center">
+      <li class="nav-item">
+        <select #lang (change)="changeLanguage(lang.value)" class="form-control simple font-weight-semibold" style="height: 2rem">
+          <option value="en" selected>EN</option>
+          <option value="fr">FR</option>
+          <option value="zh">ZH</option>
+        </select>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/tlims/all-ads" class="navbar-nav-link font-weight-semibold text-success-800">{{'app.core.allads' | translate}}</a>
+      </li>
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a routerLink="/tlims/sign-in" class="navbar-nav-link font-weight-semibold">{{'app.core.signin' | translate}}</a>
+      </li>
+      <li class="nav-item dropdown dropdown-user show" *ngIf="isLoggedIn">
+        <a href="javascript:void(0)" class="navbar-nav-link d-flex align-items-center" data-toggle="dropdown"
+           aria-expanded="true">
+          <img src="./assets/images/face18.jpg" class="rounded-circle mr-2" height="34" alt="">
+          <span>{{activeUser}}</span>
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a [routerLink]="APP_URL.bo?.user?.profile" class="dropdown-item"><i class="ti-user"></i> {{'app.core.profile' | translate}}</a>
+          <a href="javascript:void(0)" class="dropdown-item" (click)="logout()"><i class="ti-power-off"></i> {{'app.core.logout' | translate}}</a>
         </div>
-      </div>
-      <!--<ul class="navbar-nav mx-auto">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink="/tlims">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="javascript:void(0)">Action</a>
-            <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="javascript:void(0)" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>-->
-
-      <ul class="navbar-nav ml-xl-auto align-items-center">
-        <li class="nav-item">
-          <select #lang (change)="changeLanguage(lang.value)" class="form-control simple custom-select font-weight-bold" style="height: 2rem">
-            <option value="en" selected>EN</option>
-            <option value="fr">FR</option>
-            <option value="zh">ZH</option>
-          </select>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/tlims/all-ads" class="navbar-nav-link font-weight-bold text-success-800">{{'app.core.allads' | translate}}</a>
-        </li>
-        <li class="nav-item" *ngIf="!isLoggedIn">
-          <a routerLink="/tlims/sign-in" class="navbar-nav-link font-weight-bold">{{'app.core.signin' | translate}}</a>
-        </li>
-        <li class="nav-item dropdown dropdown-user show" *ngIf="isLoggedIn">
-          <a href="javascript:void(0)" class="navbar-nav-link d-flex align-items-center" data-toggle="dropdown"
-             aria-expanded="true">
-            <img src="./assets/images/face18.jpg" class="rounded-circle mr-2" height="34" alt="">
-            <span>{{activeUser}}</span>
-          </a>
-
-          <div class="dropdown-menu dropdown-menu-right">
-            <a [routerLink]="APP_URL.bo?.user?.profile" class="dropdown-item"><i class="ti-user"></i> {{'app.core.profile' | translate}}</a>
-            <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-coins"></i> My balance</a>-->
-            <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span-->
-              <!--class="badge badge-pill bg-blue ml-auto">58</span></a>-->
-            <!--<div class="dropdown-divider"></div>-->
-            <!--<a href="javascript:void(0)" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>-->
-            <a href="javascript:void(0)" class="dropdown-item" (click)="logout()"><i class="ti-power-off"></i> {{'app.core.logout' | translate}}</a>
-          </div>
-        </li>
-        <li class="nav-item post-link">
-          <a routerLink="/tlims/bo/post-ad" class="btn btn-warning text-white btn-sm">{{'app.core.postad' | translate}}</a>
-        </li>
-      </ul>
-    </div>
+      </li>
+      <li class="nav-item post-link">
+        <a routerLink="/tlims/bo/post-ad" class="btn btn-warning text-white btn-sm">{{'app.core.postad' | translate}}</a>
+      </li>
+    </ul>
   </div>
-  <!-- /main navbar -->
-</div>
-<!-- /navbars wrapper -->
+  <!-- /navbars wrapper -->
+</header>
+
+

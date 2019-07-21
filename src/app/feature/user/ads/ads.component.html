@@ -21,10 +21,13 @@
         <td>{{(d.price?.value) ? d.price?.value : 'N/A'}}</td>
         <td>{{d.createdDate | date: 'dd-MMM-yy'}}</td>
         <td>{{d.status}}</td>
-        <td>{{d.authorized}}</td>
+        <td>
+          <span class="badge badge-success" *ngIf="d.authorized">Authorized</span>
+          <span class="badge badge-danger" *ngIf="!d.authorized">Not Authorized</span>
+        </td>
       </tr>
       </tbody>
     </table>
-    <div class="alert text-center" *ngIf="ads?.length <= 0">No Ad Created Yet</div>
+    <div class="alert text-center" *ngIf="ads?.length <= 0">No Ads Created Yet</div>
   </div>
 </div>

@@ -41,6 +41,8 @@ import { FaqComponent } from './public/static/faq/faq.component';
 import { PrivacyComponent } from './public/static/privacy/privacy.component';
 import { TermsComponent } from './public/static/terms/terms.component';
 import { ContactComponent } from './public/static/contact/contact.component';
+import { SponsoredComponent } from './public/views/viewComponents/sponsored/sponsored.component';
+import { VerificationComponent } from './public/register/verification/verification.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
@@ -74,7 +76,9 @@ export function createTranslateLoader(http: HttpClient) {
     FaqComponent,
     PrivacyComponent,
     TermsComponent,
-    ContactComponent
+    ContactComponent,
+    SponsoredComponent,
+    VerificationComponent
   ],
   imports: [
     BrowserModule,

@@ -1,28 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~swiper/dist/css/swiper.min.css';
+@import "assets/variables/typography";
 
 html{
-  font-family: sans-serif;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 body {
   overflow-x: hidden;
   overflow-y: auto;
-  //background: url("assets/images/wallpaper/bg1.jpg");
   background-size: contain;
-  //background-color: #ffffff;
-  background-color: #f5f5f5;
-  font-family: 'Roboto', sans-serif !important;
-  font-weight: 400;
-  font-size: 0.855rem;
+  background-color: #f9f9f9;
+  font-family: 'Quicksand', sans-serif !important;
+  font-weight: 500;
+  font-size: 0.825rem;
   color: #4a4a4a;
   outline: 0 !important;
   letter-spacing: .01428571em;
+  -moz-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
 }
 
-.fixed-top {
-  z-index: 1000;
+.tk-row2 {
+  background: #fff;
+  padding-top: 30px;
+  padding-bottom: 100px;
+}
+
+.tk-row3 {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.animated {
+  -webkit-animation-duration: .2s;
+  animation-duration: .2s;
+}
+
+.tk-bold {
+  font-weight: 700 !important;
+}
+
+.tk-heading {
+  margin-bottom: 30px;
+  position: relative;
+  h3 {
+    font-size: 22px;
+
+    &:before {
+      background-color: #ff7043;
+      bottom: 6px;
+      content: "";
+      height: 1px;
+      left: 0;
+      margin: 0;
+      position: absolute;
+      right: 0;
+      width: 99px;
+    }
+
+    &:after {
+      background-color: #242424;
+      bottom: 0;
+      content: "";
+      height: 1px;
+      left: 0;
+      margin: 0;
+      position: absolute;
+      right: 0;
+      width: 59px;
+    }
+  }
+}
+
+.flexbox {
+  display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
 }
 
 .navbar-md-md-top {
@@ -30,7 +88,7 @@ body {
 }
 
 .tlims-bg-default {
-  background-color: #0f0373;
+  background-color: #374252;
 }
 
 .page-title {
@@ -80,7 +138,7 @@ body {
 }
 
 .card{
-  border-radius: 0 !important;
+  border-radius: 2px !important;
   box-shadow: none;
   border: none;
 }
@@ -93,7 +151,7 @@ body {
 }
 
 .card-img {
-  border-radius: 0 !important;
+  border-radius: 2px 2px 0 0 !important;
 }
 
 .tlims-card {
@@ -111,6 +169,8 @@ body {
   white-space: nowrap;
 }
 
+
+
 .tlims-fill {
   height: 100%;
   margin: 0px;
@@ -125,6 +185,47 @@ body {
   align-items: center;
 }
 
+.custom-control-label::before {
+  background: #cdc8c8;
+}
+
+.btn-xs {
+  line-height: 1 !important;
+  padding: .3125rem .25rem !important;
+}
+
+.btn-sm {
+  padding: .3125rem .5rem;
+}
+
+.btn-success {
+  background: #00a591;
+
+  &:hover {
+    background: #008C77;
+    color: #fff;
+  }
+}
+
+.card-body {
+  position: relative;
+}
+
+.item-title {
+  margin-bottom: 25px;
+  padding-top: 10px;
+}
+
+.info-title {
+  padding-bottom: 5px;
+
+  h5 {
+    display: inline-block;
+    margin-bottom: 0;
+    color: #333;
+  }
+}
+
 .nav-btn {
   height: 47px;
   position: absolute;
@@ -135,6 +236,10 @@ body {
 
 .box-shadow-none{
   box-shadow: none !important;
+}
+
+.tk-box-shadow {
+  box-shadow: 0px 0px 10px rgba(175, 175, 175, 0.23);
 }
 
 .border-radius-0 {
@@ -160,6 +265,10 @@ a {
 
 .f-13{
   font-size: 13px;
+}
+
+.f-16{
+  font-size: 16px;
 }
 
 .f-14{

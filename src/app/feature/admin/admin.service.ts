@@ -10,8 +10,12 @@ export class AdminService {
   constructor(private http: HttpClient) {
   }
 
-  authorizeAd(id) {
-    return this.http.get(`${this.baseUrl}/ads/activate/${id}`);
+  rejectAd(data) {
+    return this.http.post(`${this.baseUrl}/ads/rejectAd`, data);
+  }
+
+  approveAd(data) {
+    return this.http.post(`${this.baseUrl}/ads/approveAd`, data);
   }
 
   pendingAds(data) {

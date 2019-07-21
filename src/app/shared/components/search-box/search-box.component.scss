@@ -1,14 +1,37 @@
-.page-header{
-  background-image: url("../../../../assets/images/wallpaper/panel_bg.png");
-  background-size: contain;
-  //background-color: #0e3357;
-  height: 60px;
+.search-box {
+  background-image: url("../../../../assets/images/bg-2-2.png");
+  background-color: #2a2f36;
+  background-size: cover;
+  color: #fff;
+  padding: 40px 0 90px;
+}
+
+.search-box-inner {
+  padding: 30px 15px;
+  margin-top: -50px;
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 -12px 10px 0px rgba(42, 47, 54, 0.3);
+  position: relative;
+  z-index: 2;
+  background: #f8f8f8;
+}
+
+.h4-size {
+  font-size: 25px;
+  font-weight: 700;
   margin-bottom: 0;
 }
 
+.breadcrumb-item {
+  padding: 0;
+  color: #fff;
+  font-size: 12px;
+}
+
+.breadcrumb-item, a {
+  color: #fff;
+}
 
 @media (max-width: 768px) {
-  .page-header{
-    height: auto;
-  }
+
 }

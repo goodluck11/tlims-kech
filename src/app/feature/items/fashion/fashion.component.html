@@ -25,13 +25,13 @@
         </tlims-checkbox>
       </tlims-form-group>
     </div>
-    <div class="col-md-6" *ngIf="isField1 || isField3">
+    <div class="col-md-6" *ngIf="isField1 || isField3 || isField6">
       <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
-        <select tlimsInput formControlName="subCatType">
+        <select tlimsInput formControlName="subCatType" (change)="displayKidsFields()">
           <option [ngValue]="null">--Select Item Type--</option>
           <option *ngFor="let iType of itemTypes" [ngValue]="iType">{{iType.name}}</option>
         </select>
-        <tlims-form-error [control]="fForm.get('subCatType')"></tlims-form-error>
+        <tlims-form-error [control]="fForm.get('subCatType')" label="Item Type"></tlims-form-error>
       </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField2 || isField4 || isField5">
@@ -85,7 +85,7 @@
         </select>
       </tlims-form-group>
     </div>
-    <div class="col-md-12" *ngIf="isField3 || isField5">
+    <div class="col-md-12" *ngIf="isField3 || isField5 || isField7">
       <tlims-form-group label="Color">
         <div class="row w-100">
           <div class="col-md-3" *ngFor="let mat of colors; index as i">
@@ -152,7 +152,7 @@
         </div>
       </tlims-form-group>
     </div>
-    <div class="col-md-12" *ngIf="isField2 || isField4">
+    <div class="col-md-12" *ngIf="isField2 || isField4 || isField7">
       <tlims-form-group label="Size">
         <div class="row w-100">
           <div class="col" *ngFor="let cs of sizes; index as i">
@@ -171,6 +171,7 @@
           <option [ngValue]="null">--Select Style--</option>
           <option *ngFor="let sty of styles" [ngValue]="sty">{{sty.name}}</option>
         </select>
+        <tlims-form-error [control]="fForm.get('fashionStyleTemp')" label="Style"></tlims-form-error>
       </tlims-form-group>
     </div>
     <div class="col-md-6">

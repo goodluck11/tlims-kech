@@ -61,6 +61,7 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     if (!isNaN(this.dataId)) {
       this.blockUI.start('Loading details');
       this.coreService.getAd(this.dataId).pipe(untilDestroyed(this)).subscribe((data: any) => {
+        console.log(data);
         if (data) {
           this.ad = data;
           this.selectedImg = this.baseUrl + this.ad.images[0];
