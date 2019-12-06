@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 
 @Injectable()
 export class SharedService {
@@ -8,7 +8,7 @@ export class SharedService {
   $sharedModel = new BehaviorSubject<boolean>(this.authService.isLoggedIn());
   messages = this.$sharedModel.asObservable();
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthenticationService) {
   }
 
   broadCast(data) {

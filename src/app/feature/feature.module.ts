@@ -12,7 +12,6 @@ import {PasswordFormComponent} from './user/password-form/password-form.componen
 import {ProfileComponent} from './user/profile/profile.component';
 import {ProfileEditComponent} from './user/profile-edit/profile-edit.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {FeatureHomeComponent} from './feature-home/feature-home.component';
 import {ElectronicsComponent} from './items/electronics/electronics.component';
 import {FashionComponent} from './items/fashion/fashion.component';
 import {BeautyHealthComponent} from './items/beauty-health/beauty-health.component';
@@ -27,7 +26,6 @@ import {AdminHomeComponent} from './admin/admin-home/admin-home.component';
 import {AdminService} from 'feature/admin/admin.service';
 import {UserService} from './user/user.service';
 import {ItemService} from 'feature/items/item.service';
-import {UserHomeComponent} from './user/user-home/user-home.component';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from 'core/interceptor/auth.interceptor';
 import {ManageAdsComponent} from './admin/manage-ads/manage-ads.component';
@@ -35,7 +33,12 @@ import {AdHistoryComponent} from 'feature/admin/ad-history/ad-history.component'
 import {ContactComponent} from './items/contact/contact.component';
 import {UserMessagesComponent} from './user/user-messages/user-messages.component';
 import {JobComponent} from './items/job/job.component';
-import { ContactsComponent } from './admin/contacts/contacts.component';
+import {ContactsComponent} from './admin/contacts/contacts.component';
+import { ServicesComponent } from './items/services/services.component';
+import { GardenComponent } from './items/garden/garden.component';
+import { RealEstateComponent } from './items/real-estate/real-estate.component';
+import { PetComponent } from './items/pet/pet.component';
+import { DeclinedAdsComponent } from './admin/declined-ads/declined-ads.component';
 
 @NgModule({
   imports: [
@@ -44,11 +47,11 @@ import { ContactsComponent } from './admin/contacts/contacts.component';
     SharedModule
   ],
   declarations: [UsersComponent, PickListComponent, CategoryComponent, PendingAdsComponent, FavoritesComponent, AdsComponent,
-    PasswordFormComponent, ProfileComponent, ProfileEditComponent, DashboardComponent, FeatureHomeComponent,
+    PasswordFormComponent, ProfileComponent, ProfileEditComponent, DashboardComponent,
     ElectronicsComponent, FashionComponent, BeautyHealthComponent, CommercialComponent, AdComponent,
     MobileComponent, VehicleComponent, RepairComponent, CategoryViewComponent, ItemsHomeComponent,
-    AdminHomeComponent, UserHomeComponent, AdHistoryComponent, ManageAdsComponent, ContactComponent,
-    UserMessagesComponent, JobComponent, ContactsComponent],
+    AdminHomeComponent, AdHistoryComponent, ManageAdsComponent, ContactComponent,
+    UserMessagesComponent, JobComponent, ContactsComponent, ServicesComponent, GardenComponent, RealEstateComponent, PetComponent, DeclinedAdsComponent],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     AdminService, UserService, ItemService]

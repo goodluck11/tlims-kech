@@ -21,13 +21,13 @@
         <tlims-tool-box></tlims-tool-box>
         <div class="row">
           <ng-container *ngIf="viewType === 'GRID'">
-            <div class="col-md-3" *ngFor="let ad of ads">
-              <tlims-grid [ad]="ad"></tlims-grid>
+            <div class="col-md-4" *ngFor="let ad of ads">
+              <tlims-grid [ad]="ad" (favorite)="addFavorites(ad)"></tlims-grid>
             </div>
           </ng-container>
           <ng-container *ngIf="viewType === 'LIST'">
             <div class="col-md-12 col-sm-12 col-12">
-              <tlims-media *ngFor="let ad of ads" [ad]="ad"></tlims-media>
+              <tlims-media *ngFor="let ad of ads" [ad]="ad" (favorite)="addFavorites(ad)"></tlims-media>
             </div>
           </ng-container>
         </div>

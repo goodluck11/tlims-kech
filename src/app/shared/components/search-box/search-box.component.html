@@ -3,20 +3,16 @@
     <div class="d-flex">
       <div class="flex-grow-1">
         <h1 class="h4-size">{{title | translate}}</h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" *ngIf="withBreadCrumb">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
           <li class="breadcrumb-item active" aria-current="page">Library</li>
         </ol>
       </div>
     </div>
-    <!--<div class="search-box-inner">
-      <tlims-search></tlims-search>
-    </div>-->
   </div>
 </div>
-<div class="container" *ngIf="withBreadCrumb">
+<div class="container" *ngIf="withSearch">
   <div class="search-box-inner">
     <tlims-search></tlims-search>
   </div>
 </div>
-<!--<tlims-breadcrumb *ngIf="withBreadCrumb"></tlims-breadcrumb>-->

@@ -1,23 +1,43 @@
 <div class="search-card">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="form-group">
-        <select class="form-control">
-          <option value="0">Vehicles</option>
-          <option value="1">Electronics</option>
-          <option value="2">Mobile Phone & Laptops</option>
+        <select class="form-control" [formControl]="categoryControl">
+          <option value="all">All</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat.categoryCode?.dataCode">{{cat.titleDescription?.title}}</option>
         </select>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <input type="search" class="form-control" placeholder="Search">
+    <div class="col-md-8">
+      <div class="input-group">
+        <input type="search" class="form-control" cdkOverlayOrigin #trigger="cdkOverlayOrigin" placeholder="What are you looking for?" [formControl]="searchControl">
+        <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen"
+                     (backdropClick)="isOpen = false" [cdkConnectedOverlayHasBackdrop]="true"
+        [cdkConnectedOverlayPanelClass]="'overlay-position-absolute'">
+          <div class="search-result" role="dialog" aria-labelledby="Search Results">
+            <div *ngIf="categories.length === 0" class="alert text-center">
+              No result found
+            </div>
+            <ng-container *ngIf="categories.length > 0">
+              <h6 class="font-weight-bold">Search Results</h6>
+              <div class="d-flex flex-column">
+                <ng-container *ngFor="let ad of ads">
+                  <p class="d-flex justify-content-between py-2 px-1 mb-0" (mouseenter)="highlight = ad.id;" (mouseleave)="highlight = ''"
+                     [ngClass]="{'bg-light': highlight === ad.id}">
+                    <a [routerLink]="[routerLink, ad.id, ad.titleDescription?.title, ad.code]" class="font-weight-bold"
+                      (click)="isOpen = false"
+                    >{{ad.titleDescription?.title}}</a>
+                    <span class="pl-3 d-md-block d-none">{{ad.category?.name}}</span>
+                  </p>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </ng-template>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <input type="search" class="form-control" placeholder="What are you looking for?">
-      </div>
+      <ng-container *ngIf="isLoading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </ng-container>
     </div>
   </div>
 </div>

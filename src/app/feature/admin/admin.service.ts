@@ -22,6 +22,22 @@ export class AdminService {
     return this.http.post(`${this.baseUrl}/ads/pendingAds`, data);
   }
 
+  declinedAds(data) {
+    return this.http.post(`${this.baseUrl}/ads/declinedAds`, data);
+  }
+
+  activateOrDeactivateAd(data) {
+    return this.http.post(`${this.baseUrl}/ads/activateOrDeactivate`, data);
+  }
+
+  featuredOrNot(data) {
+    return this.http.post(`${this.baseUrl}/ads/featuredOrNot`, data);
+  }
+
+  sponsoredOrNot(data) {
+    return this.http.post(`${this.baseUrl}/ads/sponsoredOrNot`, data);
+  }
+
   adHistory(data) {
     return this.http.post(`${this.baseUrl}/ads/adHistory`, data);
   }

@@ -29,12 +29,12 @@
     </div>
   </div>
   <div class="h-secondary">
-    <ul class="d-flex flex-row align-items-end list-unstyled mb-0">
+    <ul class="d-flex flex-row align-items-center list-unstyled mb-0">
       <li>
-        <span class="card-title font-weight-normal mr-2">{{'app.core.showingitems' | translate}} 1 - {{selectTag.value}}</span>
+        <span class="card-title font-weight-normal mr-2 mt-2">{{'app.core.showingitems' | translate}} 1 - {{selectTag.value}}</span>
       </li>
       <li class="mr-1">
-        <span class="card-title font-weight-normal">{{'app.core.display' | translate}}: </span>
+        <span class="card-title font-weight-normal mt-2">{{'app.core.display' | translate}}: </span>
       </li>
       <li class="mr-2"><a [routerLink]="url" [queryParams]="{'view': 'LIST'}" queryParamsHandling="merge"
              class="font-weight-bold"><i class="material-icons">format_list_bulleted</i></a></li>

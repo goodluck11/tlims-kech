@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {SlideConfigService} from 'core/services/slide-config.service';
 
 @Component({
   selector: 'tlims-recommended',
@@ -30,17 +32,24 @@ export class RecommendedComponent implements OnInit {
     }
   ];
 
-  slideConfigs = {
-    'slidesToShow': 4,
-    'slidesToScroll': 1,
-    'infinite': true,
-    'autoplay': true,
-    'arrows': false
-  };
+  slideConfigs: any;
 
-  constructor() { }
+  constructor(private breakpointObserver: BreakpointObserver,
+              private slideConfigService: SlideConfigService) { }
 
   ngOnInit() {
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.HandsetPortrait])
+      .subscribe((state: BreakpointState) => {
+        const defaultVal = this.slideConfigService.getDefaultConfig();
+        if (state.breakpoints['(max-width: 599.99px) and (orientation: portrait)']) {
+          defaultVal.slidesToShow = 1;
+        }
+        if (state.breakpoints['(min-width: 600px) and (max-width: 959.99px)']) {
+          defaultVal.slidesToShow = 2;
+        }
+        this.slideConfigs = defaultVal;
+      });
   }
 
 }

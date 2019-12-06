@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {ToastrService} from 'ngx-toastr';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isSuccess = false;
   userEmail: string;
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthService,
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthenticationService,
               private router: Router) {
   }
 

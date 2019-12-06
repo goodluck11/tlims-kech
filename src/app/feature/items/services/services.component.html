@@ -1,0 +1,58 @@
+<form [formGroup]="sForm" novalidate>
+  <div class="row">
+    <div class="col-md-6">
+      <div formGroupName="subCategory">
+        <tlims-form-group label="Subcategory">
+          <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
+            <option *ngFor="let subCat of subCategories"
+                    [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div formGroupName="titleDescription">
+        <tlims-form-group label="Title">
+          <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-error [control]="sForm.get('titleDescription').get('title')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check mt-4">
+        <label class="form-check-label">
+          <input type="checkbox" formControlName="contactForPrice" (click)="contactForPriceFg($event.target.checked)"> Contact For Price
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="!this.sForm.get('contactForPrice').value">
+      <tlims-form-group label="Price">
+        <tlims-amount formControlName="price"></tlims-amount>
+        <tlims-form-error [control]="sForm.get('price')"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check mt-4">
+        <label class="form-check-label">
+          <input type="checkbox" formControlName="negotiable"> Negotiable
+        </label>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div formGroupName="titleDescription">
+        <tlims-description-box formControlName="description"></tlims-description-box>
+        <tlims-form-error [control]="sForm.get('titleDescription').get('description')"></tlims-form-error>
+      </div>
+    </div>
+  </div>
+  <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
+  <tlims-contact-form (contactDetails)="getContact($event)"></tlims-contact-form>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group text-center">
+        <button [tlimsButton]="isLoading" (click)="create()" [disabled]="sForm.invalid">Save</button>
+        <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</form>

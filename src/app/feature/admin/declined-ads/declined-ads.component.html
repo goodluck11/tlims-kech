@@ -1,0 +1,117 @@
+<div class="card">
+  <div class="card-body pt-0">
+    <div class="row justify-content-end pb-3">
+      <div class="col-md-4">
+        <input class="form-control form-control-sm" [formControl]="searchField" placeholder="Search">
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table tlimsTable>
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let d of ads; trackBy: trackByFn; index as i">
+          <td>{{i + 1}}</td>
+          <td>
+            <div class="d-flex flex-column">
+              <span class="mb-1 font-weight-bold">{{d.titleDescription?.title}}</span>
+              <span><strong class="font-size-sm">Category:</strong> {{d.category?.name}}</span>
+              <span><strong class="font-size-sm">Created By:</strong> {{d.createdBy}}</span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex flex-column">
+              <span><strong class="font-size-sm">Price:</strong> {{d.price?.value}}</span>
+              <span><strong class="font-size-sm">Date Created:</strong> {{d.createdDate | date: 'dd-MMM-yy'}}</span>
+            </div>
+          </td>
+          <td>{{d.status}}</td>
+          <td>
+            <button tlimsButton (click)="onApprove(d)" class="btn-xs">Approve</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <ngx-loading-bar *ngIf="isDataLoading"></ngx-loading-bar>
+      <div class="alert text-center" *ngIf="ads?.length <= 0">No declined ad</div>
+    </div>
+  </div>
+</div>
+
+<tlims-modal [dismissAble]="true" (close)="isModal = $event" [visible]="isModal" size="medium">
+  <!--APPROVAL STARTS-->
+  <div class="row" *ngIf="!isReject">
+    <div class="col-md-12">
+      <h5 class="tk-bold">{{singleAd.titleDescription?.title}}</h5>
+
+      <tlims-detail label="Category">{{singleAd.category?.name}}</tlims-detail>
+      <tlims-detail label="Subcategory">{{singleAd.subCategory?.name}}</tlims-detail>
+      <tlims-detail label="Brand" *ngIf="singleAd.brand">{{singleAd.brand?.name}}</tlims-detail>
+      <tlims-detail label="Item Type" *ngIf="singleAd.subCatType">{{singleAd.subCatType?.name}}</tlims-detail>
+      <tlims-detail label="Price" *ngIf="singleAd.price">{{singleAd.price?.value}}</tlims-detail>
+      <tlims-detail label="Description">
+        <p [innerHTML]="singleAd.titleDescription?.description | sanitize"></p>
+      </tlims-detail>
+
+      <div class="form-group text-center text-muted content-divider">
+        <span class="px-2">{{'app.core.contact' | translate}}</span>
+      </div>
+
+      <ng-container *ngIf="singleAd.primaryContact">
+        <tlims-detail label="Name">{{singleAd.primaryContact?.name}}</tlims-detail>
+        <tlims-detail label="Phone Number">{{singleAd.primaryContact?.phoneNumber}}</tlims-detail>
+        <tlims-detail label="Email" *ngIf="singleAd.brand">{{singleAd.primaryContact?.email}}</tlims-detail>
+      </ng-container>
+
+      <div class="form-group pt-3">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="subscribe" (change)="changeContact = !changeContact" required>
+          <label class="custom-control-label" for="subscribe">{{'app.core.changecontactperson' | translate}}</label>
+        </div>
+      </div>
+
+      <form [formGroup]="cForm" novalidate *ngIf="changeContact">
+        <div class="row">
+          <div class="col-md-6">
+            <div formGroupName="primaryContact">
+              <tlims-form-group label="Name">
+                <input tlimsInput formControlName="name"/>
+                <tlims-form-error [control]="cForm.get('primaryContact').get('name')"></tlims-form-error>
+              </tlims-form-group>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div formGroupName="primaryContact">
+              <tlims-form-group label="Phone Number">
+                <input tlimsInput formControlName="phoneNumber"/>
+                <tlims-form-error [control]="cForm.get('primaryContact').get('phoneNumber')"></tlims-form-error>
+              </tlims-form-group>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div formGroupName="primaryContact">
+              <tlims-form-group label="Email">
+                <input tlimsInput formControlName="email"/>
+                <tlims-form-error [control]="cForm.get('primaryContact').get('email')"></tlims-form-error>
+              </tlims-form-group>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="form-group text-right">
+        <button [tlimsButton]="isLoading" [disabled]="cForm.invalid" btnText="Approving..." (click)="approveAd()">
+          <i class="fa fa-check mr-2"></i>Approve</button>
+        <button tlimsButton color="btn-default" [disabled]="isLoading" (click)="cancel()"><i class="lni-close mr-2"></i>Cancel</button>
+      </div>
+    </div>
+  </div>
+  <!--APPROVAL ENDS-->
+</tlims-modal>

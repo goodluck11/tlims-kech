@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {User} from 'core/model/user';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 import {Location} from '@angular/common';
 
 @Component({
@@ -14,7 +14,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   user: User = new User();
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private location: Location) {
+  constructor(private fb: FormBuilder, private authService: AuthenticationService, private location: Location) {
   }
 
   ngOnInit() {

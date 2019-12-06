@@ -61,6 +61,18 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     return d.id;
   }
 
+  addFavorites(data) {
+    this.blockUI.start('Adding ad to favorites...');
+    this.coreService.addFavorite({'postId': data.id}).pipe(untilDestroyed(this)).subscribe((res) => {
+      if (res) {
+        this.toastr.success(String(res));
+      }
+    }, (err) => {
+      this.toastr.error('Error adding ad to favorite');
+      this.blockUI.stop();
+    });
+  }
+
   getCategories(cat) {
     this.categoryCode = cat.categoryCode.dataCode;
   }

@@ -15,11 +15,22 @@
       <tbody>
       <tr *ngFor="let d of users; trackBy: trackByFn; index as i">
         <td>{{i + 1}}</td>
-        <td>{{d.firstName + ' ' +d.lastName}}</td>
+        <td>{{d.firstName + ' ' + d.lastName}}</td>
         <td>{{d.email}}</td>
         <td>{{d.phoneNumber}}</td>
         <td>{{d.status}}</td>
-        <td></td>
+        <td>
+          <div class="list-icons">
+            <div class="dropdown">
+              <a href="#" class="list-icons-item" data-toggle="dropdown" aria-expanded="false">
+                <i class="material-icons">more_vert</i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
+                <a href="#" class="dropdown-item">Activate</a>
+              </div>
+            </div>
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>

@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeatureHomeComponent implements OnInit {
 
+  sideBarVisible = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggle($event) {
+    this.sideBarVisible = $event;
   }
 
 }

@@ -1,5 +1,5 @@
 import {Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 import {CoreService} from 'core/services/core.service';
 import {ToastrService} from 'ngx-toastr';
 import {untilDestroyed} from 'ngx-take-until-destroy';
@@ -14,7 +14,7 @@ export class FavoriteDirective implements OnInit, OnDestroy {
   checked = '<i class="fa fa-heart"></i>';
   unChecked = '<i class="fa fa fa-heart-o"></i>';
 
-  constructor(private authService: AuthService, private coreService: CoreService, private toastr: ToastrService,
+  constructor(private authService: AuthenticationService, private coreService: CoreService, private toastr: ToastrService,
               private el: ElementRef, private renderer: Renderer2) {
   }
 

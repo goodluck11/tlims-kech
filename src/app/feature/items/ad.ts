@@ -14,6 +14,7 @@ export class Ad extends BaseModel {
   authorized: boolean;
   featured: boolean;
   archived: boolean;
+  sponsored: boolean;
   amount: string;
   brands: string;
   contact: Contact = new Contact();

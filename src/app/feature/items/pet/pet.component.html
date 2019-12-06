@@ -1,0 +1,93 @@
+<form [formGroup]="pForm" novalidate>
+  <div class="row">
+    <div class="col-md-6">
+      <div formGroupName="subCategory">
+        <tlims-form-group label="Subcategory">
+          <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
+            <option *ngFor="let subCat of subCategories"
+                    [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div formGroupName="titleDescription">
+        <tlims-form-group label="Title">
+          <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-error [control]="pForm.get('titleDescription').get('title')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="isField1 || isField3">
+      <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
+        <select tlimsInput formControlName="subCatType" (change)="populateCodeValueName('subCatType')">
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option *ngFor="let iType of itemTypes"
+                  [value]="iType">{{iType.name}}</option>
+        </select>
+        <tlims-form-error [control]="pForm.get('subCatType')" label="Item Type"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField2">
+      <tlims-form-group label="Breed">
+        <select tlimsInput formControlName="breed">
+          <option [ngValue]="null">--Select Breed--</option>
+          <option *ngFor="let col of breeds" [ngValue]="col.name">{{col.name}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField2">
+      <tlims-form-group label="Breed Type">
+        <select tlimsInput formControlName="breedType">
+          <option [ngValue]="null">--Select Breed Type--</option>
+          <option *ngFor="let col of breedTypes" [ngValue]="col.value">{{col.value}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField1 || isField2">
+      <tlims-form-group label="Gender">
+        <select tlimsInput formControlName="gender">
+          <option [ngValue]="null">--Select Gender--</option>
+          <option *ngFor="let col of genders" [ngValue]="col.name">{{col.value}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField1 ||isField2">
+      <tlims-form-group label="Age">
+        <select tlimsInput formControlName="age">
+          <option [ngValue]="null">--Select Age--</option>
+          <option *ngFor="let col of ages" [ngValue]="col.value">{{col.value}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <tlims-form-group label="Price">
+        <tlims-amount formControlName="price"></tlims-amount>
+        <tlims-form-error [control]="pForm.get('price')"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check mt-4">
+        <label class="form-check-label">
+          <input type="checkbox" formControlName="negotiable"> Negotiable
+        </label>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div formGroupName="titleDescription">
+        <tlims-description-box formControlName="description"></tlims-description-box>
+        <tlims-form-error [control]="pForm.get('titleDescription').get('description')"></tlims-form-error>
+      </div>
+    </div>
+  </div>
+  <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
+  <tlims-contact-form (contactDetails)="getContact($event)"></tlims-contact-form>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group text-center">
+        <button [tlimsButton]="isLoading" (click)="create()" [disabled]="pForm.invalid">Save</button>
+        <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</form>

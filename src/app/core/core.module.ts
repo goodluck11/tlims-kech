@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from 'shared/shared.module';
-import {AuthService} from './services/auth.service';
+import {AuthenticationService} from './services/auth.service';
 import {StorageService} from './services/storage.service';
 import {FileService} from './services/file.service';
 import {CategoryService} from 'core/services/category.service';
@@ -19,7 +19,7 @@ import {SharedService} from 'core/services/shared.service';
   ],
   declarations: [],
   providers: [
-    AuthService, StorageService, FileService, CategoryService, CategoryResolver, CoreService,
+    AuthenticationService, StorageService, FileService, CategoryService, CategoryResolver, CoreService,
     PickListService, ColorResolver, SubcategoryResolver, AuthGuard, BrandResolver,
     SharedService]
 })

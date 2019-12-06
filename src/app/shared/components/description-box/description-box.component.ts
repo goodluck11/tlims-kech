@@ -41,6 +41,9 @@ export class DescriptionBoxComponent implements OnInit, ControlValueAccessor {
       minHeight: '5rem',
       enableToolbar: true,
       showToolbar: this.showToolbar,
+      toolbar: [
+        ['bold', 'italic', 'underline', 'orderedList', 'unorderedList']
+      ]
     };
   }
 

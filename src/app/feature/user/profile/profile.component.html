@@ -1,12 +1,10 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-3">
-      <tlims-user-home></tlims-user-home>
-    </div>
-    <div class="col-md-9">
+<tlims-search-box title="Profile" [withBreadCrumb]="false" [withSearch]="false"></tlims-search-box>
+<tlims-content>
+  <div class="row justify-content-start">
+    <div class="col-md-8">
       <div class="card">
-        <div class="card-header ">
-          <h4 class="font-weight-bold">Profile</h4>
+        <div class="card-header">
+          <h6 class="font-weight-bold">Edit Account</h6>
         </div>
         <div class="card-body">
           <div class="row justify-content-center">
@@ -32,11 +30,7 @@
           </div>
         </div>
       </div>
-
       <tlims-password-form></tlims-password-form>
-
     </div>
   </div>
-</div>
-
-
+</tlims-content>

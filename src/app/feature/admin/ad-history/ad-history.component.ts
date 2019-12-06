@@ -7,6 +7,7 @@ import {SearchRequest} from 'core/model/search-request';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
+import {Ad} from 'feature/items/ad';
 
 @Component({
   selector: 'tlims-ad-history',
@@ -15,7 +16,7 @@ import {of} from 'rxjs/observable/of';
 })
 export class AdHistoryComponent implements OnInit, OnDestroy {
 
-  ads: Array<any> = [];
+  ads: Array<Ad> = [];
   isLoading = false;
   searchTerm = '';
   query: Paging = new Paging();
@@ -45,6 +46,38 @@ export class AdHistoryComponent implements OnInit, OnDestroy {
       this.toastr.error('Error loading ads');
       this.isLoading = false;
     });
+  }
+
+  toggleAction(actionName, data) {
+    const sponsored = this.adminService.sponsoredOrNot(data);
+    const featured = this.adminService.featuredOrNot(data);
+    const status = this.adminService.activateOrDeactivateAd(data);
+
+    switch (actionName) {
+      case 'status':
+        status.pipe(untilDestroyed(this)).subscribe((res) => {
+          this.handleResult(res);
+        });
+        break;
+      case 'featured':
+        featured.pipe(untilDestroyed(this)).subscribe((res) => {
+          this.handleResult(res);
+        });
+        break;
+      case 'sponsored':
+        sponsored.pipe(untilDestroyed(this)).subscribe((res) => {
+          this.handleResult(res);
+        });
+        break;
+    }
+  }
+
+  handleResult(res) {
+    console.log(res);
+    if ('OK' === res) {
+      this.toastr.success('Action successful');
+      this.getAdHistory();
+    }
   }
 
   trackByFn(index, d) {

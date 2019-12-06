@@ -1,9 +1,18 @@
 export const CATEGORY = {
+  ALL: 'all',
   AGRIC: {
     code: 'agriculture'
   },
   ANIMAL: {
-    code: 'animals'
+    code: 'animals',
+    SUBCATEGORY: {
+      birds: 'animal_birds',
+      cats: 'animal_cats',
+      dogs: 'animal_dogs',
+      fish: 'animal_fish',
+      other: 'animal_other',
+      pet_access: 'pet_access'
+    }
   },
   KIDS: {
     code: 'kids'
@@ -69,17 +78,6 @@ export const CATEGORY = {
       accessories: 'mobile_accessories'
     }
   },
-  ESTATE: {
-    code: 'estate'
-  },
-  REPAIR: {
-    code: 'repair',
-    SUBCATEGORY: {
-      b_materials: 'b_materials',
-      solar_energy: 'solar_energy',
-      hand_tools: 'hand_tools',
-    }
-  },
   VEHICLE: {
     code: 'vehicles',
     SUBCATEGORY: {
@@ -92,5 +90,40 @@ export const CATEGORY = {
   },
   JOB: {
     code: 'job'
+  },
+  SERVICES: {
+    code: 'services'
+  },
+  GARDEN: {
+    code: 'home_garden',
+    SUBCATEGORY: {
+      furniture: 'garden_furniture',
+      garden: 'garden_garden',
+      home_access: 'garden_home_access',
+      home_app: 'garden_home_app',
+      kitchen: 'garden_kitchen',
+      kitchen_app: 'garden_kitchen_app'
+    }
+  },
+  REPAIR: {
+    code: 'repair',
+    SUBCATEGORY: {
+      b_materials: 'b_materials',
+      solar_energy: 'solar_energy',
+      hand_tools: 'hand_tools',
+    }
+  },
+  ESTATE: {
+    code: 'estate',
+    SUBCATEGORY: {
+      rent_property: 'rent_property',
+      sale_property: 'sale_property',
+      event_center: 'event_center',
+      rent_apartment: 'rent_apartment',
+      sale_apartment: 'sale_apartment',
+      rent_land: 'rent_land',
+      sale_land: 'sale_land',
+      shortlet: 'shortlet',
+    }
   }
 };

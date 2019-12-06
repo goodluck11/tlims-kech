@@ -6,7 +6,12 @@
   left: 0;
   right: 0;
   z-index: 100;
+  height: 58px;
   box-shadow: 0 4px 4px 0 rgba(23,23,23,.06);
+}
+
+.brand-font {
+  font-family: 'Butcherman', cursive !important;
 }
 
 .navbar-nav {
@@ -17,6 +22,10 @@
 
 .navbar-brand {
   font-size: 1.2rem;
+}
+
+.navbar-nav .dropdown-menu {
+  position: absolute;
 }
 
 .dropdown-menu{

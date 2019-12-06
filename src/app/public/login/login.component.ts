@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Router} from '@angular/router';
 import {StorageService} from 'core/services/storage.service';
 import {SharedService} from 'core/services/shared.service';
+import {AuthService, FacebookLoginProvider, SocialUser} from 'angularx-social-login';
 
 @Component({
   selector: 'prefix-login',
@@ -16,12 +17,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   isLoading = false;
+  user: SocialUser;
+  loggedIn: boolean;
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthService,
-              private router: Router, private storageService: StorageService, private sharedService: SharedService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthenticationService,
+              private router: Router, private storageService: StorageService, private sharedService: SharedService,
+              private authService1: AuthService) {
+  }
 
   ngOnInit() {
     this.authService.logout();
+    this.authService1.signOut();
     this.initForm();
   }
 
@@ -32,17 +38,33 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
+  fbLogin() {
+    this.authService1.signIn(FacebookLoginProvider.PROVIDER_ID).then(
+      (response) => {
+        console.log('logged in user data is= ', response);
+        this.user = response;
+        this.authUser(this.user.authToken);
+      }
+    );
+  }
+
+  authUser(token: string) {
+    this.authService.fbLogin(token).pipe(untilDestroyed(this)).subscribe((data: any) => {
+      console.log(data);
+      this.handleResponse(data);
+    }, (err) => {
+      if (err.error) {
+        if (err.error.message) {
+          this.toastr.error(err.error.message);
+        }
+      }
+    });
+  }
+
   login() {
     this.isLoading = true;
     this.authService.login(this.loginForm.value).pipe(untilDestroyed(this)).subscribe((data: any) => {
-      if (data.token) {
-        this.storageService.save({key: 'currentUser', data: data});
-        this.router.navigateByUrl(this.authService.getRedirectUrl() ? this.authService.getRedirectUrl() : '/tlims/bo');
-        const user = JSON.parse(data.user);
-        this.toastr.success('Welcome ' + user.firstName + ' ' + user.lastName);
-        this.authService.removeRedirectUrl();
-        this.sharedService.broadCast(true);
-      }
+      this.handleResponse(data);
       this.isLoading = false;
     }, (err) => {
       this.isLoading = false;
@@ -52,6 +74,17 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  handleResponse(data) {
+    if (data.token) {
+      this.storageService.save({key: 'currentUser', data: data});
+      this.router.navigateByUrl(this.authService.getRedirectUrl() ? this.authService.getRedirectUrl() : '/tlims/bo');
+      const user = JSON.parse(data.user);
+      this.toastr.success('Welcome ' + user.firstName + ' ' + user.lastName);
+      this.authService.removeRedirectUrl();
+      this.sharedService.broadCast(true);
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Category} from 'core/model/category';
 import {ENV} from 'core/config/env.config';
@@ -11,12 +11,14 @@ export class CategoryService {
 
   private baseUrl = `${ENV.BASE_API}/categories`;
   private categories$: Observable<any>;
+  private _categories$ = new BehaviorSubject<Array<Category>>(null);
 
-  constructor(private http: HttpClient, private fileService: FileService) { }
+  constructor(private http: HttpClient, private fileService: FileService) {
+  }
 
   create(data: Category, file: File) {
-    const headers = new HttpHeaders().delete( 'Content-Type' );
-    return this.http.post(`${this.baseUrl}/create`,  this.fileService.singleUpload('category', file, data), {
+    const headers = new HttpHeaders().delete('Content-Type');
+    return this.http.post(`${this.baseUrl}/create`, this.fileService.singleUpload('category', file, data), {
       headers: headers
     });
   }
@@ -43,6 +45,14 @@ export class CategoryService {
 
   getSubCategories(code) {
     return this.http.get(`${this.baseUrl}/subcategories/${code}`);
+  }
+
+  broadcastCategories(data: Array<Category>) {
+    this._categories$.next(data);
+  }
+
+  getSharedCategories() {
+    return this._categories$.asObservable();
   }
 
 }

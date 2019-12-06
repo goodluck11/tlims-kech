@@ -29,7 +29,7 @@ import {NgxEditorModule} from 'ngx-editor';
 import {BreadcrumbComponent} from './components/breadcrumb/breadcrumb.component';
 import {SearchBoxComponent} from './components/search-box/search-box.component';
 import {ToolBoxComponent} from './components/tool-box/tool-box.component';
-import {NgPipesModule} from 'ngx-pipes';
+import {GroupByPipe, NgPipesModule} from 'ngx-pipes';
 import {LightBoxComponent} from './components/light-box/light-box.component';
 import {RouterModule} from '@angular/router';
 import {SpinnerComponent} from './components/spinner/spinner.component';
@@ -42,9 +42,16 @@ import {MessageFormComponent} from './components/message-form/message-form.compo
 import {HeaderComponent} from './components/header/header.component';
 import {DropdownComponent} from './components/dropdown/dropdown.component';
 import {SearchComponent} from 'shared/components/search-box/search/search.component';
-import { DetailComponent } from './components/detail/detail.component';
-import { SanitizePipe } from './pipes/sanitize.pipe';
-
+import {DetailComponent} from './components/detail/detail.component';
+import {SanitizePipe} from './pipes/sanitize.pipe';
+import {LayoutModule} from '@angular/cdk/layout';
+import {AllowedPermissionDirective} from 'shared/directives/permissions.directive';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {NgScrollbarModule} from 'ngx-scrollbar';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material';
+import {IsLogedinDirective} from 'shared/directives/is-logedin.directive';
 
 const SHARED_COMPONENTS: any = [
   FormGroupComponent,
@@ -80,7 +87,9 @@ const SHARED_COMPONENTS: any = [
   DropdownComponent,
   SearchComponent,
   DetailComponent,
-  SanitizePipe
+  SanitizePipe,
+  AllowedPermissionDirective,
+  IsLogedinDirective
 ];
 
 @NgModule({
@@ -96,11 +105,19 @@ const SHARED_COMPONENTS: any = [
     NgPipesModule,
     NgxTabsModule,
     NgxLoadersModule,
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    LayoutModule,
+    MatSlideToggleModule,
+    NgScrollbarModule,
+    OverlayModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   declarations: [...SHARED_COMPONENTS],
-  exports: [...SHARED_COMPONENTS, ReactiveFormsModule, HttpClientModule, FormsModule, RouterModule, ImageUploadModule, BlockUIModule,
-    NgPipesModule, NgxTabsModule, NgxLoadersModule, TranslateModule],
-  providers: [DecimalPipe]
+  exports: [...SHARED_COMPONENTS, ReactiveFormsModule, HttpClientModule, FormsModule,
+    LayoutModule, RouterModule, ImageUploadModule, BlockUIModule, MatSlideToggleModule,
+    MatProgressSpinnerModule, MatProgressBarModule,
+    NgPipesModule, NgxTabsModule, NgxLoadersModule, TranslateModule, NgScrollbarModule],
+  providers: [DecimalPipe, GroupByPipe]
 })
 export class SharedModule { }

@@ -1,28 +1,63 @@
-<tlims-search-box title="User Account"></tlims-search-box>
-<tlims-content>
-  <div class="container">
-    <div class="d-flex bg-grey-600">
-      <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo"><i class="fa fa-dashboard mr-2"></i>Dashboard</a>
-      </div>
-      <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/user"><i class="fa fa-user mr-2"></i>Profile</a>
-      </div>
-      <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/user/ads"><i class="mr-2 fa fa-list"></i>My Ads</a>
-      </div>
-      <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/user/favorites"><i class="mr-2 fa fa-heart"></i>My Favorite Ads</a>
-      </div>
-      <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/admin"><i class="fa fa-cogs mr-2"></i>System Management</a>
-      </div>
-      <div class="p-2 flex-fill tlims-f-item">
-        <a routerLink="/tlims/bo/user/messages"><i class="mr-2 fa fa-inbox"></i>Messages</a>
-      </div>
-    </div>
-    <div class="d-block py-4">
-      <router-outlet></router-outlet>
-    </div>
+<!--<tlims-search-box title="User Account" [withBreadCrumb]="false"></tlims-search-box>-->
+<tlims-navbar (sideBarVisible)="toggle($event)"></tlims-navbar>
+<div class="tk-sidenav-overlay" [ngClass]="{'show': sideBarVisible}"></div>
+<aside class="tk-sidenav" [ngClass]="{'show': sideBarVisible}">
+  <ng-scrollbar visibility="hover">
+  <div class="tk-sidenav-header">
+    <tlims-user-home></tlims-user-home>
   </div>
-</tlims-content>
+    <div class="tk-sidenav-content">
+      <div class="tk-sidenav-nav">
+        <div class="tk-sidenav-header">
+          <span class="tk-sidenav-text">Main</span>
+        </div>
+        <div class="tk-sidenav-item">
+          <a routerLink="/tlims/bo" class="tk-sidenav-link"><i class="fa fa-dashboard mr-2"></i>Dashboard</a>
+        </div>
+        <div class="tk-sidenav-header">
+          <span class="tk-sidenav-text">Activities</span>
+        </div>
+        <div class="tk-sidenav-item">
+          <a routerLink="/tlims/bo/user/ads" class="tk-sidenav-link"><i class="mr-2 fa fa-list"></i>My Ads</a>
+        </div>
+        <div class="tk-sidenav-item">
+          <a routerLink="/tlims/bo/user/favorites" class="tk-sidenav-link"><i class="mr-2 fa fa-heart"></i>My Favorite
+            Ads</a>
+        </div>
+        <div class="tk-sidenav-item">
+          <a routerLink="/tlims/bo/user/messages" class="tk-sidenav-link"><i class="mr-2 fa fa-inbox"></i>Messages</a>
+        </div>
+        <ng-container *allowedPermission="'ADMIN'">
+          <div class="tk-sidenav-header">
+            <span class="tk-sidenav-text">System Management</span>
+          </div>
+          <div class="tk-sidenav-item">
+            <a routerLink="/tlims/bo/admin" class="tk-sidenav-link"><i class="mr-2 fa fa-list"></i>Ads</a>
+          </div>
+          <div class="tk-sidenav-item">
+            <a routerLink="/tlims/bo/admin/users" class="tk-sidenav-link"><i class="mr-2 fa fa-users"></i>Users</a>
+          </div>
+          <div class="tk-sidenav-item">
+            <a routerLink="/tlims/bo/admin/categories" class="tk-sidenav-link"><i class="mr-2 fa fa-list"></i>Categories</a>
+          </div>
+          <div class="tk-sidenav-item">
+            <a routerLink="/tlims/bo/admin/pick-list" class="tk-sidenav-link"><i
+              class="mr-2 fa fa-list"></i>PickList</a>
+          </div>
+          <div class="tk-sidenav-item">
+            <a routerLink="/tlims/bo/admin/contacts" class="tk-sidenav-link"><i class="mr-2 fa fa-address-card"></i>Contacts</a>
+          </div>
+        </ng-container>
+        <div class="tk-sidenav-header">
+          <span class="tk-sidenav-text">Settings</span>
+        </div>
+        <div class="tk-sidenav-item">
+          <a routerLink="/tlims/bo/user" class="tk-sidenav-link"><i class="fa fa-user mr-2"></i>Profile</a>
+        </div>
+      </div>
+    </div>
+  </ng-scrollbar>
+</aside>
+<main class="tk-ft-main">
+  <router-outlet></router-outlet>
+</main>

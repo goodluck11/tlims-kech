@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {ENV} from '../config/env.config';
 import {StorageService} from './storage.service';
 import {Router} from '@angular/router';
@@ -8,7 +8,7 @@ import {TLIMS_CONST} from 'core/constant/tlims.const';
 import {APP_URL} from 'core/constant/tlims.url';
 
 @Injectable()
-export class AuthService {
+export class AuthenticationService {
 
   private baseUrl = `${ENV.BASE_API}`;
 
@@ -39,6 +39,12 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/create`, data);
   }
 
+  fbLogin(data) {
+    let httpParam = new HttpParams();
+    httpParam = httpParam.set('code', data);
+    return this.http.get(`${this.baseUrl}/auth/fbLogin`, {params: httpParam});
+  }
+
   verifyAccount(code) {
     return this.http.get(`${this.baseUrl}/auth/verify/${code}`);
   }
@@ -49,6 +55,10 @@ export class AuthService {
 
   getCurrentUser() {
     return this.storage.get('currentUser') ? JSON.parse(this.storage.get('currentUser').user) : this.storage.get('currentUser');
+  }
+
+  currentUser() {
+    return this.http.get(`${this.baseUrl}/api/users/getCurrentUserDetails`);
   }
 
   isTokenPresent() {

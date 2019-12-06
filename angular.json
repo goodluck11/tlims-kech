@@ -25,15 +25,10 @@
               "node_modules/simple-line-icons/css/simple-line-icons.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/slick-carousel/slick/slick.scss",
-              "node_modules/slick-carousel/slick/slick-theme.scss",
-              "node_modules/swiper/dist/css/swiper.css",
-              "node_modules/owl.carousel/dist/assets/owl.carousel.css",
-              "node_modules/owl.carousel/dist/assets/owl.theme.default.css"
+              "node_modules/slick-carousel/slick/slick-theme.scss"
             ],
             "scripts": [
-              "node_modules/slick-carousel/slick/slick.min.js",
-              "node_modules/swiper/dist/js/swiper.js",
-              "node_modules/owl.carousel/dist/owl.carousel.js"
+              "node_modules/slick-carousel/slick/slick.min.js"
             ]
           },
           "configurations": {
@@ -80,18 +75,8 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/swiper/dist/js/swiper.js",
-              "node_modules/owl.carousel/dist/owl.carousel.js"
-            ],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/simple-line-icons/css/simple-line-icons.css",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/swiper/dist/css/swiper.css",
-              "node_modules/owl.carousel/dist/assets/owl.carousel.css",
-              "node_modules/owl.carousel/dist/assets/owl.theme.default.css"
-            ],
+            "scripts": [],
+            "styles": [],
             "assets": [
               "src/assets",
               "src/favicon.ico"

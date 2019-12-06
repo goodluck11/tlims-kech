@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ENV} from 'core/config/env.config';
 
 @Injectable()
@@ -18,6 +18,11 @@ export class CoreService {
     return this.http.post(`${this.baseUrl}/ads/featuredAds`, data);
   }
 
+  globalSearch(data) {
+    console.log(data);
+    return this.http.post(`${this.baseUrl}/ads/globalSearch`, data);
+  }
+
   allAdsAdvance(data) {
     return this.http.post(`${this.baseUrl}/ads/advanceAdListing`, data);
   }
@@ -31,7 +36,7 @@ export class CoreService {
   }
 
   addFavorite(data) {
-    return this.http.post(`${this.baseUrl}/api/favorites/create`, data);
+    return this.http.post(`${this.baseUrl}/api/favorites/create`, data, {responseType: 'text'});
   }
 
   favoriteAdded(postId) {

@@ -26,8 +26,9 @@
           <tlims-divider>{{'app.core.signinwith' | translate}}</tlims-divider>
 
           <div class="form-group text-center">
-            <button type="button" class="btn btn-outline bg-indigo border-indigo text-indigo btn-icon rounded-round border-2"><i class="fa fa-facebook"></i></button>
-            <button type="button" class="btn btn-outline bg-danger border-danger text-danger btn-icon rounded-round border-2 ml-2"><i class="fa fa-google"></i></button>
+            <button type="button" class="btn btn-outline bg-indigo border-indigo text-indigo"
+            (click)="fbLogin()"><i class="fa fa-facebook"></i> Facebook</button>
+            <!--<button type="button" class="btn btn-outline bg-danger border-danger text-danger btn-icon rounded-round border-2 ml-2"><i class="fa fa-google"></i></button>-->
           </div>
 
           <tlims-divider>{{'app.core.newhere' | translate}}?</tlims-divider>

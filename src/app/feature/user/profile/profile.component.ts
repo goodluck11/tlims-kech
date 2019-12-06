@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {User} from 'core/model/user';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 import {Location} from '@angular/common';
 import {UserService} from '../user.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   user: User = new User();
   isLoading = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private toastr: ToastrService, private location: Location,
+  constructor(private fb: FormBuilder, private authService: AuthenticationService, private toastr: ToastrService, private location: Location,
               private userService: UserService) {
   }
 

@@ -1,11 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthService} from 'core/services/auth.service';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {AuthenticationService} from 'core/services/auth.service';
 import {APP_URL} from 'core/constant/tlims.url';
 import {SharedService} from 'core/services/shared.service';
 import {TranslateService} from '@ngx-translate/core';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Category} from 'core/model/category';
 import {CategoryService} from 'core/services/category.service';
+import {User} from 'core/model/user';
 
 @Component({
   selector: 'tlims-navbar',
@@ -14,35 +15,25 @@ import {CategoryService} from 'core/services/category.service';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  slidess = [
-    {img: '../../assets/images/wallpaper/3.jpg'},
-    {img: '../../assets/images/wallpaper/4.jpg'},
-    {img: '../../assets/images/wallpaper/5.jpg'},
-    {img: '../../assets/images/wallpaper/7.jpg'},
-    {img: '../../assets/images/wallpaper/10.jpg'},
-  ];
+  showSideBar = false;
+  @Output()
+  sideBarVisible = new EventEmitter();
 
-  slideConfig = {
-    'slidesToShow': 1,
-    'slidesToScroll': 1,
-    'autoplay': true,
-    'autoplaySpeed': 4000,
-    'infinite': true
-  };
-
-  activeUser = '';
+  activeUser: User;
   isLoggedIn: boolean;
   APP_URL = APP_URL;
   categories: Array<Category> = [];
 
-  constructor(private authService: AuthService, private sharedService: SharedService, private translate: TranslateService,
+  constructor(private authService: AuthenticationService, private sharedService: SharedService, private translate: TranslateService,
               private categoryService: CategoryService) {
   }
 
+  toggleSideBar() {
+    this.showSideBar = !this.showSideBar;
+    this.sideBarVisible.emit(this.showSideBar);
+  }
+
   ngOnInit() {
-    this.sharedService.messages.subscribe((res) => {
-      this.isLoggedIn = res;
-    });
     this.currentUser();
     this.getCategories();
   }
@@ -50,11 +41,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
   getCategories() {
     this.categoryService.getCategories().pipe(untilDestroyed(this)).subscribe((res: any) => {
       this.categories = res;
+      this.categoryService.broadcastCategories(this.categories);
     });
   }
 
   currentUser() {
     this.activeUser = this.authService.getCurrentUser() ? this.authService.getCurrentUser().firstName : null;
+    this.sharedService.messages.subscribe((res) => {
+      this.isLoggedIn = res;
+      console.log(res);
+      if (res) {
+        this.authService.findByUserName(this.activeUser.email).pipe(untilDestroyed(this)).subscribe((res) => {
+          console.log(res);
+        });
+      }
+    });
   }
 
   changeLanguage(lang) {

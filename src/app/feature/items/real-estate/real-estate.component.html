@@ -1,0 +1,134 @@
+<form [formGroup]="rForm" novalidate>
+  <div class="row">
+    <div class="col-md-6">
+      <div formGroupName="subCategory">
+        <tlims-form-group label="Subcategory" required="true">
+          <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
+            <option *ngFor="let subCat of subCategories"
+                    [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
+          </select>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div formGroupName="titleDescription">
+        <tlims-form-group label="Title" required="true">
+          <input tlimsInput placeholder="title" formControlName="title"/>
+          <tlims-form-error [control]="rForm.get('titleDescription').get('title')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="isField3 || isField5 || isField2">
+      <tlims-form-group label="Type" [isLoading]="isDataLoading" [required]="true">
+        <select tlimsInput formControlName="subCatType" (change)="populateCodeValueName('subCatType')">
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option *ngFor="let iType of itemTypes"
+                  [value]="iType">{{iType.name}}</option>
+        </select>
+        <tlims-form-error [control]="rForm.get('subCatType')" label="Type"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField2">
+      <tlims-form-group label="Total Rooms" [required]="totalRoomRequired">
+        <input tlimsInput placeholder="total room" formControlName="totalRoom"/>
+        <tlims-form-error [control]="rForm.get('totalRoom')" label="Total Rooms"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField2">
+      <tlims-form-group label="Bathrooms" [required]="totalBathRequired">
+        <input tlimsInput placeholder="bathrooms" formControlName="totalBathroom"/>
+        <tlims-form-error [control]="rForm.get('totalBathroom')" label="Bathrooms"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+
+    <div class="col-md-6" *ngIf="isField1">
+      <tlims-form-group label="Furnishing">
+        <select tlimsInput formControlName="furnishType">
+          <option [ngValue]="null">--Select Furnishing--</option>
+          <option *ngFor="let col of furnishings" [ngValue]="col.name">{{col.value}}</option>
+        </select>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField5">
+      <tlims-form-group label="Capacity">
+        <input tlimsInput placeholder="capacity" formControlName="capacity"/>
+        <tlims-form-error [control]="rForm.get('capacity')"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField3">
+      <tlims-form-group label="Square Meters (m2)">
+        <input tlimsInput placeholder="square meter" formControlName="squareMeter"/>
+        <tlims-form-error [control]="rForm.get('squareMeter')"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex" [ngClass]="{'justify-content-between': isField5}">
+        <div class="form-check" style="padding-top: 2.5rem;" *ngIf="isField5">
+          <label class="form-check-label">
+            <input type="checkbox" formControlName="contactForPrice"> Contact for Price
+          </label>
+        </div>
+        <tlims-form-group label="Price" [ngClass]="{'flex-grow-1': !isField5}" [required]="priceRequired">
+          <tlims-amount formControlName="price"></tlims-amount>
+          <tlims-form-error [control]="rForm.get('price')"></tlims-form-error>
+        </tlims-form-group>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="isField4">
+      <div class="d-flex">
+        <div class="form-check mt-4 mr-5">
+          <label class="form-check-label">
+            <input type="checkbox" formControlName="smokingAllowed"> Smoking Allowed
+          </label>
+        </div>
+        <div class="form-check mt-4">
+          <label class="form-check-label">
+            <input type="checkbox" formControlName="petsAllowed"> Pets Allowed
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" *ngIf="isField3 || isField5 || isField2">
+      <div class="d-flex">
+        <div class="form-check mt-4 mr-5" *ngIf="isField2 || isField1">
+          <label class="form-check-label">
+            <input type="checkbox" formControlName="parkingSpaceFg"> Parking Space
+          </label>
+        </div>
+        <div class="form-check mt-4" *ngIf="isField3 || isField5 || isField2">
+          <label class="form-check-label">
+            <input type="checkbox" formControlName="brokerFeeFg"> Broker Fee
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="isField5">
+      <tlims-form-group label="Facilities">
+
+      </tlims-form-group>
+    </div>
+    <div class="col-md-12">
+      <div formGroupName="titleDescription">
+        <tlims-description-box formControlName="description"></tlims-description-box>
+        <tlims-form-error [control]="rForm.get('titleDescription').get('description')"></tlims-form-error>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <label class="form-check-label font-weight-semibold">
+          <input type="checkbox" formControlName="negotiable"> Negotiable
+        </label>
+      </div>
+    </div>
+  </div>
+  <tlims-image-upload (images)="getImages($event)"></tlims-image-upload>
+  <tlims-contact-form (contactDetails)="getContact($event)"></tlims-contact-form>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group text-center">
+        <button [tlimsButton]="isLoading" (click)="create()" [disabled]="rForm.invalid">Save</button>
+        <button tlimsButton color="btn-danger" [disabled]="isLoading" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</form>

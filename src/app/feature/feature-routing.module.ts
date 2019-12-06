@@ -5,7 +5,6 @@ import {ProfileComponent} from './user/profile/profile.component';
 import {ProfileEditComponent} from './user/profile-edit/profile-edit.component';
 import {PasswordFormComponent} from './user/password-form/password-form.component';
 import {AdsComponent} from './user/ads/ads.component';
-import {FeatureHomeComponent} from './feature-home/feature-home.component';
 import {FavoritesComponent} from './user/favorites/favorites.component';
 import {UsersComponent} from './admin/users/users.component';
 import {PendingAdsComponent} from './admin/pending-ads/pending-ads.component';
@@ -21,10 +20,10 @@ import {ManageAdsComponent} from 'feature/admin/manage-ads/manage-ads.component'
 import {AdHistoryComponent} from 'feature/admin/ad-history/ad-history.component';
 import {UserMessagesComponent} from './user/user-messages/user-messages.component';
 import {ContactsComponent} from 'feature/admin/contacts/contacts.component';
+import {DeclinedAdsComponent} from 'feature/admin/declined-ads/declined-ads.component';
 
 const routes: Routes = [
-  {
-    path: '', component: FeatureHomeComponent, children: [
+  {path: '', children: [
       {path: 'dashboard', component: DashboardComponent},
       {
         path: 'user', children: [
@@ -39,8 +38,9 @@ const routes: Routes = [
       {
         path: 'admin', component: AdminHomeComponent, children: [
           {path: '', component: ManageAdsComponent, children: [
-              {path: '', component: AdHistoryComponent},
-              {path: '2', component: PendingAdsComponent}
+              {path: '', component: PendingAdsComponent},
+              {path: 'history', component: AdHistoryComponent},
+              {path: 'declined', component: DeclinedAdsComponent}
             ]},
           {path: 'users', component: UsersComponent},
           {path: 'contacts', component: ContactsComponent},

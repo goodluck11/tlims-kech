@@ -1,3 +1,4 @@
+<!--
 <div class="card tlims-card card-body border-0 mb-0 box-shadow-none border-radius-0">
   <div class="media flex-column flex-sm-row align-items-sm-start align-items-center">
     <div class="mr-sm-3 mb-2 mb-sm-0">
@@ -26,7 +27,60 @@
     <div class="ml-sm-3 mt-2 mt-sm-0">
       <div class="d-flex flex-column">
         <h5 class="tk-bold text-success">{{ad.price?.value}}</h5>
-        <!--<span class="badge bg-slate">New</span>-->
+        &lt;!&ndash;<span class="badge bg-slate">New</span>&ndash;&gt;
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+
+<div class="t-well">
+  <div class="row">
+    <div class="col-md-3 p-0">
+        <div class="img-box">
+          <img [src]="ad?.images[0] ? baseUrl + ad?.images[0] : '../../../../assets/images/blank.jpg'"
+               [attr.alt]="ad?.images[0] ? ad?.images[0] : '../../../../assets/images/blank.jpg'">
+          <div class="total-images"><strong>{{ad?.images?.length}}</strong> photos </div>
+        </div>
+      <!--<span class="ad-status">Featured</span>-->
+    </div>
+    <div class="col-md-9">
+      <div class="content-area">
+        <div class="d-flex justify-content-between">
+          <h3><a [routerLink]="[routerLink, ad.id, ad.titleDescription?.title, ad.code]">{{ad.titleDescription?.title}}</a></h3>
+          <ul class="additional-info">
+            <li>
+              <a href="#" class="fa fa-envelope"></a>
+            </li>
+            <li>
+              <a href="#" class="fa fa-phone"></a>
+            </li>
+            <li *tlimsIsLogedin="null">
+              <a href="javascript:;" class="fa fa-heart" (click)="addToFav()"></a>
+            </li>
+          </ul>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-8">
+            <div class="category-title">
+              <span><a *ngIf="ad.category?.name" [routerLink]="[routerLink, ad.category?.code]">{{ad.category?.name}}</a></span>
+            </div>
+            <div class="ad-details">
+              <p [innerHTML]="ad.titleDescription?.description | shorten: 250: '...'"></p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="short-info">
+              <div class="ad-stats hidden-xs"><span>Condition  : </span>Used</div>
+              <div class="ad-stats hidden-xs"><span>Warranty : </span>7 Days</div>
+              <div class="ad-stats hidden-xs"><span>Sub Category : </span>Mobiles</div>
+            </div>
+            <div class="ad-price mt-3">{{ad.price?.value}}</div>
+
+            <!--<div class="ad-price">{{ad.price?.value}}</div>-->
+          </div>
+        </div>
       </div>
     </div>
   </div>

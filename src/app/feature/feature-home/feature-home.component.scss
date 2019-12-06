@@ -1,13 +1,111 @@
-.tlims-f-item {
-  border-right: 1px solid #fafafa;
-  text-align: center;
-  font-weight: 500;
-  font-size: 13px;
+.tk-sidenav-overlay {
+  position: fixed;
+  top: 63px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 98;
+  display: none;
+  background: rgba(0,0,0,0.6);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
 
-  a {
-    color: #ffffff;
-    text-decoration: none;
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
+
+.tk-sidenav {
+  position: fixed;
+  top: 63px;
+  width: 250px;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  display: block;
+  background: #ffffff;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, .12);
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+
+.tk-sidenav-header {
+  //padding: 15px;
+}
+
+.tk-sidenav-content {
+  padding-top: 10px;
+  padding-bottom: 2rem;
+
+  .tk-sidenav-header {
+    height: 45px;
+
+    .tk-sidenav-text {
+      padding: 0.65rem 2.5rem;
+      font-weight: 400;
+      color: #afb2b1;
+    }
+  }
+
+  .tk-sidenav-nav {
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: stretch;
+    align-items: stretch;
+    flex-direction: column;
+
+    .tk-sidenav-item {
+
+
+      .tk-sidenav-link {
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        padding: 0.65rem 2.5rem;
+        font-weight: 400;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+
+        &:hover, &.active {
+          color: #000;
+          background-color: rgba(0,0,0,0.2);
+        }
+      }
+    }
+  }
+}
+
+.tk-ft-main {
+  background: #fff;
+  padding-left: 250px;
+  padding-top: 0;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+
+
+@media (max-width: 991px) {
+  .tk-sidenav {
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  .tk-sidenav-overlay {
+    &.show {
+      display: block;
+    }
+  }
+
+  .tk-ft-main {
+    padding-left: 0;
   }
 }

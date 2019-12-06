@@ -11,6 +11,8 @@ export class SearchBoxComponent implements OnInit {
   title: string;
   @Input()
   withBreadCrumb = true;
+  @Input()
+  withSearch = true;
 
   constructor() { }
 

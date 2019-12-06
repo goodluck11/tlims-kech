@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {APP_URL} from 'core/constant/tlims.url';
 
@@ -14,7 +14,7 @@ import {APP_URL} from 'core/constant/tlims.url';
 })
 export class VerificationComponent implements OnInit, OnDestroy {
 
-  constructor(private activatedRouter: ActivatedRoute, private authService: AuthService,
+  constructor(private activatedRouter: ActivatedRoute, private authService: AuthenticationService,
               private router: Router) {
   }
 

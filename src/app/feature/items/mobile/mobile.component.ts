@@ -234,7 +234,7 @@ export class MobileComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.mobile = this.mForm.value;
     this.mobile.contact = this.contact;
-    this.itemService.create('fashion', this.mobile, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
+    this.itemService.create('mobile', this.mobile, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
       this.toastr.success('Ad ' + this.mobile.titleDescription.title + ' successfully created');
       this.reset();

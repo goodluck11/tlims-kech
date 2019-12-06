@@ -36,18 +36,35 @@ import {SafetyComponent} from './public/views/safety/safety.component';
 import {FavoriteDirective} from './public/views/viewComponents/favorite.directive';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
-import { AboutComponent } from './public/static/about/about.component';
-import { FaqComponent } from './public/static/faq/faq.component';
-import { PrivacyComponent } from './public/static/privacy/privacy.component';
-import { TermsComponent } from './public/static/terms/terms.component';
-import { ContactComponent } from './public/static/contact/contact.component';
-import { SponsoredComponent } from './public/views/viewComponents/sponsored/sponsored.component';
-import { VerificationComponent } from './public/register/verification/verification.component';
+import {AboutComponent} from './public/static/about/about.component';
+import {FaqComponent} from './public/static/faq/faq.component';
+import {PrivacyComponent} from './public/static/privacy/privacy.component';
+import {TermsComponent} from './public/static/terms/terms.component';
+import {ContactComponent} from './public/static/contact/contact.component';
+import {SponsoredComponent} from './public/views/viewComponents/sponsored/sponsored.component';
+import {VerificationComponent} from './public/register/verification/verification.component';
+import {HowitworksComponent} from './public/static/howitworks/howitworks.component';
+import {FeatureHomeComponent} from './feature/feature-home/feature-home.component';
+import {UserHomeComponent} from './feature/user/user-home/user-home.component';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angularx-social-login';
 
 export function createTranslateLoader(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
     {prefix: './assets/i18n/core/', suffix: '.json'}
   ]);
+}
+
+
+const config = new AuthServiceConfig([
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('945674899140873')
+  }
+]);
+
+export function provideConfig() {
+  return config;
 }
 
 @NgModule({
@@ -78,7 +95,10 @@ export function createTranslateLoader(http: HttpClient) {
     TermsComponent,
     ContactComponent,
     SponsoredComponent,
-    VerificationComponent
+    VerificationComponent,
+    HowitworksComponent,
+    FeatureHomeComponent,
+    UserHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -102,11 +122,15 @@ export function createTranslateLoader(http: HttpClient) {
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
+    OverlayModule,
+    SocialLoginModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: AuthServiceConfig, useFactory: provideConfig}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

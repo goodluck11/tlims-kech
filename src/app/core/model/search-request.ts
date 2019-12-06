@@ -1,8 +1,11 @@
 import {Paging} from './paging';
 
 export class SearchRequest {
+  constructor(public searchTerm: string, public paging: Paging) {}
+}
 
-  constructor(public searchItem: string, public paging: Paging) {}
+export class SearchRequest2 {
+  constructor(public searchTerm: string, public paging: Paging, public category?: string) {}
 }
 
 export class NTuple {

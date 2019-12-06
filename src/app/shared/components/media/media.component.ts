@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Ad} from 'feature/items/ad';
 import {ENV} from 'core/config/env.config';
 
@@ -13,10 +13,15 @@ export class MediaComponent implements OnInit {
   ad: Ad;
   routerLink = '/tlims/ad/';
   baseUrl = `${ENV.STORAGE_API}`;
+  @Output()
+  favorite = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  addToFav() {
+    this.favorite.emit();
+  }
 }

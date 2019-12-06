@@ -13,15 +13,15 @@
   flex: 0 0 400px;
 }
 
+.h4-size {
+  color: #000;
+}
+
 .price {
-  position: absolute;
-  top: 10px;
-  right: -10px;
-  padding: 0.4rem .5rem;
-  background: #00a591;
-  font-weight: 600;
-  color: #ffffff;
-  font-size: 16px;
-  border: 1px solid;
-  letter-spacing: -.015em;
+  position: relative;
+  font-weight: 700;
+  color: #f56d01;
+  margin-top: .8rem;
+  font-size: 27px;
+  letter-spacing: -0.015em;
 }

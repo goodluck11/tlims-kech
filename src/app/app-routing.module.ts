@@ -15,10 +15,14 @@ import {FaqComponent} from './public/static/faq/faq.component';
 import {PrivacyComponent} from './public/static/privacy/privacy.component';
 import {ContactComponent} from './public/static/contact/contact.component';
 import {VerificationComponent} from './public/register/verification/verification.component';
+import {HowitworksComponent} from './public/static/howitworks/howitworks.component';
+import {FeatureHomeComponent} from './feature/feature-home/feature-home.component';
 
 const routes: Routes = [
   {
     path: 'tlims', component: AppComponent, children: [
+      {path: 'bo', component: FeatureHomeComponent, loadChildren: './feature/feature.module#FeatureModule',
+        canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
       {
         path: '', component: IndexComponent, children: [
           {path: '', component: HomeComponent, resolve: {
@@ -28,11 +32,10 @@ const routes: Routes = [
           {path: 'sign-up', component: RegisterComponent},
           {path: 'verify/:code', component: VerificationComponent},
           {path: 'about-us', component: AboutComponent},
+          {path: 'how-it-works', component: HowitworksComponent},
           {path: 'faq', component: FaqComponent},
           {path: 'privacy', component: PrivacyComponent},
           {path: 'contact-us', component: ContactComponent},
-          {path: 'bo', loadChildren: './feature/feature.module#FeatureModule',
-            canActivate: [AuthGuard], canActivateChild: [AuthGuard]},
           {path: 'all-ads', component: CategoriesComponent, resolve: {
               categories: CategoryResolver
             }},

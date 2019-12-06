@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Message, MessageSource} from 'core/model/message';
-import {AuthService} from 'core/services/auth.service';
+import {AuthenticationService} from 'core/services/auth.service';
 import {User} from 'core/model/user';
 import {ToastrService} from 'ngx-toastr';
 
@@ -26,7 +26,7 @@ export class MessageFormComponent implements OnInit, OnChanges {
   postId: number;
   disableBtn = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private toastr: ToastrService) {
+  constructor(private fb: FormBuilder, private authService: AuthenticationService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
