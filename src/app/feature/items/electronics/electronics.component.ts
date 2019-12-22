@@ -1,17 +1,17 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Category, Picklist, PickListType} from 'core/model/category';
+import {Category, PickListType} from 'core/model/category';
 import {Electronic} from 'feature/items/electronics/electronic';
 import {CATEGORY} from 'core/constant/category.const';
 import {EnumValues} from 'enum-values';
 import {CodeValue, Condition, Contact} from 'core/model/base-model';
 import {Utils} from 'core/utils/utils';
-import {PickListService} from 'core/services/picklist.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {ItemService} from 'feature/items/item.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {APP_URL} from 'core/constant/tlims.url';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-electronics',
@@ -31,21 +31,19 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
   isField4 = false; // brand, type, subtype, ram, processor, model, core
   conditions = [];
   subCatCode: string;
-  itemTypes: Array<Picklist> = [];
-  itemMakes: Array<Picklist> = [];
-  brands: Array<Picklist> = [];
-  rams: Array<Picklist> = [];
-  cores: Array<Picklist> = [];
-  models: Array<Picklist> = [];
-  subTypes: Array<Picklist> = [];
-  processors: Array<Picklist> = [];
+  itemTypes: Array<CodeValue> = [];
+  itemMakes: Array<CodeValue> = [];
+  brands: Array<CodeValue> = [];
+  rams: Array<CodeValue> = [];
+  cores: Array<CodeValue> = [];
+  storeCapacities: Array<CodeValue> = [];
+  processors: Array<CodeValue> = [];
   isDataLoading = false;
   isLoading = false;
   files: File[] = [];
-  parentCode: string;
   contact: Contact = new Contact();
 
-  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
+  constructor(private fb: FormBuilder, private listItemService: ListItemService, private itemService: ItemService,
               private toastr: ToastrService, private router: Router) {
     itemService.endPoint = 'electronics';
   }
@@ -94,39 +92,6 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
       this.setNameFromCodeValue(groupName, Utils.getNameFromCategory(this.subCategories, this.getValueFromCodeValue(groupName)));
       this.resolveField();
     }
-    if ('subCatType' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.itemTypes, this.getValueFromCodeValue(groupName)));
-      if (this.isField4) {
-        this.parentCode = this.getValueFromCodeValue(groupName);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND), true);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.SUB_TYPE), true);
-      }
-    }
-    if ('electMake' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.itemMakes, this.getValueFromCodeValue(groupName)));
-    }
-    if ('electModel' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.models, this.getValueFromCodeValue(groupName)));
-    }
-    if ('brand' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.brands, this.getValueFromCodeValue(groupName)));
-      if (this.isField4) {
-        this.parentCode = this.getValueFromCodeValue(groupName);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.MODEL), true);
-      }
-    }
-    if ('electSubType' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.subTypes, this.getValueFromCodeValue(groupName)));
-    }
-    if ('processor' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.processors, this.getValueFromCodeValue(groupName)));
-    }
-    if ('coreNo' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.cores, this.getValueFromCodeValue(groupName)));
-    }
-    if ('ram' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.rams, this.getValueFromCodeValue(groupName)));
-    }
   }
 
   resolveField() {
@@ -136,64 +101,55 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
     switch (subCatCode) {
       case this.CATEGORY.ELECT.SUBCATEGORY.audio:
       case this.CATEGORY.ELECT.SUBCATEGORY.videos:
+      case this.CATEGORY.ELECT.SUBCATEGORY.comp_hardware:
+        this.setRequiredField('subCatType', true);
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.isField1 = true;
-        this.setCodeValueRequiredField('subCatType', true);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         break;
-      case this.CATEGORY.ELECT.SUBCATEGORY.cameras:
-        this.setCodeValueRequiredField('subCatType', true);
-        this.setCodeValueRequiredField('electMake', true);
+      case this.CATEGORY.ELECT.SUBCATEGORY.photos:
+        this.setRequiredField('subCatType', true);
+        this.setRequiredField('electMake', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_MAKE));
         this.isField3 = true;
         break;
       case this.CATEGORY.ELECT.SUBCATEGORY.comp_access:
-        this.setCodeValueRequiredField('subCatType', true);
-        this.setCodeValueRequiredField('brand', true);
+        this.setRequiredField('subCatType', true);
+        this.setRequiredField('brand', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND));
         this.isField2 = true;
         break;
-      case this.CATEGORY.ELECT.SUBCATEGORY.comp_hardware:
-        break;
       case this.CATEGORY.ELECT.SUBCATEGORY.laptops:
-        this.setCodeValueRequiredField('subCatType', true);
-        this.setCodeValueRequiredField('brand', true);
-        this.setCodeValueRequiredField('electModel', true);
-        this.setCodeValueRequiredField('electSubType', true);
-        this.setCodeValueRequiredField('processor', true);
-        this.setCodeValueRequiredField('coreNo', true);
-        this.setCodeValueRequiredField('ram', true);
+        this.setRequiredField('subCatType', true);
+        this.setRequiredField('brand', true);
+        this.setRequiredField('model', true);
+        this.setRequiredField('processor', true);
+        this.setRequiredField('coreNo', true);
+        this.setRequiredField('ram', true);
+        this.setRequiredField('capacity', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.PROCESSOR));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.RAM));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.CORES));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.STORE_CAPACITY));
         this.isField4 = true;
         break;
       case this.CATEGORY.ELECT.SUBCATEGORY.tv_equip:
-        this.setCodeValueRequiredField('subCatType', true);
-        this.setCodeValueRequiredField('brand', true);
+        this.setRequiredField('subCatType', true);
+        this.setRequiredField('brand', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND));
         this.isField2 = true;
         break;
       case this.CATEGORY.ELECT.SUBCATEGORY.vid_games:
         break;
-      case this.CATEGORY.ELECT.SUBCATEGORY.vidcam:
-        this.setCodeValueRequiredField('subCatType', true);
-        this.setCodeValueRequiredField('electMake', true);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_MAKE));
-        this.isField3 = true;
-        break;
     }
   }
 
-  getPickList(listType, withParent?: boolean) {
-    let obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
-    if (withParent) {
-      obs$ = this.pickListService.getPicklistsByByTypeAndCategoryAndParent(listType, this.getValueFromCodeValue('category'),
-        this.subCatCode, this.parentCode);
-    }
+  getPickList(listType) {
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -209,46 +165,38 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
   mapValues(listType, data) {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
-        this.itemTypes = data;
+        this.itemTypes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_MAKE):
-        this.itemMakes = data;
+        this.itemMakes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.BRAND):
-        this.brands = data;
-        break;
-      case EnumValues.getNameFromValue(PickListType, PickListType.MODEL):
-        this.models = data;
+        this.brands = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.PROCESSOR):
-        this.processors = data;
+        this.processors = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.RAM):
-        this.rams = data;
-        break;
-      case EnumValues.getNameFromValue(PickListType, PickListType.SUB_TYPE):
-        this.subTypes = data;
+        this.rams = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.CORES):
-        this.cores = data;
+        this.cores = Utils.convertListItemToCodeValue(data);
+        break;
+      case EnumValues.getNameFromValue(PickListType, PickListType.STORE_CAPACITY):
+        this.storeCapacities = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
 
-  setCodeValueRequiredField(groupName: string, isRequired: boolean) {
-    const code = this.eForm.get(groupName).get('code');
-    const name = this.eForm.get(groupName).get('name');
+  setRequiredField(fieldName: string, isRequired: boolean) {
+    const field = this.eForm.get(fieldName);
     if (isRequired) {
-      code.setValidators([Validators.required]);
-      name.setValidators([Validators.required]);
-      this.markFields(code);
-      this.markFields(name);
+      field.setValidators([Validators.required]);
+      this.markFields(field);
     } else {
-      code.clearValidators();
-      name.clearValidators();
+      field.clearValidators();
     }
-    code.updateValueAndValidity();
-    name.updateValueAndValidity();
+    field.updateValueAndValidity();
   }
 
   markFields(control) {
@@ -261,6 +209,14 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
     this.isField2 = false;
     this.isField3 = false;
     this.isField4 = false;
+    this.setRequiredField('model', false);
+    this.setRequiredField('subCatType', false);
+    this.setRequiredField('brand', false);
+    this.setRequiredField('processor', false);
+    this.setRequiredField('coreNo', false);
+    this.setRequiredField('ram', false);
+    this.setRequiredField('electMake', false);
+    this.setRequiredField('capacity', false);
   }
 
   getValueFromCodeValue(groupName, isName?: boolean) {
@@ -287,38 +243,14 @@ export class ElectronicsComponent implements OnInit, OnDestroy {
         code: [subCategory.code, [Validators.required]],
         name: [subCategory.name, [Validators.required]]
       }),
-      subCatType: this.fb.group({
-        code: [],
-        name: [this.electronic.subCatType.name]
-      }),
-      brand: this.fb.group({
-        code: [this.electronic.brand.code],
-        name: [this.electronic.brand.name]
-      }),
-      electMake: this.fb.group({
-        code: [this.electronic.electMake.code],
-        name: [this.electronic.electMake.name]
-      }),
-      electModel: this.fb.group({
-        code: [this.electronic.electModel.code],
-        name: [this.electronic.electModel.name]
-      }),
-      electSubType: this.fb.group({
-        code: [this.electronic.electSubType.code],
-        name: [this.electronic.electSubType.name]
-      }),
-      processor: this.fb.group({
-        code: [this.electronic.processor.code],
-        name: [this.electronic.processor.name]
-      }),
-      coreNo: this.fb.group({
-        code: [this.electronic.coreNo.code],
-        name: [this.electronic.coreNo.name]
-      }),
-      ram: this.fb.group({
-        code: [this.electronic.ram.code],
-        name: [this.electronic.ram.name]
-      }),
+      subCatType: [this.electronic.subCatType ? this.electronic.subCatType.code ? this.electronic.subCatType : null : null],
+      brand: [this.electronic.brand ? this.electronic.brand.code ? this.electronic.brand : null : null],
+      electMake: [this.electronic.electMake ? this.electronic.electMake.code ? this.electronic.electMake : null : null],
+      model: [this.electronic.model],
+      processor: [this.electronic.processor ? this.electronic.processor.code ? this.electronic.processor : null : null],
+      coreNo: [this.electronic.coreNo ? this.electronic.coreNo.code ? this.electronic.coreNo : null : null],
+      ram: [this.electronic.ram ? this.electronic.ram.code ? this.electronic.ram : null : null],
+      capacity: [this.electronic.capacity ? this.electronic.capacity.code ? this.electronic.capacity : null : null],
       itemCondition: [this.electronic.itemCondition, [Validators.required]],
       price: [this.electronic.price, [Validators.required]],
       negotiable: [this.electronic.negotiable],

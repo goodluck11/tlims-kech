@@ -1,18 +1,17 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Estate, FurnishType} from 'feature/items/real-estate/estate';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {BreedType, PetAge, PetGender} from 'feature/items/pet/pet';
 import {Category, PickListType} from 'core/model/category';
 import {CATEGORY} from 'core/constant/category.const';
 import {CodeValue, Contact} from 'core/model/base-model';
 import {ItemService} from 'feature/items/item.service';
-import {PickListService} from 'core/services/picklist.service';
 import {ToastrService} from 'ngx-toastr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EnumValues} from 'enum-values';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {APP_URL} from 'core/constant/tlims.url';
 import {Utils} from 'core/utils/utils';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-real-estate',
@@ -36,13 +35,16 @@ export class RealEstateComponent implements OnInit, OnDestroy {
   isField4 = false; // pets, smoking
   isField5 = false; // event
   itemTypes: Array<CodeValue> = [];
+  facilities: Array<CodeValue> = [];
   furnishings: Array<any> = [];
   subCatCode: string;
   priceRequired = false;
   totalRoomRequired = false;
   totalBathRequired = false;
+  facilitiesSet: Set<CodeValue> = new Set<CodeValue>();
+  selectedFacilities: Array<CodeValue> = [];
 
-  constructor(private fb: FormBuilder, private itemService: ItemService, private pickListService: PickListService,
+  constructor(private fb: FormBuilder, private itemService: ItemService, private listItemService: ListItemService,
               private toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute) {
     itemService.endPoint = 'realestates';
   }
@@ -58,6 +60,20 @@ export class RealEstateComponent implements OnInit, OnDestroy {
 
   getImages($event) {
     this.files = $event;
+  }
+
+  addOrRemoveFacilities($event: CodeValue, checked) {
+    if (checked) {
+      this.facilitiesSet.add($event);
+    } else {
+      this.facilitiesSet.forEach(value => {
+        if (value.code === $event.code) {
+          this.facilitiesSet.delete(value);
+        }
+      });
+    }
+    this.selectedFacilities = Array.from(this.facilitiesSet);
+    this.rForm.get('facilities').setValue(this.selectedFacilities);
   }
 
   create() {
@@ -86,7 +102,7 @@ export class RealEstateComponent implements OnInit, OnDestroy {
   }
 
   getPickList(listType) {
-    const obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -102,7 +118,10 @@ export class RealEstateComponent implements OnInit, OnDestroy {
   mapValues(listType, data) {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
-        this.itemTypes = Utils.convertPickListToCodeValue(data);
+        this.itemTypes = Utils.convertListItemToCodeValue(data);
+        break;
+      case EnumValues.getNameFromValue(PickListType, PickListType.FACILITY):
+        this.facilities = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
@@ -122,13 +141,13 @@ export class RealEstateComponent implements OnInit, OnDestroy {
     switch (this.subCatCode) {
       case this.CATEGORY.ESTATE.SUBCATEGORY.rent_property:
       case this.CATEGORY.ESTATE.SUBCATEGORY.sale_property:
-        this.subCatCode = CATEGORY.ESTATE.SUBCATEGORY.rent_property;
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.isField1 = true;
         this.isField3 = true;
         break;
       case this.CATEGORY.ESTATE.SUBCATEGORY.event_center:
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.FACILITY));
         this.isField5 = true;
         break;
       case this.CATEGORY.ESTATE.SUBCATEGORY.rent_apartment:
@@ -140,7 +159,6 @@ export class RealEstateComponent implements OnInit, OnDestroy {
         this.isField4 = true;
         break;
       case this.CATEGORY.ESTATE.SUBCATEGORY.sale_apartment:
-        this.subCatCode = CATEGORY.ESTATE.SUBCATEGORY.rent_apartment;
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.isField1 = true;
         this.isField2 = true;
@@ -148,7 +166,6 @@ export class RealEstateComponent implements OnInit, OnDestroy {
         break;
       case this.CATEGORY.ESTATE.SUBCATEGORY.rent_land:
       case this.CATEGORY.ESTATE.SUBCATEGORY.sale_land:
-        this.subCatCode = CATEGORY.ESTATE.SUBCATEGORY.rent_land;
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.isField3 = true;
         break;
@@ -169,6 +186,8 @@ export class RealEstateComponent implements OnInit, OnDestroy {
     this.setRequiredField('totalBathroom', false);
     this.setRequiredField('totalRoom', false);
     this.setRequiredField('price', false);
+    this.selectedFacilities = [];
+    this.facilitiesSet.clear();
   }
 
   setValidationMark() {
@@ -238,11 +257,11 @@ export class RealEstateComponent implements OnInit, OnDestroy {
         code: [subCategory.code, [Validators.required]],
         name: [subCategory.name, [Validators.required]]
       }),
-      subCatType: [this.estate.subCatType],
+      subCatType: [this.estate.subCatType ? this.estate.subCatType.code ? this.estate.subCatType : null : null],
       brokerFeeFg: [this.estate.brokerFeeFg],
       furnishType: [this.estate.furnishType],
       parkingSpaceFg: [this.estate.parkingSpaceFg],
-      facilities: [this.estate.facilities],
+      facilities: [],
       petsAllowed: [this.estate.petsAllowed],
       contactForPrice: [this.estate.contactForPrice],
       squareMeter: [this.estate.squareMeter],

@@ -15,5 +15,6 @@ const storageURI = _isDev ? 'http://localhost:9000/storage/' : '';
 export const ENV = {
   BASE_URI: getHost(),
   BASE_API: apiURI,
-  STORAGE_API: storageURI
+  STORAGE_API: storageURI,
+  IS_LOCAL: _isDev
 };

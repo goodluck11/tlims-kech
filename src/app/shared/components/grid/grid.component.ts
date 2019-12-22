@@ -1,7 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Ad} from 'feature/items/ad';
 import {ENV} from 'core/config/env.config';
-import {AuthenticationService} from 'core/services/auth.service';
+import {untilDestroyed} from 'ngx-take-until-destroy';
+import {MessageService} from 'core/services/message.service';
+import {ToastrService} from 'ngx-toastr';
+import {APP_URL} from 'core/constant/tlims.url';
 
 @Component({
   selector: 'tlims-grid',
@@ -13,19 +16,25 @@ export class GridComponent implements OnInit {
   @Input()
   ad: Ad;
   baseUrl = `${ENV.STORAGE_API}`;
-  routerLink = '/tlims/ad/';
-  isLoggedIn = false;
-  @Output()
-  favorite = new EventEmitter();
+  APP_URL = APP_URL;
+  isLoading = false;
+  isOpenModal = false;
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(private messageService: MessageService,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.isLoggedIn = this.authService.isLoggedIn();
+
   }
 
-  addToFav() {
-    this.favorite.emit();
+  sendMessage($event) {
+    this.isLoading = true;
+    this.messageService.addMesssage($event).pipe(untilDestroyed(this)).subscribe((res: any) => {
+      if (res.id) {
+        this.toastr.success('Message successfully sent');
+      }
+      this.isLoading = false;
+    });
   }
 
 }

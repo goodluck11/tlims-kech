@@ -15,7 +15,6 @@
   transition: all .3s ease-in-out;
 }
 
-
 .tk-sidenav {
   position: fixed;
   top: 63px;
@@ -24,7 +23,7 @@
   left: 0;
   z-index: 99;
   display: block;
-  background: #ffffff;
+  background: #fff;
   overflow-x: hidden;
   overflow-y: auto;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, .12);
@@ -41,6 +40,10 @@
 .tk-sidenav-content {
   padding-top: 10px;
   padding-bottom: 2rem;
+  background: #ffffff;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  box-shadow: none;
 
   .tk-sidenav-header {
     height: 45px;
@@ -68,12 +71,13 @@
         -webkit-box-align: center;
         align-items: center;
         padding: 0.65rem 2.5rem;
+        color: #374252;
         font-weight: 400;
         -webkit-transition: all .3s ease;
         transition: all .3s ease;
 
         &:hover, &.active {
-          color: #000;
+          color: #374252;
           background-color: rgba(0,0,0,0.2);
         }
       }

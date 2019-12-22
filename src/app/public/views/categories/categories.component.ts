@@ -8,6 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {SearchRequest} from 'core/model/search-request';
 import {CoreService} from 'core/services/core.service';
 import {Ad} from 'feature/items/ad';
+import {APP_URL} from 'core/constant/tlims.url';
 
 @Component({
   selector: 'tlims-categories',
@@ -23,8 +24,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   searchTerm = '';
   query: Paging = new Paging();
   viewType = 'LIST';
+  APP_URL = APP_URL;
 
-  constructor(private activatedRoute: ActivatedRoute, private toastr: ToastrService, private coreService: CoreService) {
+  constructor(private activatedRoute: ActivatedRoute, private toastr: ToastrService,
+              private coreService: CoreService) {
   }
 
   ngOnInit() {
@@ -59,22 +62,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   trackByFn(index, d) {
     return d.id;
-  }
-
-  addFavorites(data) {
-    this.blockUI.start('Adding ad to favorites...');
-    this.coreService.addFavorite({'postId': data.id}).pipe(untilDestroyed(this)).subscribe((res) => {
-      if (res) {
-        this.toastr.success(String(res));
-      }
-    }, (err) => {
-      this.toastr.error('Error adding ad to favorite');
-      this.blockUI.stop();
-    });
-  }
-
-  getCategories(cat) {
-    this.categoryCode = cat.categoryCode.dataCode;
   }
 
   getParentCategories() {

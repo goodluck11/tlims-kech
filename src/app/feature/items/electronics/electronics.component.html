@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div formGroupName="subCategory">
-        <tlims-form-group label="Subcategory">
+        <tlims-form-group label="Subcategory" required="true">
           <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
             <option *ngFor="let subCat of subCategories" [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
           </select>
@@ -11,99 +11,80 @@
     </div>
     <div class="col-md-6">
       <div formGroupName="titleDescription">
-        <tlims-form-group label="Title">
+        <tlims-form-group label="Title" required="true">
           <input tlimsInput placeholder="title" formControlName="title"/>
           <tlims-form-error [control]="eForm.get('titleDescription').get('title')"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField4 || isField3 || isField2">
-      <div formGroupName="subCatType">
-        <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('subCatType')">
-            <option [ngValue]="null">--Select Item Type--</option>
-            <option *ngFor="let iType of itemTypes" [value]="iType.pickListcode?.dataCode">{{iType.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('subCatType').get('code')" label="Item Type"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Item Type" required="true" [isLoading]="isDataLoading">
+        <select tlimsInput formControlName="subCatType">
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option *ngFor="let iType of itemTypes" [ngValue]="iType">{{iType.name}}</option>
+        </select>
+        <tlims-form-error [control]="eForm.get('subCatType')" label="Item Type"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField2 || isField4">
-      <div formGroupName="brand">
-        <tlims-form-group label="Brand">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('brand')" [disableControl]="brands.length === 0">
-            <option [ngValue]="null">--Select Brand--</option>
-            <option *ngFor="let bd of brands" [value]="bd.pickListcode?.dataCode">{{bd.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('brand').get('code')" label="Brand"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Brand" required="true">
+        <select tlimsInput formControlName="brand">
+          <option [ngValue]="null">--Select Brand--</option>
+          <option *ngFor="let bd of brands" [ngValue]="bd">{{bd.name}}</option>
+        </select>
+        <tlims-form-error [control]="eForm.get('brand')" label="Brand"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField3">
-      <div formGroupName="electMake">
-        <tlims-form-group label="Make">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('electMake')">
-            <option [ngValue]="null">--Select Make--</option>
-            <option *ngFor="let mk of itemMakes" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('electMake').get('code')" label="Make"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Make" required="true">
+        <select tlimsInput formControlName="electMake">
+          <option [ngValue]="null">--Select Make--</option>
+          <option *ngFor="let mk of itemMakes" [ngValue]="mk">{{mk.name}}</option>
+        </select>
+        <tlims-form-error [control]="eForm.get('electMake')" label="Make"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField4">
-      <div formGroupName="electModel">
-        <tlims-form-group label="Model">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('electModel')" [disableControl]="models.length === 0">
-            <option [ngValue]="null">--Select Model--</option>
-            <option *ngFor="let mk of models" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('electModel').get('code')"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Model" required="true">
+        <input tlimsInput formControlName="model">
+        <tlims-form-error [control]="eForm.get('model')"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField4">
-      <div formGroupName="electSubType">
-        <tlims-form-group label="Sub Type">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('electSubType')" [disableControl]="subTypes.length === 0">
-            <option [ngValue]="null">--Select Sub Type--</option>
-            <option *ngFor="let mk of subTypes" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('electSubType').get('code')" label="Sub Type"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Processor" required="true">
+        <select tlimsInput formControlName="processor">
+          <option [ngValue]="null">--Select Processor--</option>
+          <option *ngFor="let mk of processors" [ngValue]="mk">{{mk.name}}</option>
+        </select>
+        <tlims-form-error [control]="eForm.get('processor')"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField4" required="true">
+      <tlims-form-group label="Number of Core(s)">
+        <select tlimsInput formControlName="coreNo">
+          <option [ngValue]="null">--Select Number of Core(s)--</option>
+          <option *ngFor="let mk of cores" [ngValue]="mk">{{mk.name}}</option>
+        </select>
+        <tlims-form-error [control]="eForm.get('coreNo')" label="Number of Core(s)"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField4">
-      <div formGroupName="processor">
-        <tlims-form-group label="Processor">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('processor')">
-            <option [ngValue]="null">--Select Processor--</option>
-            <option *ngFor="let mk of processors" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('processor').get('code')"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Ram" required="true">
+        <select tlimsInput formControlName="ram">
+          <option [ngValue]="null">--Select Ram--</option>
+          <option *ngFor="let mk of rams" [ngValue]="mk">{{mk.name}}</option>
+        </select>
+        <tlims-form-error [control]="eForm.get('ram')"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField4">
-      <div formGroupName="coreNo">
-        <tlims-form-group label="Number of Core(s)">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('coreNo')">
-            <option [ngValue]="null">--Select Number of Core(s)--</option>
-            <option *ngFor="let mk of cores" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('coreNo').get('code')" label="Number of Core(s)"></tlims-form-error>
-        </tlims-form-group>
-      </div>
-    </div>
-    <div class="col-md-6" *ngIf="isField4">
-      <div formGroupName="ram">
-        <tlims-form-group label="Ram">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('ram')">
-            <option [ngValue]="null">--Select Ram--</option>
-            <option *ngFor="let mk of rams" [value]="mk.pickListcode?.dataCode">{{mk.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="eForm.get('ram').get('code')"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Storage Capacity" required="true">
+        <select tlimsInput formControlName="capacity">
+          <option [ngValue]="null">--Select Storage Capacity--</option>
+          <option *ngFor="let mk of rams" [ngValue]="mk">{{mk.name}}</option>
+        </select>
+        <tlims-form-error [control]="eForm.get('capacity')" label="Storage Capacity"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6">
         <tlims-form-group label="Condition" required="true">

@@ -1,8 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Category, Picklist, PickListType} from 'core/model/category';
+import {Category, PickListType} from 'core/model/category';
 import {CATEGORY} from 'core/constant/category.const';
-import {PickListService} from 'core/services/picklist.service';
 import {ItemService} from 'feature/items/item.service';
 import {ToastrService} from 'ngx-toastr';
 import {EnumValues} from 'enum-values';
@@ -12,6 +11,7 @@ import {Utils} from 'core/utils/utils';
 import {Commercial} from 'feature/items/commercial/commercial';
 import {APP_URL} from 'core/constant/tlims.url';
 import {Router} from '@angular/router';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-commercial',
@@ -30,14 +30,16 @@ export class CommercialComponent implements OnInit, OnDestroy {
   files: File[] = [];
   conditions = [];
   subCatCode: string;
-  itemTypes: Array<Picklist> = [];
-  powerSources: Array<Picklist> = [];
-  shapes: Array<Picklist> = [];
+  itemTypes: Array<CodeValue> = [];
+  powerSources: Array<CodeValue> = [];
+  shapes: Array<CodeValue> = [];
   isField1 = false; // type, Power Source, condition, shape
   isField2 = false; // weight, condition
+  isField3 = false; // type
+  isField4 = false; // condition
   contact: Contact = new Contact();
 
-  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
+  constructor(private fb: FormBuilder, private listItemService: ListItemService, private itemService: ItemService,
               private toastr: ToastrService, private router: Router) {
     itemService.endPoint = 'commercials';
   }
@@ -85,9 +87,6 @@ export class CommercialComponent implements OnInit, OnDestroy {
       this.setNameFromCodeValue(groupName, Utils.getNameFromCategory(this.subCategories, this.getValueFromCodeValue(groupName)));
       this.resolveField();
     }
-    if ('subCatType' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.itemTypes, this.getValueFromCodeValue(groupName)));
-    }
   }
 
   resolveField() {
@@ -96,7 +95,7 @@ export class CommercialComponent implements OnInit, OnDestroy {
     this.resetField();
     switch (subCatCode) {
       case this.CATEGORY.COMM.SUBCATEGORY.ovens:
-        this.setCodeValueRequiredField('subCatType', true);
+        this.setRequiredField('subCatType', true);
         this.setRequiredField('powerSource', true);
         this.setRequiredField('itemCondition', true);
         this.setRequiredField('shape', true);
@@ -109,11 +108,16 @@ export class CommercialComponent implements OnInit, OnDestroy {
         this.setRequiredField('itemCondition', true);
         this.isField2 = true;
         break;
+      case this.CATEGORY.COMM.SUBCATEGORY.medical:
+        this.setRequiredField('subCatType', true);
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.isField3 = true;
+        break;
     }
   }
 
   getPickList(listType) {
-    const obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -129,13 +133,13 @@ export class CommercialComponent implements OnInit, OnDestroy {
   mapValues(listType, data) {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
-        this.itemTypes = data;
+        this.itemTypes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.POWER_SOURCE):
-        this.powerSources = data;
+        this.powerSources = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.SHAPE):
-        this.shapes = data;
+        this.shapes = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
@@ -145,22 +149,6 @@ export class CommercialComponent implements OnInit, OnDestroy {
     if (this.commForm.get('contactForPrice').value) {
       this.setRequiredField('price', false);
     }
-  }
-
-  setCodeValueRequiredField(groupName: string, isRequired: boolean) {
-    const code = this.commForm.get(groupName).get('code');
-    const name = this.commForm.get(groupName).get('name');
-    if (isRequired) {
-      code.setValidators([Validators.required]);
-      name.setValidators([Validators.required]);
-      this.markFields(code);
-      this.markFields(name);
-    } else {
-      code.clearValidators();
-      name.clearValidators();
-    }
-    code.updateValueAndValidity();
-    name.updateValueAndValidity();
   }
 
   setRequiredField(fieldName: string, isRequired: boolean) {
@@ -182,7 +170,9 @@ export class CommercialComponent implements OnInit, OnDestroy {
   resetField() {
     this.isField1 = false;
     this.isField2 = false;
-    this.setCodeValueRequiredField('subCatType', false);
+    this.isField3 = false;
+    this.isField4 = false;
+    this.setRequiredField('subCatType', false);
     this.setRequiredField('powerSource', false);
     this.setRequiredField('itemCondition', false);
     this.setRequiredField('shape', false);
@@ -213,17 +203,14 @@ export class CommercialComponent implements OnInit, OnDestroy {
         code: [subCategory.code, [Validators.required]],
         name: [subCategory.name, [Validators.required]]
       }),
-      subCatType: this.fb.group({
-        code: [this.commercial.subCatType.code],
-        name: [this.commercial.subCatType.name]
-      }),
+      subCatType: [this.commercial.subCatType ? this.commercial.subCatType.code ? this.commercial.subCatType : null : null],
       itemCondition: [this.commercial.itemCondition ? this.commercial.itemCondition :
         EnumValues.getNameFromValue(Condition, Condition.NEW)],
       price: [this.commercial.price],
-      powerSource: [this.commercial.powerSource],
+      powerSource: [this.commercial.powerSource ? this.commercial.powerSource.code ? this.commercial.powerSource : null : null],
       contactForPrice: [this.commercial.contactForPrice],
       deckNo: [this.commercial.deckNo],
-      shape: [this.commercial.shape],
+      shape: [this.commercial.shape ? this.commercial.shape.code ? this.commercial.shape : null : null],
       trayNo: [this.commercial.trayNo],
       weight: [this.commercial.weight],
       maxTemperature: [this.commercial.maxTemperature],

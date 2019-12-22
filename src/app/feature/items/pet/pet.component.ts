@@ -2,16 +2,16 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category, PickListType} from 'core/model/category';
 import {CATEGORY} from 'core/constant/category.const';
-import {CodeValue, Condition, Contact, Gender} from 'core/model/base-model';
+import {CodeValue, Condition, Contact} from 'core/model/base-model';
 import {ItemService} from 'feature/items/item.service';
-import {PickListService} from 'core/services/picklist.service';
 import {ToastrService} from 'ngx-toastr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {APP_URL} from 'core/constant/tlims.url';
 import {Utils} from 'core/utils/utils';
 import {EnumValues} from 'enum-values';
-import {BreedType, Pet, PetAge, PetGender} from 'feature/items/pet/pet';
+import {Pet, PetGender} from 'feature/items/pet/pet';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-pet',
@@ -34,20 +34,18 @@ export class PetComponent implements OnInit, OnDestroy {
   isField3 = false; // type
   itemTypes: Array<CodeValue> = [];
   breeds: Array<CodeValue> = [];
-  breedTypes: Array<any> = [];
+  breedTypes: Array<CodeValue> = [];
   genders: Array<any> = [];
-  ages: Array<any> = [];
+  ages: Array<CodeValue> = [];
   subCatCode: string;
 
-  constructor(private fb: FormBuilder, private itemService: ItemService, private pickListService: PickListService,
+  constructor(private fb: FormBuilder, private itemService: ItemService, private listItemService: ListItemService,
               private toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute) {
     itemService.endPoint = 'pets';
   }
 
   ngOnInit() {
-    this.breedTypes = EnumValues.getNamesAndValues(BreedType);
     this.genders = EnumValues.getNamesAndValues(PetGender);
-    this.ages = EnumValues.getNamesAndValues(PetAge);
     this.reset();
   }
 
@@ -85,7 +83,7 @@ export class PetComponent implements OnInit, OnDestroy {
   }
 
   getPickList(listType) {
-    const obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -101,10 +99,16 @@ export class PetComponent implements OnInit, OnDestroy {
   mapValues(listType, data) {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
-        this.itemTypes = Utils.convertPickListToCodeValue(data);
+        this.itemTypes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.BREED):
-        this.breeds = Utils.convertPickListToCodeValue(data);
+        this.breeds = Utils.convertListItemToCodeValue(data);
+        break;
+      case EnumValues.getNameFromValue(PickListType, PickListType.BREED_TYPE):
+        this.breedTypes = Utils.convertListItemToCodeValue(data);
+        break;
+      case EnumValues.getNameFromValue(PickListType, PickListType.AGE_GROUP):
+        this.ages = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
@@ -125,7 +129,7 @@ export class PetComponent implements OnInit, OnDestroy {
         this.setRequiredField('age', true);
         this.setRequiredField('gender', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BREED));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.AGE_GROUP));
         this.isField1 = true;
         break;
       case this.CATEGORY.ANIMAL.SUBCATEGORY.cats:
@@ -135,6 +139,8 @@ export class PetComponent implements OnInit, OnDestroy {
         this.setRequiredField('age', true);
         this.setRequiredField('gender', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BREED));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BREED_TYPE));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.AGE_GROUP));
         this.isField2 = true;
         break;
       case this.CATEGORY.ANIMAL.SUBCATEGORY.pet_access:
@@ -196,13 +202,13 @@ export class PetComponent implements OnInit, OnDestroy {
         code: [subCategory.code, [Validators.required]],
         name: [subCategory.name, [Validators.required]]
       }),
-      subCatType: [this.pet.subCatType],
+      subCatType: [this.pet.subCatType ? this.pet.subCatType.code ? this.pet.subCatType : null : null],
       itemCondition: [this.pet.itemCondition ? this.pet.itemCondition :
         EnumValues.getNameFromValue(Condition, Condition.NEW)],
-      age: [this.pet.age],
+      age: [this.pet.age ? this.pet.age.code ? this.pet.age : null : null],
       gender: [this.pet.gender],
-      breed: [this.pet.breed],
-      breedType: [this.pet.breedType],
+      breed: [this.pet.breed ? this.pet.breed.code ? this.pet.breed : null : null],
+      breedType: [this.pet.breedType ? this.pet.breedType.code ? this.pet.breedType : null : null],
       price: [this.pet.price],
       negotiable: [this.pet.negotiable]
     });

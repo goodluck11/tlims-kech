@@ -5,6 +5,7 @@ import {ToastrService} from 'ngx-toastr';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {SearchRequest} from 'core/model/search-request';
 import {UserService} from '../user.service';
+import {APP_URL} from 'core/constant/tlims.url';
 
 @Component({
   selector: 'tlims-ads',
@@ -17,7 +18,7 @@ export class AdsComponent implements OnInit, OnDestroy {
   @BlockUI('ad-list') blockUI: NgBlockUI;
   searchTerm = '';
   query: Paging = new Paging();
-
+  APP_URL = APP_URL;
 
   constructor(private userService: UserService, private toastr: ToastrService) {
   }

@@ -1,40 +1,3 @@
-<!--
-<div class="card tlims-card card-body border-0 mb-0 box-shadow-none border-radius-0">
-  <div class="media flex-column flex-sm-row align-items-sm-start align-items-center">
-    <div class="mr-sm-3 mb-2 mb-sm-0">
-      <div class="d-block">
-          <a href="javascript:void(0)">
-          <img [src]="ad?.images[0] ? baseUrl + ad?.images[0] : '../../../../assets/images/blank.jpg'"
-               class="img img-thumbnail" width="218" height="218"
-               [attr.alt]="ad?.images[0] ? ad?.images[0] : '../../../../assets/images/blank.jpg'">
-        </a>
-      </div>
-    </div>
-
-    <div class="media-body">
-      <h5 class="media-title tk-bold">
-        <a [routerLink]="[routerLink, ad.id, ad.titleDescription?.title, ad.code]">{{ad.titleDescription?.title}}</a>
-      </h5>
-      <ul class="list-inline list-inline-dotted text-muted mb-2 f-12 font-weight-bold">
-        <li class="list-inline-item" *ngIf="ad.category?.name"><a [routerLink]="[routerLink, ad.category?.code]" class="text-orange-700">{{ad.category?.name}}</a></li>
-        <li class="list-inline-item" *ngIf="ad.subCategory?.name"><a href="javascript:void(0)" class="text-orange-700">{{ad.subCategory?.name}}</a></li>
-        <li class="list-inline-item" *ngIf="ad.brand?.name"><a href="javascript:void(0)" class="text-orange-700">{{ad.brand?.name}}</a></li>
-        <li class="list-inline-item text-orange-700">Amsterdam, Netherlands</li>
-      </ul>
-      <p [innerHTML]="ad.titleDescription?.description | shorten: 200: '...'"></p>
-    </div>
-
-    <div class="ml-sm-3 mt-2 mt-sm-0">
-      <div class="d-flex flex-column">
-        <h5 class="tk-bold text-success">{{ad.price?.value}}</h5>
-        &lt;!&ndash;<span class="badge bg-slate">New</span>&ndash;&gt;
-      </div>
-    </div>
-  </div>
-</div>
--->
-
-
 <div class="t-well">
   <div class="row">
     <div class="col-md-3 p-0">
@@ -48,23 +11,23 @@
     <div class="col-md-9">
       <div class="content-area">
         <div class="d-flex justify-content-between">
-          <h3><a [routerLink]="[routerLink, ad.id, ad.titleDescription?.title, ad.code]">{{ad.titleDescription?.title}}</a></h3>
+          <h3><a [routerLink]="[APP_URL.adView, ad.id, ad.titleDescription?.title, ad.code]">{{ad.titleDescription?.title}}</a></h3>
           <ul class="additional-info">
             <li>
-              <a href="#" class="fa fa-envelope"></a>
+              <a (click)="isOpenModal = true" class="fa fa-envelope"></a>
             </li>
             <li>
               <a href="#" class="fa fa-phone"></a>
             </li>
-            <li *tlimsIsLogedin="null">
-              <a href="javascript:;" class="fa fa-heart" (click)="addToFav()"></a>
+            <li>
+              <a [tlimsFavorite]="ad"></a>
             </li>
           </ul>
         </div>
         <div class="row mt-2">
           <div class="col-md-8">
             <div class="category-title">
-              <span><a *ngIf="ad.category?.name" [routerLink]="[routerLink, ad.category?.code]">{{ad.category?.name}}</a></span>
+              <span><a *ngIf="ad.category?.name" [routerLink]="[APP_URL.adView, ad.category?.code]">{{ad.category?.name}}</a></span>
             </div>
             <div class="ad-details">
               <p [innerHTML]="ad.titleDescription?.description | shorten: 250: '...'"></p>
@@ -72,16 +35,20 @@
           </div>
           <div class="col-md-4">
             <div class="short-info">
-              <div class="ad-stats hidden-xs"><span>Condition  : </span>Used</div>
-              <div class="ad-stats hidden-xs"><span>Warranty : </span>7 Days</div>
-              <div class="ad-stats hidden-xs"><span>Sub Category : </span>Mobiles</div>
+              <div class="ad-stats hidden-xs"><span class="mr-1">Condition: </span>Used</div>
+              <div class="ad-stats hidden-xs"><span class="mr-1">Warranty: </span>7 Days</div>
+              <div class="ad-stats hidden-xs"><span class="mr-1">Sub Category: </span>Mobiles</div>
             </div>
             <div class="ad-price mt-3">{{ad.price?.value}}</div>
-
-            <!--<div class="ad-price">{{ad.price?.value}}</div>-->
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<tlims-modal [dismissAble]="false" (close)="isOpenModal = $event" [visible]="isOpenModal" size="medium">
+  <tlims-message-form *ngIf="ad && isOpenModal" [recipient]="ad.contact?.email" [postId]="ad.id"
+                      (messageOutput)="sendMessage($event)"
+                      [isLoading]="isLoading"></tlims-message-form>
+</tlims-modal>

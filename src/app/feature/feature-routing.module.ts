@@ -21,6 +21,7 @@ import {AdHistoryComponent} from 'feature/admin/ad-history/ad-history.component'
 import {UserMessagesComponent} from './user/user-messages/user-messages.component';
 import {ContactsComponent} from 'feature/admin/contacts/contacts.component';
 import {DeclinedAdsComponent} from 'feature/admin/declined-ads/declined-ads.component';
+import {ListItemsComponent} from 'feature/admin/list-items/list-items.component';
 
 const routes: Routes = [
   {path: '', children: [
@@ -48,6 +49,9 @@ const routes: Routes = [
               categories: CategoryResolver
             }},
           {path: 'pick-list', component: PickListComponent, resolve: {
+              categories: CategoryResolver
+            }},
+          {path: 'list-item', component: ListItemsComponent, resolve: {
               categories: CategoryResolver
             }},
         ]

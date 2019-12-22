@@ -18,24 +18,22 @@
         </tlims-form-group>
       </div>
     </div>
-    <div class="col-md-6" *ngIf="isField1">
-      <div formGroupName="subCatType">
-        <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('subCatType')">
-            <option [ngValue]="null">--Select Item Type--</option>
-            <option *ngFor="let iType of itemTypes"
-                    [value]="iType.pickListcode?.dataCode">{{iType.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="commForm.get('subCatType').get('code')" label="Item Type"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+    <div class="col-md-6" *ngIf="isField1 || isField3">
+      <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
+        <select tlimsInput formControlName="subCatType">
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option *ngFor="let iType of itemTypes"
+                  [ngValue]="iType">{{iType.name}}</option>
+        </select>
+        <tlims-form-error [control]="commForm.get('subCatType')" label="Item Type"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField1">
       <tlims-form-group label="Power Source">
         <select tlimsInput formControlName="powerSource">
           <option [ngValue]="null">--Select Power Source--</option>
           <option *ngFor="let ps of powerSources"
-                  [value]="ps.titleDescription?.title">{{ps.titleDescription?.title}}</option>
+                  [ngValue]="ps">{{ps.name}}</option>
         </select>
         <tlims-form-error [control]="commForm.get('powerSource')"></tlims-form-error>
       </tlims-form-group>
@@ -64,7 +62,7 @@
       <tlims-form-group label="Shape">
         <select tlimsInput formControlName="shape">
           <option [ngValue]="null">--Select Shape--</option>
-          <option *ngFor="let sp of shapes" [value]="sp.titleDescription?.title">{{sp.titleDescription?.title}}</option>
+          <option *ngFor="let sp of shapes" [ngValue]="sp">{{sp.name}}</option>
         </select>
       </tlims-form-group>
     </div>
@@ -73,7 +71,7 @@
         <input tlimsInput placeholder="weight" formControlName="weight"/>
       </tlims-form-group>
     </div>
-    <div class="col-md-6" *ngIf="isField1 || isField2">
+    <div class="col-md-6" *ngIf="isField1 || isField2 || isField4">
       <tlims-form-group label="Condition" [checkBox]="true">
         <tlims-checkbox label="New" styleClass="mr-2">
           <input type="radio" class="form-check-input" formControlName="itemCondition" value="NEW" checked>

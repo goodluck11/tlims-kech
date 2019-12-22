@@ -52,18 +52,6 @@
       transform: scale(1.1);
     }
   }
-
-  .total-images {
-    color: #fff;
-    line-height: 20px;
-    font-size: 12px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
-    bottom: 0;
-    left: 5px;
-    padding: 0 10px;
-    position: absolute;
-  }
 }
 
 .ad-status {
@@ -119,48 +107,8 @@
   //margin-bottom: 3px;
 
   a {
-    color: inherit;
-  }
-}
-
-.additional-info {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  //right: 16px;
-  //bottom: 10px;
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-
-  li {
-    display: inline-block;
-    margin: 0 2px;
-
-    a {
-      background: #f4f4f4 none repeat scroll 0 0;
-      border-radius: 50%;
-      color: #b7b7b7;
-      display: block;
-      font-size: 12px;
-      height: 30px;
-      line-height: 30px;
-      margin-right: 2px;
-      position: relative;
-      text-align: center;
-      text-decoration: none;
-      width: 30px;
-      -webkit-transition: all .3s ease-in;
-      -moz-transition: all .3s ease;
-      -ms-transition: all .3s ease;
-      -o-transition: all .3s ease;
-      transition: all .3s ease;
-
-      &:hover {
-        background: #f58936 none repeat scroll 0 0 !important;
-        color: #fff;
-      }
-    }
+    color: #009688;
+    font-weight: 600;
   }
 }
 

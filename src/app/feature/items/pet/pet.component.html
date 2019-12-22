@@ -20,10 +20,10 @@
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField3">
       <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
-        <select tlimsInput formControlName="subCatType" (change)="populateCodeValueName('subCatType')">
+        <select tlimsInput formControlName="subCatType">
           <option [ngValue]="null">--Select Item Type--</option>
           <option *ngFor="let iType of itemTypes"
-                  [value]="iType">{{iType.name}}</option>
+                  [ngValue]="iType">{{iType.name}}</option>
         </select>
         <tlims-form-error [control]="pForm.get('subCatType')" label="Item Type"></tlims-form-error>
       </tlims-form-group>
@@ -32,7 +32,7 @@
       <tlims-form-group label="Breed">
         <select tlimsInput formControlName="breed">
           <option [ngValue]="null">--Select Breed--</option>
-          <option *ngFor="let col of breeds" [ngValue]="col.name">{{col.name}}</option>
+          <option *ngFor="let col of breeds" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
@@ -40,7 +40,7 @@
       <tlims-form-group label="Breed Type">
         <select tlimsInput formControlName="breedType">
           <option [ngValue]="null">--Select Breed Type--</option>
-          <option *ngFor="let col of breedTypes" [ngValue]="col.value">{{col.value}}</option>
+          <option *ngFor="let col of breedTypes" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>
@@ -56,7 +56,7 @@
       <tlims-form-group label="Age">
         <select tlimsInput formControlName="age">
           <option [ngValue]="null">--Select Age--</option>
-          <option *ngFor="let col of ages" [ngValue]="col.value">{{col.value}}</option>
+          <option *ngFor="let col of ages" [ngValue]="col">{{col.name}}</option>
         </select>
       </tlims-form-group>
     </div>

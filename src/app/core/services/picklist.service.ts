@@ -30,6 +30,10 @@ export class PickListService {
     return this.http.get(`${this.baseUrl}/findByPickListType/${listType}`);
   }
 
+  getByTypeAndCategory(listType, catCode) {
+    return this.http.get(`${this.baseUrl}/findByPickListTypeAndCategory/${listType}/${catCode}`);
+  }
+
   getPicklistsByByTypeAndCategory(listType, code, subCatCode) {
     return this.http.get(`${this.baseUrl}/findByListTypeAndCategory/${listType}/${code}/${subCatCode}`);
   }

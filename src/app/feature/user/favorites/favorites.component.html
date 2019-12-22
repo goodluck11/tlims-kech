@@ -10,19 +10,26 @@
         <th>Price</th>
         <th>Date Created</th>
         <th>Status</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let d of ads; trackBy: trackByFn; index as i">
         <td>{{i + 1}}</td>
-        <td>{{d.titleDescription?.title}}</td>
+        <td>
+          <a class="tk-link font-weight-bold f-14"
+             [routerLink]="[APP_URL.adView, d.id, d.titleDescription?.title, d.code]">{{d.titleDescription?.title}}</a>
+        </td>
         <td>{{d.category?.name}}</td>
         <td>{{d.price?.value}}</td>
         <td>{{d.createdDate | date: 'dd-MMM-yy'}}</td>
         <td>{{d.status}}</td>
+        <td>
+          <button class="btn btn-sm btn-danger" (click)="confirmRemove(d.id)">Remove</button>
+        </td>
       </tr>
       </tbody>
     </table>
-    <div class="alert text-center" *ngIf="ads?.length <= 0">No Ad Created Yet</div>
+    <div class="alert text-center" *ngIf="ads?.length <= 0">No favorite added yet</div>
   </div>
 </div>

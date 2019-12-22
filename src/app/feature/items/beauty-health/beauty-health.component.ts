@@ -12,6 +12,7 @@ import {Utils} from 'core/utils/utils';
 import {EnumValues} from 'enum-values';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {APP_URL} from 'core/constant/tlims.url';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-beauty-health',
@@ -31,8 +32,8 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
   isField4 = false; // gender, type, target area, skin type, benefits
   genders = [];
   subCatCode: string;
-  itemTypes: Array<Picklist> = [];
-  brands: Array<Picklist> = [];
+  itemTypes: Array<CodeValue> = [];
+  brands: Array<CodeValue> = [];
   scents: Array<CodeValue> = [];
   colors: Array<CodeValue> = [];
   tones: Array<CodeValue> = [];
@@ -49,7 +50,7 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
   parentCode: string;
   contact: Contact = new Contact();
 
-  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
+  constructor(private fb: FormBuilder, private listItemService: ListItemService, private itemService: ItemService,
               private toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute) {
     itemService.endPoint = 'beauties';
   }
@@ -68,22 +69,6 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
 
   getContact($event) {
     this.contact = $event;
-  }
-
-  setCodeValueRequiredField(groupName: string, isRequired: boolean) {
-    const code = this.bForm.get(groupName).get('code');
-    const name = this.bForm.get(groupName).get('name');
-    if (isRequired) {
-      code.setValidators([Validators.required]);
-      name.setValidators([Validators.required]);
-      this.markFields(code);
-      this.markFields(name);
-    } else {
-      code.clearValidators();
-      name.clearValidators();
-    }
-    code.updateValueAndValidity();
-    name.updateValueAndValidity();
   }
 
   setRequiredField(fieldName: string, isRequired: boolean) {
@@ -115,16 +100,10 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
       this.setNameFromCodeValue(groupName, Utils.getNameFromCategory(this.subCategories, this.getValueFromCodeValue(groupName)));
       this.resolveField();
     }
-    if ('subCatType' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.itemTypes, this.getValueFromCodeValue(groupName)));
-    }
-    if ('brand' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.brands, this.getValueFromCodeValue(groupName)));
-    }
   }
 
   getPickList(listType) {
-    const obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -140,34 +119,34 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
   mapValues(listType, data) {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
-        this.itemTypes = data;
+        this.itemTypes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.BRAND):
-        this.brands = data;
+        this.brands = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.SCENT):
-        this.scents = Utils.convertPickListToCodeValue(data);
+        this.scents = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.FORMULA):
-        this.formulations = Utils.convertPickListToCodeValue(data);
+        this.formulations = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.SKIN):
-        this.skinTypes = Utils.convertPickListToCodeValue(data);
+        this.skinTypes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.TARGET_AREA):
-        this.targetAreas = Utils.convertPickListToCodeValue(data);
+        this.targetAreas = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.AGE_GROUP):
-        this.ageGroups = Utils.convertPickListToCodeValue(data);
+        this.ageGroups = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.PACKAGE):
-        this.packages = Utils.convertPickListToCodeValue(data);
+        this.packages = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.BENEFIT):
-        this.benefits = Utils.convertPickListToCodeValue(data);
+        this.benefits = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.TONE):
-        this.tones = Utils.convertPickListToCodeValue(data);
+        this.tones = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
@@ -177,11 +156,9 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
     this.subCatCode = subCatCode;
     this.resetField();
     switch (subCatCode) {
-      case this.CATEGORY.BEAUTY.SUBCATEGORY.body:
-        break;
       case this.CATEGORY.BEAUTY.SUBCATEGORY.fragrance:
         this.isField1 = true;
-        this.setCodeValueRequiredField('brand', true);
+        this.setRequiredField('brand', true);
         this.setRequiredField('formulation', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.SCENT));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.FORMULA));
@@ -189,20 +166,21 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
         break;
       case this.CATEGORY.BEAUTY.SUBCATEGORY.sexual:
       case this.CATEGORY.BEAUTY.SUBCATEGORY.hair:
-        this.setCodeValueRequiredField('subCatType', true);
+      case this.CATEGORY.BEAUTY.SUBCATEGORY.body:
+        this.setRequiredField('subCatType', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.isField2 = true;
         break;
       case this.CATEGORY.BEAUTY.SUBCATEGORY.makeup:
-        this.setCodeValueRequiredField('subCatType', true);
-        this.setCodeValueRequiredField('brand', true);
+        this.setRequiredField('subCatType', true);
+        this.setRequiredField('brand', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.TONE));
         this.isField3 = true;
         break;
       case this.CATEGORY.BEAUTY.SUBCATEGORY.skin:
-        this.setCodeValueRequiredField('subCatType', true);
+        this.setRequiredField('subCatType', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.SKIN));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.TARGET_AREA));
@@ -210,7 +188,7 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
         this.isField4 = true;
         break;
       case this.CATEGORY.BEAUTY.SUBCATEGORY.supplements:
-        this.setCodeValueRequiredField('subCatType', true);
+        this.setRequiredField('subCatType', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.FORMULA));
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.AGE_GROUP));
@@ -230,8 +208,8 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
   }
 
   removeConstraints() {
-    this.setCodeValueRequiredField('subCatType', false);
-    this.setCodeValueRequiredField('brand', false);
+    this.setRequiredField('subCatType', false);
+    this.setRequiredField('brand', false);
     this.setRequiredField('formulation', false);
   }
 
@@ -251,26 +229,20 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
         code: [subCategory.code, [Validators.required]],
         name: [subCategory.name, [Validators.required]]
       }),
-      subCatType: this.fb.group({
-        code: [],
-        name: [this.beauty.subCatType.name]
-      }),
-      brand: this.fb.group({
-        code: [this.beauty.brand.code],
-        name: [this.beauty.brand.name]
-      }),
+      subCatType: [this.beauty.subCatType ? this.beauty.subCatType.code ? this.beauty.subCatType : null : null],
+      brand: [this.beauty.brand ? this.beauty.brand.code ? this.beauty.brand : null : null],
       price: [this.beauty.price, [Validators.required]],
-      scent: [this.beauty.scent],
-      vPackage: [this.beauty.vPackage],
-      tone: [this.beauty.tone],
+      scent: [this.beauty.scent ? this.beauty.scent.code ? this.beauty.scent : null : null],
+      vPackage: [this.beauty.vPackage ? this.beauty.vPackage.code ? this.beauty.vPackage : null : null],
+      tone: [this.beauty.tone ? this.beauty.tone.code ? this.beauty.tone : null : null],
       gender: [this.beauty.gender],
       volume: [this.beauty.volume],
-      ageGroup: [this.beauty.ageGroup],
-      formulation: [this.beauty.formulation],
-      benefits: [this.beauty.benefits],
+      ageGroup: [this.beauty.ageGroup ? this.beauty.ageGroup.code ? this.beauty.ageGroup : null : null],
+      formulation: [this.beauty.formulation ? this.beauty.formulation.code ? this.beauty.formulation : null : null],
+      benefits: [this.beauty.benefits ? this.beauty.benefits.code ? this.beauty.benefits : null : null],
       color: [this.beauty.color],
-      skinType: [this.beauty.skinType],
-      targetArea: [this.beauty.targetArea],
+      skinType: [this.beauty.skinType ? this.beauty.skinType.code ? this.beauty.skinType : null : null],
+      targetArea: [this.beauty.targetArea ? this.beauty.targetArea.code ? this.beauty.targetArea : null : null],
       negotiable: [this.beauty.negotiable],
     });
     this.resolveField();
@@ -280,7 +252,6 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.beauty = this.bForm.value;
     this.beauty.contact = this.contact;
-    this.transformObj();
     this.itemService.create('beauty', this.beauty, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
       this.toastr.success('Ad ' + this.beauty.titleDescription.title + ' successfully created');
@@ -295,18 +266,6 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
 
   cancel() {
 
-  }
-
-  transformObj() {
-    this.beauty.targetArea = this.beauty.targetArea ? JSON.stringify(this.beauty.targetArea) : this.beauty.targetArea;
-    this.beauty.color = this.beauty.color ? JSON.stringify(this.beauty.color) : this.beauty.color;
-    this.beauty.formulation = this.beauty.formulation ? JSON.stringify(this.beauty.formulation) : this.beauty.formulation;
-    this.beauty.scent = this.beauty.scent ? JSON.stringify(this.beauty.scent) : this.beauty.scent;
-    this.beauty.tone = this.beauty.tone ? JSON.stringify(this.beauty.tone) : this.beauty.tone;
-    this.beauty.skinType = this.beauty.skinType ? JSON.stringify(this.beauty.skinType) : this.beauty.skinType;
-    this.beauty.benefits = this.beauty.benefits ? JSON.stringify(this.beauty.benefits) : this.beauty.benefits;
-    this.beauty.vPackage = this.beauty.vPackage ? JSON.stringify(this.beauty.vPackage) : this.beauty.vPackage;
-    this.beauty.ageGroup = this.beauty.ageGroup ? JSON.stringify(this.beauty.ageGroup) : this.beauty.ageGroup;
   }
 
   reset() {

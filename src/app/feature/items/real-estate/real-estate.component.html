@@ -104,7 +104,13 @@
     </div>
     <div class="col-md-12" *ngIf="isField5">
       <tlims-form-group label="Facilities">
-
+        <div class="d-flex flex-wrap">
+          <div class="p-1" *ngFor="let d of facilities">
+            <label class="form-check-label">
+              <input type="checkbox" (click)="addOrRemoveFacilities(d, $event.target.checked)" [checked]="selectedFacilities | isChecked: d "> {{d.name}}
+            </label>
+          </div>
+        </div>
       </tlims-form-group>
     </div>
     <div class="col-md-12">

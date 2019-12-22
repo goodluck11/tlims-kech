@@ -1,4 +1,5 @@
 import {Ad} from 'feature/items/ad';
+import {CodeValue} from 'core/model/base-model';
 
 export class Estate extends Ad {
   brokerFeeFg = false;
@@ -6,7 +7,7 @@ export class Estate extends Ad {
   parkingSpaceFg = false;
   furnishType: FurnishType;
   capacity: number;
-  facilities: string[];
+  facilities: Array<CodeValue> = [];
   contactForPrice = false;
   totalRoom: number;
   totalBathroom: number;

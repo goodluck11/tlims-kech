@@ -27,7 +27,7 @@ body {
 .tk-row2 {
   background: #fff;
   padding-top: 30px;
-  padding-bottom: 100px;
+  padding-bottom: 20px;
 }
 
 .tk-row3 {
@@ -327,6 +327,10 @@ a {
   font-size: 13px;
 }
 
+.f-8r {
+  font-size: .85rem;
+}
+
 .f-18{
   font-size: 18px;
 }
@@ -575,11 +579,11 @@ ngx-image-zoom, .ngxImageZoomContainer {
     margin: 0 2px;
 
     a {
-      background: #f4f4f4 none repeat scroll 0 0;
+      background: #ececec none repeat scroll 0 0;
       border-radius: 50%;
-      color: #b7b7b7;
+      color: #787878;
       display: block;
-      font-size: 12px;
+      font-size: 14px;
       height: 30px;
       line-height: 30px;
       margin-right: 2px;
@@ -587,11 +591,11 @@ ngx-image-zoom, .ngxImageZoomContainer {
       text-align: center;
       text-decoration: none;
       width: 30px;
-      -webkit-transition: all .3s ease-in;
-      -moz-transition: all .3s ease;
-      -ms-transition: all .3s ease;
-      -o-transition: all .3s ease;
-      transition: all .3s ease;
+      -webkit-transition: all 300ms ease-in;
+      -moz-transition: all 300ms ease;
+      -ms-transition: all 300ms ease;
+      -o-transition: all 300ms ease;
+      transition: all 300ms ease;
 
       &:hover {
         background: #f58936 none repeat scroll 0 0 !important;
@@ -601,31 +605,14 @@ ngx-image-zoom, .ngxImageZoomContainer {
   }
 }
 
-//.slick-list, .slick-track {
-//  height: 100% !important;
-//}
-//
-//ngx-slick {
-//  height: 200px;
-//}
-//
-//@media (min-width: 576px) {
-//  ngx-slick {
-//    height: 250px;
-//  }
-//}
-//
-//
-//
-//@media (min-width: 992px) {
-//  ngx-slick {
-//    height: 400px;
-//  }
-//}
-//
-//@media (min-width: 1200px) {
-//  ngx-slick {
-//    height: 400px;
-//  }
-//}
-
+.total-images {
+  color: #fff;
+  line-height: 20px;
+  font-size: 12px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
+  bottom: 0;
+  left: 5px;
+  padding: 0 10px;
+  position: absolute;
+}

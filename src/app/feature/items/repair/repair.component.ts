@@ -91,13 +91,15 @@ export class RepairComponent implements OnInit, OnDestroy {
     this.itemTypes = [];
     switch (subCatCode) {
       case this.CATEGORY.REPAIR.SUBCATEGORY.b_materials:
+      case this.CATEGORY.REPAIR.SUBCATEGORY.plumb_water:
         this.isField1 = true;
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         break;
-      case this.CATEGORY.REPAIR.SUBCATEGORY.hand_tools:
-        this.isField2 = true;
-        break;
       case this.CATEGORY.REPAIR.SUBCATEGORY.solar_energy:
+      case this.CATEGORY.REPAIR.SUBCATEGORY.elect_equip:
+      case this.CATEGORY.REPAIR.SUBCATEGORY.elect_tools:
+      case this.CATEGORY.REPAIR.SUBCATEGORY.hand_tools:
+      case this.CATEGORY.REPAIR.SUBCATEGORY.measure_layout:
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.isField1 = true;
         this.isField2 = true;

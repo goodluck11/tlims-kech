@@ -33,7 +33,6 @@ import {Ng5SliderModule} from 'ng5-slider';
 import {RecommendedComponent} from './public/views/viewComponents/recommended/recommended.component';
 import {NgxImageZoomModule} from 'ngx-image-zoom';
 import {SafetyComponent} from './public/views/safety/safety.component';
-import {FavoriteDirective} from './public/views/viewComponents/favorite.directive';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
 import {AboutComponent} from './public/static/about/about.component';
@@ -48,6 +47,8 @@ import {FeatureHomeComponent} from './feature/feature-home/feature-home.componen
 import {UserHomeComponent} from './feature/user/user-home/user-home.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angularx-social-login';
+import {CarouselModule} from 'ngx-owl-carousel-o';
+import {NgxCoolDialogsModule} from 'ngx-cool-dialogs';
 
 export function createTranslateLoader(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
@@ -88,7 +89,6 @@ export function provideConfig() {
     FeaturedComponent,
     RecommendedComponent,
     SafetyComponent,
-    FavoriteDirective,
     AboutComponent,
     FaqComponent,
     PrivacyComponent,
@@ -113,6 +113,7 @@ export function provideConfig() {
     }),
     SlickCarouselModule,
     OwlModule,
+    CarouselModule,
     NgbModule,
     Ng5SliderModule,
     NgxImageZoomModule.forRoot(),
@@ -124,7 +125,16 @@ export function provideConfig() {
       }
     }),
     OverlayModule,
-    SocialLoginModule
+    SocialLoginModule,
+    NgxCoolDialogsModule.forRoot({
+      okButtonText: 'Yes',
+      cancelButtonText: 'No',
+      color: '#ff6232',
+      titles: {
+        alert: 'Alert',
+        confirm: 'Confirmation'
+      }
+    })
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

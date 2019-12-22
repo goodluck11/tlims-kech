@@ -8,6 +8,8 @@ import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
 import {Ad} from 'feature/items/ad';
+import {NgxCoolDialogsService} from 'ngx-cool-dialogs';
+import {APP_URL} from 'core/constant/tlims.url';
 
 @Component({
   selector: 'tlims-ad-history',
@@ -21,8 +23,10 @@ export class AdHistoryComponent implements OnInit, OnDestroy {
   searchTerm = '';
   query: Paging = new Paging();
   searchField: FormControl;
+  APP_URL = APP_URL;
 
-  constructor(private adminService: AdminService, private toastr: ToastrService) {
+  constructor(private adminService: AdminService, private toastr: ToastrService,
+              private coolDialogs: NgxCoolDialogsService) {
   }
 
   ngOnInit() {
@@ -73,7 +77,6 @@ export class AdHistoryComponent implements OnInit, OnDestroy {
   }
 
   handleResult(res) {
-    console.log(res);
     if ('OK' === res) {
       this.toastr.success('Action successful');
       this.getAdHistory();

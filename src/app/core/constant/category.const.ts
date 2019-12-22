@@ -35,8 +35,7 @@ export const CATEGORY = {
     code: 'electronics',
     SUBCATEGORY: {
       audio: 'electronics_audio',
-      cameras: 'electronics_cameras',
-      vidcam: 'electronics_vidcam',
+      photos: 'electronics_photos',
       comp_hardware: 'electronics_comp_hardware',
       comp_access: 'electronics_comp_access',
       laptops: 'electronics_laptops',
@@ -111,6 +110,10 @@ export const CATEGORY = {
       b_materials: 'b_materials',
       solar_energy: 'solar_energy',
       hand_tools: 'hand_tools',
+      elect_equip: 'elect_equip',
+      elect_tools: 'elect_tools',
+      measure_layout: 'measure_layout',
+      plumb_water: 'plumb_water',
     }
   },
   ESTATE: {

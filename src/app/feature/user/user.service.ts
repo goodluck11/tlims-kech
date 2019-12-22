@@ -6,7 +6,7 @@ import {ENV} from 'core/config/env.config';
 export class UserService {
 
   private baseUrl = `${ENV.BASE_API}/api/users`;
-  
+
   constructor(private http: HttpClient) {
   }
 

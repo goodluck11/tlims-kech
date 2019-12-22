@@ -39,6 +39,9 @@ import { GardenComponent } from './items/garden/garden.component';
 import { RealEstateComponent } from './items/real-estate/real-estate.component';
 import { PetComponent } from './items/pet/pet.component';
 import { DeclinedAdsComponent } from './admin/declined-ads/declined-ads.component';
+import { ListItemsComponent } from './admin/list-items/list-items.component';
+import { ListItemFormComponent } from './admin/list-items/list-item-form/list-item-form.component';
+import { ListItemViewComponent } from './admin/list-items/list-item-view/list-item-view.component';
 
 @NgModule({
   imports: [
@@ -51,7 +54,8 @@ import { DeclinedAdsComponent } from './admin/declined-ads/declined-ads.componen
     ElectronicsComponent, FashionComponent, BeautyHealthComponent, CommercialComponent, AdComponent,
     MobileComponent, VehicleComponent, RepairComponent, CategoryViewComponent, ItemsHomeComponent,
     AdminHomeComponent, AdHistoryComponent, ManageAdsComponent, ContactComponent,
-    UserMessagesComponent, JobComponent, ContactsComponent, ServicesComponent, GardenComponent, RealEstateComponent, PetComponent, DeclinedAdsComponent],
+    UserMessagesComponent, JobComponent, ContactsComponent, ServicesComponent, GardenComponent,
+    RealEstateComponent, PetComponent, DeclinedAdsComponent, ListItemsComponent, ListItemFormComponent, ListItemViewComponent],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     AdminService, UserService, ItemService]

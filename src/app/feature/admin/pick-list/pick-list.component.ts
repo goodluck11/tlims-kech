@@ -144,7 +144,6 @@ export class PickListComponent implements OnInit, OnDestroy {
       this.getAllPickList();
       this.isLoading = false;
     }, (err) => {
-      console.log(err);
       this.toastr.error('Picklist creation failed');
       this.isLoading = false;
     });

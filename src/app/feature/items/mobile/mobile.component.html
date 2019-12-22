@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div formGroupName="subCategory">
-        <tlims-form-group label="Subcategory">
+        <tlims-form-group label="Subcategory" required="true">
           <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
             <option *ngFor="let subCat of subCategories"
                     [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
@@ -12,45 +12,43 @@
     </div>
     <div class="col-md-6">
       <div formGroupName="titleDescription">
-        <tlims-form-group label="Title">
+        <tlims-form-group label="Title" required="true">
           <input tlimsInput placeholder="title" formControlName="title"/>
           <tlims-form-error [control]="mForm.get('titleDescription').get('title')"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
     <div class="col-md-6" *ngIf="isField1">
-      <div formGroupName="subCatType">
-        <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('subCatType')"
-                  [disableControl]="itemTypes.length === 0">
-            <option [ngValue]="null">--Select Item Type--</option>
-            <option *ngFor="let iType of itemTypes"
-                    [value]="iType.pickListcode?.dataCode">{{iType.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="mForm.get('subCatType').get('code')"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Item Type" [isLoading]="isDataLoading" [required]="true">
+        <select tlimsInput formControlName="subCatType"
+                [disableControl]="itemTypes.length === 0">
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option *ngFor="let iType of itemTypes"
+                  [ngValue]="iType">{{iType.titleDescription?.title}}</option>
+        </select>
+        <tlims-form-error [control]="mForm.get('subCatType')" label="Item Type"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField2">
       <div formGroupName="brand">
-        <tlims-form-group label="Brand">
+        <tlims-form-group label="Brand" required="true">
           <select tlimsInput formControlName="code" (change)="populateCodeValueName('brand')"
                   [disableControl]="brands.length === 0">
             <option [ngValue]="null">--Select Brand--</option>
             <option *ngFor="let bd of brands"
-                    [value]="bd.pickListcode?.dataCode">{{bd.titleDescription?.title}}</option>
+                    [value]="bd.listCode?.dataCode">{{bd.titleDescription?.title}}</option>
           </select>
-          <tlims-form-error [control]="mForm.get('brand').get('code')"></tlims-form-error>
+          <tlims-form-error [control]="mForm.get('brand').get('code')" label="Brand"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
     <div class="col-md-6" *ngIf="isField2">
-      <tlims-form-group label="Model">
-        <select tlimsInput formControlName="model">
+      <tlims-form-group label="Model" required="true">
+        <select tlimsInput formControlName="model" [disableControl]="models.length === 0">
           <option [ngValue]="null">--Select Model--</option>
-          <option>Electronic</option>
-          <option>Fashion</option>
+          <option *ngFor="let col of models" [ngValue]="col">{{col.name}}</option>
         </select>
+        <tlims-form-error [control]="mForm.get('model').get('code')" label="Model"></tlims-form-error>
       </tlims-form-group>
     </div>
     <div class="col-md-6">
@@ -65,8 +63,9 @@
       <tlims-form-group label="Color">
         <select tlimsInput formControlName="color">
           <option [ngValue]="null">--Select Color--</option>
-          <option *ngFor="let col of colors" [ngValue]="col">{{col.name}}</option>
+          <option *ngFor="let col of colors" [ngValue]="col.name">{{col.name}}</option>
         </select>
+        <tlims-form-error [control]="mForm.get('color')" label="Color"></tlims-form-error>
       </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField2">
@@ -102,8 +101,9 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Price">
+      <tlims-form-group label="Price" required="true">
         <tlims-amount formControlName="price"></tlims-amount>
+        <tlims-form-error [control]="mForm.get('price')"></tlims-form-error>
       </tlims-form-group>
     </div>
     <div class="col-md-12">

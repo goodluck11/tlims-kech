@@ -1,22 +1,11 @@
 import {Ad} from 'feature/items/ad';
+import {CodeValue} from 'core/model/base-model';
 
 export class Pet extends Ad {
   gender: PetGender;
-  age: string;
-  breed: string;
-  breedType: string;
-}
-
-export enum BreedType {
-  MIXED = 'Mixed Breed',
-  PURE = 'Pure Breed'
-}
-
-export enum PetAge {
-  ADULT = 'Adult',
-  YOUNG = 'Young',
-  SENIOR = 'Senior',
-  BABY = 'Baby'
+  age: CodeValue = new CodeValue();
+  breed: CodeValue = new CodeValue();
+  breedType: CodeValue = new CodeValue();
 }
 
 export enum PetGender {

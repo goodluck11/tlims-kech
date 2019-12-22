@@ -1,17 +1,17 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Category, Picklist, PickListType} from 'core/model/category';
-import {PickListService} from 'core/services/picklist.service';
+import {Category, ListItem, PickListType} from 'core/model/category';
 import {ItemService} from 'feature/items/item.service';
 import {ToastrService} from 'ngx-toastr';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Mobile} from 'feature/items/mobile/mobile';
-import {CodeValue, Condition, Contact} from 'core/model/base-model';
+import {Mobile, MobileCondition} from 'feature/items/mobile/mobile';
+import {CodeValue, Contact} from 'core/model/base-model';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {APP_URL} from 'core/constant/tlims.url';
 import {Utils} from 'core/utils/utils';
 import {CATEGORY} from 'core/constant/category.const';
 import {EnumValues} from 'enum-values';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-mobile',
@@ -32,23 +32,26 @@ export class MobileComponent implements OnInit, OnDestroy {
   isField2 = false; // brand, model, ram, capacity, condition, screen, color, os, battery
   isField3 = false; // brand, model, capacity, condition, screen, color, os, ram
   isDataLoading = false;
-  brands: Array<Picklist> = [];
-  itemTypes: Array<Picklist> = [];
+  brands: Array<ListItem> = [];
+  itemTypes: Array<ListItem> = [];
   colors: Array<CodeValue> = [];
   capacities: Array<CodeValue> = [];
   rams: Array<CodeValue> = [];
+  models: Array<CodeValue> = [];
   operatings: Array<CodeValue> = [];
   sizes: Array<CodeValue> = [];
   subCatCode: string;
   contact: Contact = new Contact();
+  parentCode: string;
 
-  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
-              private toastr: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private fb: FormBuilder, private itemService: ItemService,
+              private toastr: ToastrService, private activatedRoute: ActivatedRoute, private router: Router,
+              private listItemService: ListItemService) {
     itemService.endPoint = 'mobiles';
   }
 
   ngOnInit() {
-    this.conditions = EnumValues.getNamesAndValues(Condition);
+    this.conditions = EnumValues.getNamesAndValues(MobileCondition);
     this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((res) => {
       this.colors = Utils.convertPickListToCodeValue(res.colors);
     });
@@ -60,22 +63,20 @@ export class MobileComponent implements OnInit, OnDestroy {
       this.setNameFromCodeValue(groupName, Utils.getNameFromCategory(this.subCategories, this.getValueFromCodeValue(groupName)));
       this.resolveField();
     }
-    if ('subCatType' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.itemTypes, this.getValueFromCodeValue(groupName)));
-    }
     if ('brand' === groupName) {
-      this.setNameFromCodeValue(groupName, Utils.getNameFromPicklist(this.brands, this.getValueFromCodeValue(groupName)));
+      this.setNameFromCodeValue(groupName, Utils.getNameFromListItem(this.brands, this.getValueFromCodeValue(groupName)));
+      this.parentCode = this.getValueFromCodeValue(groupName);
+      this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.MODEL), true);
     }
   }
 
   resolveField() {
     const subCatCode = this.getValueFromCodeValue('subCategory');
     this.subCatCode = subCatCode;
-    console.log(subCatCode);
     this.resetField();
     switch (subCatCode) {
       case this.CATEGORY.MOBILE.SUBCATEGORY.accessories:
-        this.setCodeValueRequiredField('subCatType', true);
+        this.setRequiredField('subCatType', true);
         this.setRequiredField('itemCondition', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
         this.isField1 = true;
@@ -134,14 +135,17 @@ export class MobileComponent implements OnInit, OnDestroy {
   }
 
   removeConstraints() {
-    this.setCodeValueRequiredField('subCatType', false);
+    this.setRequiredField('subCatType', false);
     this.setCodeValueRequiredField('brand', false);
     this.setRequiredField('itemCondition', false);
     this.setRequiredField('model', false);
   }
 
-  getPickList(listType) {
-    const obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
+  getPickList(listType, withParent?: boolean) {
+    let obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
+    if (withParent) {
+      obs$ = this.listItemService.findByListTypeSubcategoryAndParentList(listType, this.subCatCode, this.parentCode);
+    }
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -162,16 +166,19 @@ export class MobileComponent implements OnInit, OnDestroy {
         this.itemTypes = data;
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.STORE_CAPACITY):
-        this.capacities = Utils.convertPickListToCodeValue(data);
+        this.capacities = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.RAM):
-        this.rams = Utils.convertPickListToCodeValue(data);
+        this.rams = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.SIZE):
-        this.sizes = Utils.convertPickListToCodeValue(data);
+        this.sizes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.OS):
-        this.operatings = Utils.convertPickListToCodeValue(data);
+        this.operatings = Utils.convertListItemToCodeValue(data);
+        break;
+      case EnumValues.getNameFromValue(PickListType, PickListType.MODEL):
+        this.models = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
@@ -200,21 +207,19 @@ export class MobileComponent implements OnInit, OnDestroy {
         code: [subCategory.code, [Validators.required]],
         name: [subCategory.name, [Validators.required]]
       }),
-      subCatType: this.fb.group({
-        code: [],
-        name: [this.mobile.subCatType.name]
-      }),
+      subCatType: [this.mobile.subCatType ? this.mobile.subCatType.code ? this.mobile.subCatType : null : null],
       brand: this.fb.group({
         code: [this.mobile.brand.code],
         name: [this.mobile.brand.name]
       }),
-      itemCondition: [this.mobile.itemCondition],
-      model: [this.mobile.model],
+      itemCondition: [this.mobile.itemCondition ? this.mobile.itemCondition :
+        EnumValues.getNameFromValue(MobileCondition, MobileCondition.USED)],
+      model: [this.mobile.model ? this.mobile.model.code ? this.mobile.model : null : null],
       color: [this.mobile.color],
-      os: [this.mobile.os],
-      ram: [this.mobile.ram],
-      screenSize: [this.mobile.screenSize],
-      storageCapacity: [this.mobile.storageCapacity],
+      os: [this.mobile.os ? this.mobile.os.code ? this.mobile.os : null : null],
+      ram: [this.mobile.ram ? this.mobile.ram.code ? this.mobile.ram : null : null],
+      screenSize: [this.mobile.screenSize ? this.mobile.screenSize.code ? this.mobile.screenSize : null : null],
+      storageCapacity: [this.mobile.storageCapacity ? this.mobile.storageCapacity.code ? this.mobile.storageCapacity : null : null],
       isExchangeable: [this.mobile.isExchangeable],
       price: [this.mobile.price, [Validators.required]],
       negotiable: [this.mobile.negotiable]
@@ -241,7 +246,6 @@ export class MobileComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
       this.toastr.error('Error creating AD ' + this.mobile.titleDescription.title);
-      console.log(err);
       this.isLoading = false;
     });
   }

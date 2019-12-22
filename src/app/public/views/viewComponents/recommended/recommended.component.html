@@ -1,30 +1,45 @@
 <section class="tk-row3">
   <div class="container">
     <div class="row">
-      <div class="col-md-12" *ngIf="slideConfigs">
+      <div class="col-12 category-col" *blockUI="'recommendList'">
         <div class="flexbox tk-heading">
           <h3 class="tk-bold">{{'app.core.recommeneditems' | translate}}</h3>
           <div class="btn-group">
-            <button (click)="slickModal.slickGoTo(1)" class="btn-prev"></button>
-            <button (click)="slickModal.slickGoTo(2)" class="btn-next"></button>
+            <ng-container *ngIf="ads.length > 4">
+              <button (click)="owlCar.prev()" class="btn-prev"></button>
+              <button (click)="owlCar.next()" class="btn-next"></button>
+            </ng-container>
           </div>
         </div>
-        <ngx-slick-carousel class="carousel" [config]="slideConfigs" #slickModal="slick-carousel">
-          <div ngxSlickItem *ngFor="let slide of images" class="slide px-1">
-            <div class="card border-0 box-shadow-none border-radius-0 mb-0 bg-light">
-              <div class="card-img-actions">
-                <img class="card-img img-fluid" [src]="slide.image" alt="" width="355" height="250">
-              </div>
-              <div class="card-body px-0 py-1">
-                <div class="d-flex align-items-start flex-nowrap">
-            <span class="font-weight-semibold f-14 text-ellipsis">
-              {{slide.text}}
-            </span>
+        <owl-carousel-o [options]="customOptions" #owlCar>
+          <ng-container *ngIf="ads.length > 0">
+            <ng-container *ngFor="let slide of ads">
+              <ng-template carouselSlide [id]="slide.id">
+                <div class="card border-0 box-shadow-none border-radius-0 mb-0">
+                  <div class="card-img-actions">
+                    <img *ngIf="!isLocal" class="card-img img-fluid" [src]="slide.images[0]"
+                         [alt]="slide.titleDescription?.title"
+                         [title]="slide.titleDescription?.title" width="355" height="250">
+                    <img *ngIf="isLocal" class="card-img img-fluid" [src]="storagePath.concat(slide.images[0])"
+                         [alt]="slide.titleDescription?.title"
+                         [title]="slide.titleDescription?.title" width="355" height="250">
+                  </div>
+                  <div class="card-body py-2 px-1">
+                    <h5 class="tk-bold f-15 text-ellipsis">
+                      <a class="tk-link"
+                         [routerLink]="[APP_URL.adView, slide.id, slide.titleDescription?.title, slide.code]">{{slide.titleDescription?.title}}</a>
+                    </h5>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </owl-carousel-o>
+        <ng-container *ngIf="ads.length < 1">
+          <div class="alert alert-light text-center">
+            No Recommended ADs Yet
           </div>
-        </ngx-slick-carousel>
+        </ng-container>
       </div>
     </div>
   </div>

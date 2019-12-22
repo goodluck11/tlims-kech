@@ -35,7 +35,7 @@ export class AdminService {
   }
 
   sponsoredOrNot(data) {
-    return this.http.post(`${this.baseUrl}/ads/sponsoredOrNot`, data);
+    return this.http.post(`${this.baseUrl}/ads/toggleSponsored`, data);
   }
 
   adHistory(data) {

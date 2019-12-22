@@ -1,33 +1,35 @@
 <div class="card border-0">
-  <img class="card-img-top img-fluid" [src]="ad?.images[0] ? baseUrl + ad?.images[0] : '../../../../assets/images/blank.jpg'"
-       [attr.alt]="ad?.images[0] ? ad?.images[0] : '../../../../assets/images/blank.jpg'">
-  <div class="card-body d-flex flex-column">
-    <span class="mb-0 grid-title">
-      <a [routerLink]="[routerLink, ad.id, ad.titleDescription?.title, ad.code]" class="text-default mb-0">{{ad.titleDescription?.title}}</a>
-    </span>
-    <div class="d-flex justify-content-between">
-      <a [routerLink]="[routerLink, ad.category?.code]" class="text-grey-400 f-13">{{ad.category?.name}}</a>
-      <ul class="additional-info">
-        <li>
-          <a href="#" class="fa fa-envelope"></a>
-        </li>
-        <li>
-          <a href="#" class="fa fa-phone"></a>
-        </li>
-        <li *tlimsIsLogedin="null">
-          <a href="javascript:;" class="fa fa-heart" (click)="addToFav()"></a>
-        </li>
-      </ul>
-    </div>
-    <h5 class="mb-0 font-weight-bold text-warning">{{ad.price?.value}}</h5>
-    <!--<div>
-      <i class="ti-star font-size-base text-warning-300"></i>
-      <i class="ti-star font-size-base text-warning-300"></i>
-      <i class="ti-star font-size-base text-warning-300"></i>
-      <i class="ti-star font-size-base text-warning-300"></i>
-      <i class="icon-star-half font-size-base text-warning-300"></i>
-    </div>-->
-    <!--<div class="text-muted mb-3">34 reviews</div>-->
+  <div class="position-relative">
+    <img class="card-img-top img-fluid" [src]="ad?.images[0] ? baseUrl + ad?.images[0] : '../../../../assets/images/blank.jpg'"
+         [attr.alt]="ad?.images[0] ? ad?.images[0] : '../../../../assets/images/blank.jpg'">
+    <div class="total-images"><strong>{{ad?.images?.length}}</strong> photos </div>
   </div>
+  <div class="card-body d-flex flex-column">
+    <div class="mb-0 grid-title">
+      <a [routerLink]="[APP_URL.adView, ad.id, ad.titleDescription?.title, ad.code]" class="text-default mb-0">
+        {{ad.titleDescription?.title  | shorten: 50: '...'}}</a>
+    </div>
+    <div class="mt-1">
+      <a [routerLink]="[APP_URL.adView, ad.category?.code]" class="text-grey-600 font-weight-bold f-13">({{ad.category?.name}})</a>
+      <h5 class="mb-0 font-weight-bold text-warning">{{ad.price?.value}}</h5>
+    </div>
+  </div>
+  <ul class="additional-info justify-content-center mb-2">
+    <li>
+      <a (click)="isOpenModal = true" class="fa fa-envelope"></a>
+    </li>
+    <li>
+      <a href="#" class="fa fa-phone"></a>
+    </li>
+    <li>
+      <a [tlimsFavorite]="ad"></a>
+    </li>
+  </ul>
 </div>
+
+<tlims-modal [dismissAble]="false" (close)="isOpenModal = $event" [visible]="isOpenModal" size="medium">
+  <tlims-message-form *ngIf="ad && isOpenModal" [recipient]="ad.contact?.email" [postId]="ad.id"
+                      (messageOutput)="sendMessage($event)"
+                      [isLoading]="isLoading"></tlims-message-form>
+</tlims-modal>
 

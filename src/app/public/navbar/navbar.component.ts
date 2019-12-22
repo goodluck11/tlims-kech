@@ -49,7 +49,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.activeUser = this.authService.getCurrentUser() ? this.authService.getCurrentUser().firstName : null;
     this.sharedService.messages.subscribe((res) => {
       this.isLoggedIn = res;
-      console.log(res);
       if (res) {
         this.authService.findByUserName(this.activeUser.email).pipe(untilDestroyed(this)).subscribe((res) => {
           console.log(res);

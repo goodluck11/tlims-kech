@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div formGroupName="subCategory">
-        <tlims-form-group label="Subcategory">
+        <tlims-form-group label="Subcategory" required="true">
           <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
             <option *ngFor="let subCat of subCategories" [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
           </select>
@@ -11,36 +11,32 @@
     </div>
     <div class="col-md-6">
       <div formGroupName="titleDescription">
-        <tlims-form-group label="Title">
+        <tlims-form-group label="Title" required="true">
           <input tlimsInput placeholder="title" formControlName="title"/>
           <tlims-form-error [control]="bForm.get('titleDescription').get('title')"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
     <div class="col-md-6" *ngIf="isField2 || isField3 || isField4 || isField5">
-      <div formGroupName="subCatType">
-        <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('subCatType')" [disableControl]="itemTypes.length === 0">
-            <option [ngValue]="null">--Select Item Type--</option>
-            <option *ngFor="let iType of itemTypes" [value]="iType.pickListcode?.dataCode">{{iType.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="bForm.get('subCatType').get('code')" label="Item Type"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Item Type" required="true" [isLoading]="isDataLoading">
+        <select tlimsInput formControlName="subCatType" [disableControl]="itemTypes.length === 0">
+          <option [ngValue]="null">--Select Item Type--</option>
+          <option *ngFor="let iType of itemTypes" [ngValue]="iType">{{iType.name}}</option>
+        </select>
+        <tlims-form-error [control]="bForm.get('subCatType')" label="Item Type"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField3">
-      <div formGroupName="brand">
-        <tlims-form-group label="Brand">
-          <select tlimsInput formControlName="code" (change)="populateCodeValueName('brand')" [disableControl]="brands.length === 0">
-            <option [ngValue]="null">--Select Brand--</option>
-            <option *ngFor="let bd of brands" [value]="bd.pickListcode?.dataCode">{{bd.titleDescription?.title}}</option>
-          </select>
-          <tlims-form-error [control]="bForm.get('brand').get('code')" label="Brand"></tlims-form-error>
-        </tlims-form-group>
-      </div>
+      <tlims-form-group label="Brand">
+        <select tlimsInput formControlName="brand" required="true" [disableControl]="brands.length === 0">
+          <option [ngValue]="null">--Select Brand--</option>
+          <option *ngFor="let bd of brands" [ngValue]="bd">{{bd.name}}</option>
+        </select>
+        <tlims-form-error [control]="bForm.get('brand')" label="Brand"></tlims-form-error>
+      </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField3 || isField4">
-      <tlims-form-group label="Gender" [checkBox]="true">
+      <tlims-form-group label="Gender" required="true" [checkBox]="true">
         <tlims-checkbox [label]="gend.value" styleClass="mr-2" *ngFor="let gend of genders; index as i">
           <input type="radio" class="form-check-input" formControlName="gender" id="gender{{i}}" [value]="gend.name">
         </tlims-checkbox>
@@ -124,7 +120,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Price">
+      <tlims-form-group label="Price" required="true">
         <tlims-amount formControlName="price"></tlims-amount>
         <tlims-form-error [control]="bForm.get('price')"></tlims-form-error>
       </tlims-form-group>

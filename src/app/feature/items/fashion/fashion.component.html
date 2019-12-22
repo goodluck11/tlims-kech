@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div formGroupName="subCategory">
-        <tlims-form-group label="Subcategory">
+        <tlims-form-group label="Subcategory" required="true">
           <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
             <option *ngFor="let subCat of subCategories"
                     [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-6">
       <div formGroupName="titleDescription">
-        <tlims-form-group label="Title">
+        <tlims-form-group label="Title" required="true">
           <input tlimsInput placeholder="title" formControlName="title"/>
           <tlims-form-error [control]="fForm.get('titleDescription').get('title')"></tlims-form-error>
         </tlims-form-group>
@@ -26,7 +26,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField3 || isField6">
-      <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
+      <tlims-form-group label="Item Type" required="true" [isLoading]="isDataLoading">
         <select tlimsInput formControlName="subCatType" (change)="displayKidsFields()">
           <option [ngValue]="null">--Select Item Type--</option>
           <option *ngFor="let iType of itemTypes" [ngValue]="iType">{{iType.name}}</option>
@@ -35,7 +35,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField2 || isField4 || isField5">
-      <tlims-form-group label="Brand">
+      <tlims-form-group label="Brand" required="true">
         <select tlimsInput formControlName="brand">
           <option [ngValue]="null">--Select Brand--</option>
           <option *ngFor="let bd of brands" [ngValue]="bd">{{bd.name}}</option>
@@ -44,7 +44,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField5">
-      <tlims-form-group label="Movement">
+      <tlims-form-group label="Movement" required="true">
         <select tlimsInput formControlName="movement">
           <option [ngValue]="null">--Select Movement--</option>
           <option *ngFor="let bd of movements" [ngValue]="bd">{{bd.name}}</option>
@@ -126,7 +126,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-12" *ngIf="isField4">
-      <tlims-form-group label="Outsole Material">
+      <tlims-form-group label="OutSole Material">
         <div class="row w-100">
           <div class="col-md-3" *ngFor="let mat of outSoleMaterials; index as i">
             <div class="form-check mt-3">
@@ -153,7 +153,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-12" *ngIf="isField2 || isField4 || isField7">
-      <tlims-form-group label="Size">
+      <tlims-form-group label="Size" required="true">
         <div class="row w-100">
           <div class="col" *ngFor="let cs of sizes; index as i">
             <div class="form-check mt-3">
@@ -175,7 +175,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Price">
+      <tlims-form-group label="Price" required="true">
         <tlims-amount formControlName="price"></tlims-amount>
         <tlims-form-error [control]="fForm.get('price')"></tlims-form-error>
       </tlims-form-group>

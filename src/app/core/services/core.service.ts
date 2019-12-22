@@ -18,8 +18,15 @@ export class CoreService {
     return this.http.post(`${this.baseUrl}/ads/featuredAds`, data);
   }
 
+  archivedAds(data) {
+    return this.http.post(`${this.baseUrl}/ads/archivedAds`, data);
+  }
+
+  sponsoredAds(data) {
+    return this.http.post(`${this.baseUrl}/ads/adSponsored`, data);
+  }
+
   globalSearch(data) {
-    console.log(data);
     return this.http.post(`${this.baseUrl}/ads/globalSearch`, data);
   }
 
@@ -37,6 +44,10 @@ export class CoreService {
 
   addFavorite(data) {
     return this.http.post(`${this.baseUrl}/api/favorites/create`, data, {responseType: 'text'});
+  }
+
+  removeFavorite(postId) {
+    return this.http.delete(`${this.baseUrl}/api/favorites/remove/${postId}`, {responseType: 'text'});
   }
 
   favoriteAdded(postId) {

@@ -47,8 +47,8 @@ export class CodeValue {
 }
 
 export enum Condition {
-  USED = 'USED',
-  NEW = 'NEW',
+  USED = 'Used',
+  NEW = 'New',
   FOREIGN = 'Foreign used',
   LOCAL = 'Local used'
 }

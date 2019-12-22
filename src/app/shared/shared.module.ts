@@ -52,6 +52,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material';
 import {IsLogedinDirective} from 'shared/directives/is-logedin.directive';
+import {FavoriteDirective} from 'shared/directives/favorite.directive';
+import {IsCheckedPipe} from 'shared/pipes/is-checked.pipe';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 const SHARED_COMPONENTS: any = [
   FormGroupComponent,
@@ -89,7 +92,9 @@ const SHARED_COMPONENTS: any = [
   DetailComponent,
   SanitizePipe,
   AllowedPermissionDirective,
-  IsLogedinDirective
+  IsLogedinDirective,
+  FavoriteDirective,
+  IsCheckedPipe
 ];
 
 @NgModule({
@@ -111,12 +116,13 @@ const SHARED_COMPONENTS: any = [
     NgScrollbarModule,
     OverlayModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatPaginatorModule
   ],
   declarations: [...SHARED_COMPONENTS],
   exports: [...SHARED_COMPONENTS, ReactiveFormsModule, HttpClientModule, FormsModule,
     LayoutModule, RouterModule, ImageUploadModule, BlockUIModule, MatSlideToggleModule,
-    MatProgressSpinnerModule, MatProgressBarModule,
+    MatProgressSpinnerModule, MatProgressBarModule, MatPaginatorModule,
     NgPipesModule, NgxTabsModule, NgxLoadersModule, TranslateModule, NgScrollbarModule],
   providers: [DecimalPipe, GroupByPipe]
 })

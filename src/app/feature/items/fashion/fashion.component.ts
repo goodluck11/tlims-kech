@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category, PickListType} from 'core/model/category';
 import {CATEGORY} from 'core/constant/category.const';
 import {Fashion} from 'feature/items/fashion/fashion';
-import {PickListService} from 'core/services/picklist.service';
 import {ItemService} from 'feature/items/item.service';
 import {ToastrService} from 'ngx-toastr';
 import {EnumValues} from 'enum-values';
@@ -13,6 +12,7 @@ import {Utils} from 'core/utils/utils';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APP_URL} from 'core/constant/tlims.url';
 import {TLIMS_CONST} from 'core/constant/tlims.const';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-fashion',
@@ -21,7 +21,7 @@ import {TLIMS_CONST} from 'core/constant/tlims.const';
 })
 export class FashionComponent implements OnInit, OnDestroy {
 
-  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
+  constructor(private fb: FormBuilder, private listItemService: ListItemService, private itemService: ItemService,
               private toastr: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) {
     itemService.endPoint = 'fashions';
   }
@@ -323,7 +323,7 @@ export class FashionComponent implements OnInit, OnDestroy {
   }
 
   getPickList(listType) {
-    const obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -364,61 +364,45 @@ export class FashionComponent implements OnInit, OnDestroy {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
         if (this.isField2 || this.isField4) {
-          this.itemTypes2 = Utils.convertPickListToCodeValue(data);
+          this.itemTypes2 = Utils.convertListItemToCodeValue(data);
         } else {
-          this.itemTypes = Utils.convertPickListToCodeValue(data);
+          this.itemTypes = Utils.convertListItemToCodeValue(data);
         }
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.BRAND):
-        this.brands = Utils.convertPickListToCodeValue(data);
+        this.brands = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.MATERIAL):
-        this.materials = Utils.convertPickListToCodeValue(data);
+        this.materials = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.CLOSURE):
-        this.closures = Utils.convertPickListToCodeValue(data);
+        this.closures = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.STYLE):
-        this.styles = Utils.convertPickListToCodeValue(data);
+        this.styles = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.SIZE):
-        this.sizes = Utils.convertPickListToCodeValue(data);
+        this.sizes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.STONE):
-        this.stones = Utils.convertPickListToCodeValue(data);
+        this.stones = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.FEATURE):
-        this.features = Utils.convertPickListToCodeValue(data);
+        this.features = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.FASTEN):
-        this.fastenings = Utils.convertPickListToCodeValue(data);
+        this.fastenings = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.DISPLAY):
-        this.displays = Utils.convertPickListToCodeValue(data);
+        this.displays = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.MOVEMENT):
-        this.movements = Utils.convertPickListToCodeValue(data);
+        this.movements = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.OUTSOLE):
-        this.outSoleMaterials = Utils.convertPickListToCodeValue(data);
+        this.outSoleMaterials = Utils.convertListItemToCodeValue(data);
         break;
     }
-  }
-
-  setCodeValueRequiredField(groupName: string, isRequired: boolean) {
-    const code = this.fForm.get(groupName).get('code');
-    const name = this.fForm.get(groupName).get('name');
-    if (isRequired) {
-      code.setValidators([Validators.required]);
-      name.setValidators([Validators.required]);
-      FashionComponent.markFields(code);
-      FashionComponent.markFields(name);
-    } else {
-      code.clearValidators();
-      name.clearValidators();
-    }
-    code.updateValueAndValidity();
-    name.updateValueAndValidity();
   }
 
   setRequiredField(fieldName: string, isRequired: boolean) {
