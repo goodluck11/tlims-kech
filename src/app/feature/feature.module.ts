@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from 'shared/shared.module';
 import {FeatureRoutingModule} from './feature-routing.module';
 import {UsersComponent} from './admin/users/users.component';
-import {PickListComponent} from './admin/pick-list/pick-list.component';
 import {CategoryComponent} from './admin/category/category.component';
 import {PendingAdsComponent} from './admin/pending-ads/pending-ads.component';
 import {FavoritesComponent} from './user/favorites/favorites.component';
@@ -34,14 +33,14 @@ import {ContactComponent} from './items/contact/contact.component';
 import {UserMessagesComponent} from './user/user-messages/user-messages.component';
 import {JobComponent} from './items/job/job.component';
 import {ContactsComponent} from './admin/contacts/contacts.component';
-import { ServicesComponent } from './items/services/services.component';
-import { GardenComponent } from './items/garden/garden.component';
-import { RealEstateComponent } from './items/real-estate/real-estate.component';
-import { PetComponent } from './items/pet/pet.component';
-import { DeclinedAdsComponent } from './admin/declined-ads/declined-ads.component';
-import { ListItemsComponent } from './admin/list-items/list-items.component';
-import { ListItemFormComponent } from './admin/list-items/list-item-form/list-item-form.component';
-import { ListItemViewComponent } from './admin/list-items/list-item-view/list-item-view.component';
+import {ServicesComponent} from './items/services/services.component';
+import {GardenComponent} from './items/garden/garden.component';
+import {RealEstateComponent} from './items/real-estate/real-estate.component';
+import {PetComponent} from './items/pet/pet.component';
+import {DeclinedAdsComponent} from './admin/declined-ads/declined-ads.component';
+import {ListItemsComponent} from './admin/list-items/list-items.component';
+import {ListItemFormComponent} from './admin/list-items/list-item-form/list-item-form.component';
+import {ListItemViewComponent} from './admin/list-items/list-item-view/list-item-view.component';
 
 @NgModule({
   imports: [
@@ -49,7 +48,7 @@ import { ListItemViewComponent } from './admin/list-items/list-item-view/list-it
     FeatureRoutingModule,
     SharedModule
   ],
-  declarations: [UsersComponent, PickListComponent, CategoryComponent, PendingAdsComponent, FavoritesComponent, AdsComponent,
+  declarations: [UsersComponent, CategoryComponent, PendingAdsComponent, FavoritesComponent, AdsComponent,
     PasswordFormComponent, ProfileComponent, ProfileEditComponent, DashboardComponent,
     ElectronicsComponent, FashionComponent, BeautyHealthComponent, CommercialComponent, AdComponent,
     MobileComponent, VehicleComponent, RepairComponent, CategoryViewComponent, ItemsHomeComponent,

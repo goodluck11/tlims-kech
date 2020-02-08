@@ -1,17 +1,17 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category, PickListType} from 'core/model/category';
-import {Transmission, Vehicle} from 'feature/items/vehicle/vehicle';
+import {Transmission, Vehicle, VehicleCondition} from 'feature/items/vehicle/vehicle';
 import {CATEGORY} from 'core/constant/category.const';
 import {CodeValue, Contact} from 'core/model/base-model';
-import {PickListService} from 'core/services/picklist.service';
 import {ItemService} from 'feature/items/item.service';
-import {ToastrService} from 'ngx-toastr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Utils} from 'core/utils/utils';
 import {EnumValues} from 'enum-values';
 import {APP_URL} from 'core/constant/tlims.url';
+import {MsgService} from 'core/services/msg.service';
+import {ListItemService} from 'core/services/list-item.service';
 
 @Component({
   selector: 'tlims-vehicle',
@@ -20,8 +20,8 @@ import {APP_URL} from 'core/constant/tlims.url';
 })
 export class VehicleComponent implements OnInit, OnDestroy {
 
-  constructor(private fb: FormBuilder, private pickListService: PickListService, private itemService: ItemService,
-              private toastr: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private fb: FormBuilder, private listItemService: ListItemService, private itemService: ItemService,
+              private msgService: MsgService, private activatedRoute: ActivatedRoute, private router: Router) {
     itemService.endPoint = 'vehicles';
   }
 
@@ -35,20 +35,17 @@ export class VehicleComponent implements OnInit, OnDestroy {
   files: File[] = [];
   conditions = [];
   subCatCode: string;
-  parentCode: string;
   itemTypes: Array<CodeValue> = [];
   brands: Array<CodeValue> = [];
-  models: Array<CodeValue> = [];
   makes: Array<CodeValue> = [];
   colors: Array<CodeValue> = [];
   years: Array<CodeValue> = [];
   transmissions: Array<any> = [];
   contact: Contact = new Contact();
   isField1 = false; // car
-  isField2 = false; // heavy_equip
   isField3 = false; // motorcycle
   isField4 = false; // truck_trailer
-  isField5 = false; // condition
+  isField5 = false; // condition, type
 
   static markFields(control) {
     control.markAsPristine();
@@ -57,6 +54,7 @@ export class VehicleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.transmissions = EnumValues.getNamesAndValues(Transmission);
+    this.conditions = EnumValues.getNamesAndValues(VehicleCondition);
     this.getResolvedData();
     this.initForm();
     this.resolveField();
@@ -69,22 +67,14 @@ export class VehicleComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.vehicle = this.vehicleForm.value;
     this.vehicle.contact = this.contact;
-    this.transformObj();
     this.itemService.create('vehicle', this.vehicle, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
-      this.toastr.success('Ad ' + this.vehicle.titleDescription.title + ' successfully created');
+      this.msgService.success('Ad ' + this.vehicle.titleDescription.title + ' successfully created');
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
-      this.toastr.error('Error creating AD ' + this.vehicle.titleDescription.title);
+      this.msgService.error(err);
       this.isLoading = false;
     });
-  }
-
-  transformObj() {
-    this.vehicle.color = this.vehicle.color ? JSON.stringify(this.vehicle.color) : this.vehicle.color;
-    this.vehicle.year = this.vehicle.year ? JSON.stringify(this.vehicle.year) : this.vehicle.year;
-    this.vehicle.make = this.vehicle.make ? JSON.stringify(this.vehicle.make) : this.vehicle.make;
-    this.vehicle.model = this.vehicle.model ? JSON.stringify(this.vehicle.model) : this.vehicle.model;
   }
 
   getImages($event) {
@@ -108,29 +98,11 @@ export class VehicleComponent implements OnInit, OnDestroy {
     }
   }
 
-  getDependentList(groupName) {
-    this.parentCode = this.vehicleForm.get(groupName)['value'].code;
-    this.isDataLoading = true;
-    this.pickListService.getPicklistsByByTypeAndCategoryAndParent(EnumValues.getNameFromValue(PickListType, PickListType.MODEL),
-      this.getValueFromCodeValue('category'),
-      this.subCatCode, this.parentCode).pipe(untilDestroyed(this)).subscribe((data: any) => {
-      if (Array(data)) {
-        this.models = Utils.convertPickListToCodeValue(data);
-      }
-      this.isDataLoading = false;
-    }, (err) => {
-      this.isDataLoading = false;
-    });
-  }
-
-  getPickList(listType, noParent?: boolean) {
+  getPickList(listType) {
     if (EnumValues.getNameFromValue(PickListType, PickListType.YEAR) === listType && this.years.length > 0) {
       return;
     }
-    let obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
-    if (noParent) {
-      obs$ = this.pickListService.findByListType(listType);
-    }
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -146,16 +118,16 @@ export class VehicleComponent implements OnInit, OnDestroy {
   mapValues(listType, data) {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
-        this.itemTypes = Utils.convertPickListToCodeValue(data);
+        this.itemTypes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_MAKE):
-        this.makes = Utils.convertPickListToCodeValue(data);
+        this.makes = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.BRAND):
-        this.brands = Utils.convertPickListToCodeValue(data);
+        this.brands = Utils.convertListItemToCodeValue(data);
         break;
       case EnumValues.getNameFromValue(PickListType, PickListType.YEAR):
-        this.years = Utils.convertPickListToCodeValue(data);
+        this.years = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
@@ -178,28 +150,28 @@ export class VehicleComponent implements OnInit, OnDestroy {
     switch (this.subCatCode) {
       case this.CATEGORY.VEHICLE.SUBCATEGORY.cars:
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND));
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.YEAR), true);
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.YEAR));
         this.isField1 = true;
         break;
-      case this.CATEGORY.VEHICLE.SUBCATEGORY.heavy_equip:
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_MAKE));
-        this.isField2 = true;
-        break;
       case this.CATEGORY.VEHICLE.SUBCATEGORY.mcycles_scooter:
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_MAKE));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND));
         this.isField3 = true;
         break;
       case this.CATEGORY.VEHICLE.SUBCATEGORY.truck_trailer:
+      case this.CATEGORY.VEHICLE.SUBCATEGORY.heavy_equip:
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_MAKE));
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.BRAND));
         this.isField4 = true;
+        break;
+      case this.CATEGORY.VEHICLE.SUBCATEGORY.parts_access:
+      case this.CATEGORY.VEHICLE.SUBCATEGORY.watercrafts:
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.isField5 = true;
         break;
     }
   }
 
   clearArrays() {
-    this.models = [];
     this.brands = [];
     this.makes = [];
     this.itemTypes = [];
@@ -207,13 +179,9 @@ export class VehicleComponent implements OnInit, OnDestroy {
 
   resetField() {
     this.isField1 = false;
-    this.isField2 = false;
     this.isField3 = false;
     this.isField4 = false;
-  }
-
-  removeConstraints() {
-
+    this.isField5 = false;
   }
 
   setRequiredField(fieldName: string, isRequired: boolean) {
@@ -245,7 +213,8 @@ export class VehicleComponent implements OnInit, OnDestroy {
       }),
       subCatType: [this.vehicle.subCatType ? this.vehicle.subCatType.code ? this.vehicle.subCatType : null : null],
       brand: [this.vehicle.brand ? this.vehicle.brand.code ? this.vehicle.brand : null : null],
-      make: [this.vehicle.make],
+      make: [this.vehicle.make ? this.vehicle.make.code ? this.vehicle.make : null : null],
+      itemCondition: [this.vehicle.itemCondition],
       price: [this.vehicle.price],
       model: [this.vehicle.model],
       color: [this.vehicle.color],

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div formGroupName="subCategory">
-        <tlims-form-group label="Subcategory">
+        <tlims-form-group label="Subcategory" required="true">
           <select tlimsInput formControlName="code" (change)="resolveFields()">
             <option *ngFor="let subCat of subCategories"
                     [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
@@ -12,19 +12,37 @@
     </div>
     <div class="col-md-6">
       <div formGroupName="titleDescription">
-        <tlims-form-group label="Title">
+        <tlims-form-group label="Title" required="true">
           <input tlimsInput placeholder="title" formControlName="title"/>
           <tlims-form-error [control]="rForm.get('titleDescription').get('title')"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
     <div class="col-md-6" *ngIf="isField1">
-      <tlims-form-group label="Item Type">
+      <tlims-form-group label="Item Type" required="true">
         <select tlimsInput formControlName="subCatType">
           <option [ngValue]="null">--Select Item Type--</option>
           <option *ngFor="let item of itemTypes" [ngValue]="item">{{item.name}}</option>
         </select>
-        <tlims-form-error [control]="rForm.get('subCatType').get('code')" label="Item Type"></tlims-form-error>
+        <tlims-form-error [control]="rForm.get('subCatType')" label="Item Type"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField3">
+      <tlims-form-group label="Shape">
+        <select tlimsInput formControlName="shape">
+          <option [ngValue]="null">--Select Shape--</option>
+          <option *ngFor="let item of shapes" [ngValue]="item">{{item.name}}</option>
+        </select>
+        <tlims-form-error [control]="rForm.get('shape')"></tlims-form-error>
+      </tlims-form-group>
+    </div>
+    <div class="col-md-6" *ngIf="isField3">
+      <tlims-form-group label="Frame Material">
+        <select tlimsInput formControlName="frameMaterial">
+          <option [ngValue]="null">--Select Frame Material--</option>
+          <option *ngFor="let item of frameMaterials" [ngValue]="item">{{item.name}}</option>
+        </select>
+        <tlims-form-error [control]="rForm.get('frameMaterial')" label="Frame Material"></tlims-form-error>
       </tlims-form-group>
     </div>
     <div class="col-md-6" *ngIf="isField2">
@@ -37,7 +55,7 @@
       <tlims-form-error [control]="rForm.get('itemCondition')" label="Condition"></tlims-form-error>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Price">
+      <tlims-form-group label="Price" required="true">
         <tlims-amount formControlName="price"></tlims-amount>
         <tlims-form-error [control]="rForm.get('price')" label="Price"></tlims-form-error>
       </tlims-form-group>

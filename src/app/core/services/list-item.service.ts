@@ -28,6 +28,10 @@ export class ListItemService {
     return this.http.post<any>(this.baseUrl + '/findAll', post);
   }
 
+  findByListType(listType) {
+    return this.http.get(`${this.baseUrl}/findByListType/${listType}`);
+  }
+
   findByListTypeSubcategoryAndParentList(listType, subCatCode, parentCode) {
     return this.http.get(`${this.baseUrl}/findByListTypeSubcategoryAndParentList/${listType}/${subCatCode}/${parentCode}`);
   }

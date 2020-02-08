@@ -20,5 +20,6 @@ export class Ad extends BaseModel {
   contact: Contact = new Contact();
   primaryContact: Contact = new Contact();
   rejectionReason: string;
+  tags: string[] = [];
 }
 

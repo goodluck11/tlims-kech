@@ -14,6 +14,7 @@
   },
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts4": "^4.7.18",
     "@angular/animations": "^8.2.11",
     "@angular/cdk": "^8.2.1",
     "@angular/common": "^8.2.11",
@@ -26,6 +27,7 @@
     "@angular/platform-browser-dynamic": "^8.2.11",
     "@angular/router": "^8.2.11",
     "@ng-bootstrap/ng-bootstrap": "5.1.1",
+    "@ngx-lite/input-tag": "^0.4.8",
     "@ngx-lite/loaders": "^0.3.1",
     "@ngx-lite/progress": "^0.3.4",
     "@ngx-lite/tabs": "^0.3.7",
@@ -61,7 +63,7 @@
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.12",
+    "@angular-devkit/build-angular": "^0.803.21",
     "@angular/cli": "^8.3.12",
     "@angular/compiler-cli": "^8.2.11",
     "@angular/language-service": "^8.2.11",

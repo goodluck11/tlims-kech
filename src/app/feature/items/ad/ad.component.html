@@ -16,7 +16,7 @@
           <span class="font-weight-bold" *ngIf="!title">Post Ad </span>
           <span class="font-weight-bold" *ngIf="title">{{title}} Ad</span>
         </h5>
-        <span class="font-weight-semibold font-size-base">Fields with <strong class="text-danger">*</strong> are required</span>
+        <span class="font-weight-semibold font-size-base">Fields marked with <strong class="text-danger">*</strong> are required</span>
       </div>
 
       <tlims-vehicle *ngIf="CATEGORY.VEHICLE.code === categoryCode" [subCategories]="subCategories"></tlims-vehicle>

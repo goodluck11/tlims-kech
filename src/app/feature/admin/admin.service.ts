@@ -46,6 +46,10 @@ export class AdminService {
     return this.http.post(`${this.baseUrl}/api/users/findAll`, data);
   }
 
+  activateOrDeactivateUser(data) {
+    return this.http.post(`${this.baseUrl}/api/users/activateOrDeactivateUser`, data);
+  }
+
   createContact(data) {
     return this.http.post(`${this.baseUrl}/api/contacts/create`, data);
   }

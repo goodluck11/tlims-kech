@@ -7,7 +7,6 @@ export class Category extends BaseModel {
   image: string;
 }
 
-
 export class ListItem {
   id: number;
   listCode: Code = new Code();

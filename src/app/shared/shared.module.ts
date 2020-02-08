@@ -55,6 +55,7 @@ import {IsLogedinDirective} from 'shared/directives/is-logedin.directive';
 import {FavoriteDirective} from 'shared/directives/favorite.directive';
 import {IsCheckedPipe} from 'shared/pipes/is-checked.pipe';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {NgxInputTagModule} from '@ngx-lite/input-tag';
 
 const SHARED_COMPONENTS: any = [
   FormGroupComponent,
@@ -117,12 +118,13 @@ const SHARED_COMPONENTS: any = [
     OverlayModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgxInputTagModule
   ],
   declarations: [...SHARED_COMPONENTS],
   exports: [...SHARED_COMPONENTS, ReactiveFormsModule, HttpClientModule, FormsModule,
     LayoutModule, RouterModule, ImageUploadModule, BlockUIModule, MatSlideToggleModule,
-    MatProgressSpinnerModule, MatProgressBarModule, MatPaginatorModule,
+    MatProgressSpinnerModule, MatProgressBarModule, MatPaginatorModule, NgxInputTagModule,
     NgPipesModule, NgxTabsModule, NgxLoadersModule, TranslateModule, NgScrollbarModule],
   providers: [DecimalPipe, GroupByPipe]
 })

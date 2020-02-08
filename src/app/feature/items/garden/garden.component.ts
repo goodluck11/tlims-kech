@@ -11,7 +11,8 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 import {APP_URL} from 'core/constant/tlims.url';
 import {Utils} from 'core/utils/utils';
 import {EnumValues} from 'enum-values';
-import {PickListService} from 'core/services/picklist.service';
+import {ListItemService} from 'core/services/list-item.service';
+import {MsgService} from 'core/services/msg.service';
 
 @Component({
   selector: 'tlims-garden',
@@ -36,8 +37,8 @@ export class GardenComponent implements OnInit, OnDestroy {
   colors: Array<CodeValue> = [];
   subCatCode: string;
 
-  constructor(private fb: FormBuilder, private itemService: ItemService, private pickListService: PickListService,
-              private toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private itemService: ItemService, private listItemService: ListItemService,
+              private msgService: MsgService, private router: Router, private activatedRoute: ActivatedRoute) {
     itemService.endPoint = 'gardens';
   }
 
@@ -60,11 +61,11 @@ export class GardenComponent implements OnInit, OnDestroy {
     this.garden.contact = this.contact;
     this.itemService.create('garden', this.garden, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
-      this.toastr.success('Ad ' + this.garden.titleDescription.title + ' successfully created');
+      this.msgService.success('Ad ' + this.garden.titleDescription.title + ' successfully created');
       this.reset();
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
-      this.toastr.error('Error creating AD ' + this.garden.titleDescription.title);
+      this.msgService.error(err);
       this.isLoading = false;
     });
   }
@@ -86,7 +87,7 @@ export class GardenComponent implements OnInit, OnDestroy {
   }
 
   getPickList(listType) {
-    const obs$ = this.pickListService.getPicklistsByByTypeAndCategory(listType, this.getValueFromCodeValue('category'), this.subCatCode);
+    const obs$ = this.listItemService.findByListTypeAndSubcategory(listType, this.subCatCode);
     this.isDataLoading = true;
     obs$.pipe(untilDestroyed(this)).subscribe((data: any) => {
       if (Array(data)) {
@@ -102,7 +103,7 @@ export class GardenComponent implements OnInit, OnDestroy {
   mapValues(listType, data) {
     switch (listType) {
       case EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE):
-        this.itemTypes = Utils.convertPickListToCodeValue(data);
+        this.itemTypes = Utils.convertListItemToCodeValue(data);
         break;
     }
   }
@@ -120,27 +121,23 @@ export class GardenComponent implements OnInit, OnDestroy {
     this.resetField();
     switch (subCatCode) {
       case this.CATEGORY.GARDEN.SUBCATEGORY.furniture:
-        this.setRequiredField('subCatType', true);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
-        this.isField1 = true;
-        this.isField2 = true;
-        break;
-      case this.CATEGORY.GARDEN.SUBCATEGORY.garden:
-        this.setRequiredField('subCatType', true);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
-        this.isField3 = true;
-        break;
-      case this.CATEGORY.GARDEN.SUBCATEGORY.home_app:
-        this.setRequiredField('subCatType', true);
-        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
-        this.isField1 = true;
-        break;
       case this.CATEGORY.GARDEN.SUBCATEGORY.kitchen_app:
         this.setRequiredField('subCatType', true);
         this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.isField1 = true;
         this.isField2 = true;
-        this.isField3 = true;
         break;
+      case this.CATEGORY.GARDEN.SUBCATEGORY.home_access:
+      case this.CATEGORY.GARDEN.SUBCATEGORY.kitchen:
+        this.isField3 = true;
+        this.setRequiredField('subCatType', true);
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        break;
+      case this.CATEGORY.GARDEN.SUBCATEGORY.home_app:
+      case this.CATEGORY.GARDEN.SUBCATEGORY.garden:
+        this.setRequiredField('subCatType', true);
+        this.getPickList(EnumValues.getNameFromValue(PickListType, PickListType.ITEM_TYPE));
+        this.isField1 = true;
     }
   }
 
@@ -191,7 +188,7 @@ export class GardenComponent implements OnInit, OnDestroy {
         code: [subCategory.code, [Validators.required]],
         name: [subCategory.name, [Validators.required]]
       }),
-      subCatType: [this.garden.subCatType],
+      subCatType: [this.garden.subCatType ? this.garden.subCatType.code ? this.garden.subCatType : null : null],
       itemCondition: [this.garden.itemCondition ? this.garden.itemCondition :
         EnumValues.getNameFromValue(Condition, Condition.NEW)],
       color: [this.garden.color],

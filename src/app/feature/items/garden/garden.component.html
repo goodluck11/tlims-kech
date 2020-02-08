@@ -19,11 +19,11 @@
       </div>
     </div>
     <div class="col-md-6" *ngIf="isField1 || isField3">
-      <tlims-form-group label="Item Type" [isLoading]="isDataLoading">
-        <select tlimsInput formControlName="subCatType" (change)="populateCodeValueName('subCatType')">
+      <tlims-form-group label="Item Type" [isLoading]="isDataLoading" required="true">
+        <select tlimsInput formControlName="subCatType">
           <option [ngValue]="null">--Select Item Type--</option>
           <option *ngFor="let iType of itemTypes"
-                  [value]="iType">{{iType.name}}</option>
+                  [ngValue]="iType">{{iType.name}}</option>
         </select>
         <tlims-form-error [control]="gForm.get('subCatType')" label="Item Type"></tlims-form-error>
       </tlims-form-group>
@@ -47,7 +47,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Price">
+      <tlims-form-group label="Price" required="true">
         <tlims-amount formControlName="price"></tlims-amount>
         <tlims-form-error [control]="gForm.get('price')"></tlims-form-error>
       </tlims-form-group>
