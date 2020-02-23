@@ -5,7 +5,7 @@ const getHost = () => {
   return `${protocol}//${host}`;
 };
 
-const apiURI = _isDev ? 'http://localhost:9000' : 'http://tlims-kech.com';
+const apiURI = _isDev ? 'http://localhost:9000' : 'http://www.tlims-kech.com';
 const storageURI = _isDev ? 'http://localhost:9000/storage/' : '';
 
 // console.log('inside const');
