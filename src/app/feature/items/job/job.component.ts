@@ -12,6 +12,8 @@ import {PickListService} from 'core/services/picklist.service';
 import {EnumValues} from 'enum-values';
 import {forkJoin} from 'rxjs';
 import {Utils} from 'core/utils/utils';
+import {ListItemService} from 'core/services/list-item.service';
+import {MsgService} from 'core/services/msg.service';
 
 @Component({
   selector: 'tlims-job',
@@ -31,8 +33,8 @@ export class JobComponent implements OnInit, OnDestroy {
   jobTypes: Array<CodeValue> = [];
   experiences: Array<CodeValue> = [];
 
-  constructor(private fb: FormBuilder, private itemService: ItemService, private pickListService: PickListService,
-              private toastr: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private fb: FormBuilder, private itemService: ItemService, private listItemService: ListItemService,
+              private msgService: MsgService, private activatedRoute: ActivatedRoute, private router: Router) {
     itemService.endPoint = 'jobs';
   }
 
@@ -42,13 +44,13 @@ export class JobComponent implements OnInit, OnDestroy {
   }
 
   getPickListItems() {
-    const jobTypes = this.pickListService.findByListType(EnumValues.getNameFromValue(PickListType, PickListType.JOB_TYPE));
-    const jobExperiences = this.pickListService.findByListType(EnumValues.getNameFromValue(PickListType, PickListType.JOB_EXPERIENCE));
+    const jobTypes = this.listItemService.findByListType(EnumValues.getNameFromValue(PickListType, PickListType.JOB_TYPE));
+    const jobExperiences = this.listItemService.findByListType(EnumValues.getNameFromValue(PickListType, PickListType.JOB_EXPERIENCE));
     forkJoin([jobTypes, jobExperiences]).pipe(untilDestroyed(this)).subscribe((data: any) => {
-      this.jobTypes = Utils.convertPickListToCodeValue(data[0]);
-      this.experiences = Utils.convertPickListToCodeValue(data[1]);
+      this.jobTypes = Utils.convertListItemToCodeValue(data[0]);
+      this.experiences = Utils.convertListItemToCodeValue(data[1]);
     }, error1 => {
-      this.toastr.error('Error loading picklist items');
+      this.msgService.error(error1);
     });
   }
 
@@ -64,25 +66,18 @@ export class JobComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.job = this.jForm.value;
     this.job.contact = this.contact;
-    this.transformObj();
     this.itemService.create('job', this.job, this.files).pipe(untilDestroyed(this)).subscribe((res) => {
       this.isLoading = false;
-      this.toastr.success('Ad ' + this.job.titleDescription.title + ' successfully created');
+      this.msgService.success('Ad ' + this.job.titleDescription.title + ' successfully created');
       // this.reset();
       this.router.navigateByUrl(APP_URL.bo.user.ads);
     }, (err) => {
-      this.toastr.error('Error creating AD ' + this.job.titleDescription.title);
+      this.msgService.error(err);
       this.isLoading = false;
     });
   }
 
-  transformObj() {
-    this.job.jobType = this.job.jobType ? JSON.stringify(this.job.jobType) : this.job.jobType;
-    this.job.minimumExp = this.job.minimumExp ? JSON.stringify(this.job.minimumExp) : this.job.minimumExp;
-  }
-
   cancel() {
-    console.log(this.jForm);
   }
 
   initForm() {
@@ -102,8 +97,8 @@ export class JobComponent implements OnInit, OnDestroy {
         name: [subCategory.name, [Validators.required]]
       }),
       companyName: [this.job.companyName, [Validators.required]],
-      jobType: [this.job.jobType, [Validators.required]],
-      minimumExp: [this.job.minimumExp, [Validators.required]],
+      jobType: [this.job.jobType ? this.job.jobType.code ? this.job.jobType : null : null, [Validators.required]],
+      minimumExp: [this.job.minimumExp ? this.job.minimumExp.code ? this.job.minimumExp : null : null, [Validators.required]],
       miniQualification: [this.job.miniQualification, [Validators.required]],
       requirements: [this.job.requirements, [Validators.required]],
       responsibilities: [this.job.responsibilities, [Validators.required]],

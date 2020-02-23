@@ -50,9 +50,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.sharedService.messages.subscribe((res) => {
       this.isLoggedIn = res;
       if (res) {
-        this.authService.findByUserName(this.activeUser.email).pipe(untilDestroyed(this)).subscribe((res) => {
+        /*this.authService.findByUserName(this.activeUser.email).pipe(untilDestroyed(this)).subscribe((res) => {
           console.log(res);
-        });
+        });*/
       }
     });
   }

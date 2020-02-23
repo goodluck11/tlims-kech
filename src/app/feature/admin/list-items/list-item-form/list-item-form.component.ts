@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category, ListItem, PickListType} from 'core/model/category';
 import {CategoryService} from 'core/services/category.service';
-import {ToastrService} from 'ngx-toastr';
 import {ActivatedRoute} from '@angular/router';
 import {EnumValues} from 'enum-values';
 import {ListItemService} from 'core/services/list-item.service';
@@ -10,6 +9,7 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Utils} from 'core/utils/utils';
 import {BlockUI, NgBlockUI} from 'ng-block-ui';
 import {CodeValue} from 'core/model/base-model';
+import {MsgService} from 'core/services/msg.service';
 
 @Component({
   selector: 'tlims-list-item-form',
@@ -37,7 +37,7 @@ export class ListItemFormComponent implements OnInit, OnDestroy {
   isEdit = false;
 
   constructor(private fb: FormBuilder, private categoryService: CategoryService, private listItemService: ListItemService,
-              private toastr: ToastrService, private activatedRoute: ActivatedRoute) {
+              private msgService: MsgService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -46,6 +46,10 @@ export class ListItemFormComponent implements OnInit, OnDestroy {
     this.initForm();
     if (this.isEdit) {
       this.getSubCategories();
+      this.selectedSubcategories = this.listItem.subCategories;
+      this.subCategorySet = new Set(this.selectedSubcategories);
+      this.getParentItem();
+      this.initForm();
     }
   }
 
@@ -70,7 +74,7 @@ export class ListItemFormComponent implements OnInit, OnDestroy {
           this.listItems = res;
           this.blockUI.stop();
         }, (err) => {
-          this.toastr.error('Error loading Parent List Item');
+          this.msgService.error(err);
           this.blockUI.stop();
         });
     }
@@ -112,11 +116,11 @@ export class ListItemFormComponent implements OnInit, OnDestroy {
       this.blockUI.start('Loading Subcategories');
       this.categoryService.getSubCategories(catCode).pipe(untilDestroyed(this)).subscribe((data: any) => {
         this.subcategories = Utils.convertCategoryoCodeValue(data);
-        this.handleEditing();
+        // this.handleEditing();
         this.blockUI.stop();
       }, (err) => {
         this.blockUI.stop();
-        this.toastr.error('Error loading subcategories');
+        this.msgService.error(err);
       });
     } else {
       this.subcategories = [];
@@ -148,12 +152,12 @@ export class ListItemFormComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.listItem = this.pForm.value;
     this.listItemService.create(this.listItem).pipe(untilDestroyed(this)).subscribe((data) => {
-      this.toastr.success('List Item ' + this.listItem.titleDescription.title + ' successfully created');
+      this.msgService.success('List Item ' + this.listItem.titleDescription.title + ' successfully created');
       this.reset();
       this.refreshList.emit();
       this.isLoading = false;
     }, (err) => {
-      this.toastr.error('List Item creation failed');
+      this.msgService.error(err);
       this.isLoading = false;
     });
   }
@@ -162,13 +166,13 @@ export class ListItemFormComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.listItem = this.pForm.value;
     this.listItemService.update(this.listItem).pipe(untilDestroyed(this)).subscribe((data) => {
-      this.toastr.success('List Item ' + this.listItem.titleDescription.title + ' successfully updated');
+      this.msgService.success('List Item ' + this.listItem.titleDescription.title + ' successfully updated');
       this.reset();
       this.refreshList.emit();
       this.closeForm.emit();
       this.isLoading = false;
     }, (err) => {
-      this.toastr.error('Updating List Item failed');
+      this.msgService.error(err);
       this.isLoading = false;
     });
   }

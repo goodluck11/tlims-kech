@@ -6,6 +6,8 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 import {ToastrService} from 'ngx-toastr';
 import {User} from 'core/model/user';
 import {AdminService} from 'feature/admin/admin.service';
+import {MsgService} from 'core/services/msg.service';
+import {NgxCoolDialogsService} from 'ngx-cool-dialogs';
 
 @Component({
   selector: 'tlims-users',
@@ -19,7 +21,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   searchTerm = '';
   query: Paging = new Paging();
 
-  constructor(private adminService: AdminService, private toastr: ToastrService) {
+  constructor(private adminService: AdminService, private msgService: MsgService,
+              private coolDialogs: NgxCoolDialogsService) {
   }
 
   ngOnInit() {
@@ -34,7 +37,30 @@ export class UsersComponent implements OnInit, OnDestroy {
       }
       this.blockUI.stop();
     }, (err) => {
-      this.toastr.error('Error loading users');
+      this.msgService.error(err);
+      this.blockUI.stop();
+    });
+  }
+
+  confirm(d) {
+    this.coolDialogs.confirm('Are you sure?').pipe(untilDestroyed(this)).subscribe((res) => {
+      if (res) {
+        this.activateOrDeactivate(d);
+      }
+    });
+  }
+
+  activateOrDeactivate(user: User) {
+    this.blockUI.start('Please wait...');
+    this.adminService.activateOrDeactivateUser(user).pipe(untilDestroyed(this)).subscribe((res) => {
+      if ('OK' === res) {
+        const msg = !user.status ? 'User Successfully Activated' : 'User Successfully Deactivated';
+        this.msgService.success(msg);
+      }
+      this.blockUI.stop();
+      this.getAllUsers();
+    }, (err) => {
+      this.msgService.error(err);
       this.blockUI.stop();
     });
   }

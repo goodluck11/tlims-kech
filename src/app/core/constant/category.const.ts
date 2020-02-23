@@ -84,6 +84,7 @@ export const CATEGORY = {
       heavy_equip: 'heavy_equip',
       mcycles_scooter: 'mcycles_scooter',
       watercrafts: 'watercrafts',
+      parts_access: 'parts_access',
       truck_trailer: 'truck_trailer'
     }
   },
@@ -114,6 +115,7 @@ export const CATEGORY = {
       elect_tools: 'elect_tools',
       measure_layout: 'measure_layout',
       plumb_water: 'plumb_water',
+      windows: 'windows',
     }
   },
   ESTATE: {

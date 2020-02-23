@@ -9,7 +9,6 @@ import {FavoritesComponent} from './user/favorites/favorites.component';
 import {UsersComponent} from './admin/users/users.component';
 import {PendingAdsComponent} from './admin/pending-ads/pending-ads.component';
 import {CategoryComponent} from './admin/category/category.component';
-import {PickListComponent} from './admin/pick-list/pick-list.component';
 import {AdComponent} from './items/ad/ad.component';
 import {ItemsHomeComponent} from './items/items-home/items-home.component';
 import {AdminHomeComponent} from 'feature/admin/admin-home/admin-home.component';
@@ -46,9 +45,6 @@ const routes: Routes = [
           {path: 'users', component: UsersComponent},
           {path: 'contacts', component: ContactsComponent},
           {path: 'categories', component: CategoryComponent, resolve: {
-              categories: CategoryResolver
-            }},
-          {path: 'pick-list', component: PickListComponent, resolve: {
               categories: CategoryResolver
             }},
           {path: 'list-item', component: ListItemsComponent, resolve: {

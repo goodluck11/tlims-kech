@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div formGroupName="subCategory">
-        <tlims-form-group label="Subcategory">
+        <tlims-form-group label="Subcategory" required="true">
           <select tlimsInput formControlName="code">
             <option *ngFor="let subCat of subCategories"
                     [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
@@ -12,20 +12,20 @@
     </div>
     <div class="col-md-6">
       <div formGroupName="titleDescription">
-        <tlims-form-group label="Title">
+        <tlims-form-group label="Title" required="true">
           <input tlimsInput placeholder="title" formControlName="title"/>
           <tlims-form-error [control]="jForm.get('titleDescription').get('title')"></tlims-form-error>
         </tlims-form-group>
       </div>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Company Name">
+      <tlims-form-group label="Company Name" required="true">
         <input tlimsInput placeholder="company name" formControlName="companyName"/>
         <tlims-form-error [control]="jForm.get('companyName')"></tlims-form-error>
       </tlims-form-group>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Job Type">
+      <tlims-form-group label="Job Type" required="true">
         <select tlimsInput formControlName="jobType">
           <option [ngValue]="null">--Select Job Type--</option>
           <option *ngFor="let bd of jobTypes" [ngValue]="bd">{{bd.name}}</option>
@@ -34,7 +34,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Years of Experience">
+      <tlims-form-group label="Years of Experience" required="true">
         <select tlimsInput formControlName="minimumExp">
           <option [ngValue]="null">--Select Years of Experience--</option>
           <option *ngFor="let bd of experiences" [ngValue]="bd">{{bd.name}}</option>
@@ -43,7 +43,7 @@
       </tlims-form-group>
     </div>
     <div class="col-md-6">
-      <tlims-form-group label="Salary Range">
+      <tlims-form-group label="Salary Range" required="true">
         <div class="row">
           <div class="col-md-6">
             <input tlimsInput placeholder="from" formControlName="salaryFrom"/>

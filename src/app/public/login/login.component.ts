@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authService.logout();
-    this.authService1.signOut();
+    // this.authService1.signOut();
     this.initForm();
   }
 
@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   fbLogin() {
     this.authService1.signIn(FacebookLoginProvider.PROVIDER_ID).then(
       (response) => {
-        console.log('logged in user data is= ', response);
         this.user = response;
         this.authUser(this.user.authToken);
       }
@@ -50,7 +49,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   authUser(token: string) {
     this.authService.fbLogin(token).pipe(untilDestroyed(this)).subscribe((data: any) => {
-      console.log(data);
       this.handleResponse(data);
     }, (err) => {
       if (err.error) {

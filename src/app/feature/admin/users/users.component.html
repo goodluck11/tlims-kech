@@ -26,7 +26,10 @@
                 <i class="material-icons">more_vert</i>
               </a>
               <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
-                <a href="#" class="dropdown-item">Activate</a>
+                <a (click)="confirm(d)" class="dropdown-item">
+                  <span *ngIf="d.status">Deactivate</span>
+                  <span *ngIf="!d.status">Activate</span>
+                </a>
               </div>
             </div>
           </div>

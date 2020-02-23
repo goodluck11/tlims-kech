@@ -26,6 +26,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
   isLoading = false;
   files: File[];
   contact: Contact = new Contact();
+  tagSuggestions = ['google', 'apple', 'microsoft'];
 
   constructor(private fb: FormBuilder, private itemService: ItemService,
               private toastr: ToastrService, private router: Router) {
@@ -126,6 +127,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       }),
       contactForPrice: [this.services.contactForPrice],
       price: [this.services.price],
+      tags: [this.services.tags],
       negotiable: [this.services.negotiable]
     });
     this.contactForPriceFg();

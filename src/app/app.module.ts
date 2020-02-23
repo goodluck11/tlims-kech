@@ -49,6 +49,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angularx-social-login';
 import {CarouselModule} from 'ngx-owl-carousel-o';
 import {NgxCoolDialogsModule} from 'ngx-cool-dialogs';
+import {NgxInputTagModule} from '@ngx-lite/input-tag';
 
 export function createTranslateLoader(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
@@ -108,7 +109,7 @@ export function provideConfig() {
     CoreModule,
     ToastrModule.forRoot({
       timeOut: 10000,
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
     SlickCarouselModule,
@@ -134,7 +135,8 @@ export function provideConfig() {
         alert: 'Alert',
         confirm: 'Confirmation'
       }
-    })
+    }),
+    NgxInputTagModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
