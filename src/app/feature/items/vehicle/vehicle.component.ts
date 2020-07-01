@@ -87,7 +87,7 @@ export class VehicleComponent implements OnInit, OnDestroy {
 
   getResolvedData() {
     this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((data) => {
-      this.colors = Utils.convertPickListToCodeValue(data.colors);
+      this.colors = Utils.convertListItemToCodeValue(data.colors);
     });
   }
 

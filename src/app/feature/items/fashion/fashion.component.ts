@@ -85,7 +85,7 @@ export class FashionComponent implements OnInit, OnDestroy {
 
   getResolvedData() {
     this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((data) => {
-      this.colors = Utils.convertPickListToCodeValue(data.colors);
+      this.colors = Utils.convertListItemToCodeValue(data.colors);
     });
   }
 
@@ -182,6 +182,7 @@ export class FashionComponent implements OnInit, OnDestroy {
         this.colorStore.push(this.getFieldValue('colorTemp'));
       }
     }
+    console.log(this.colorStore);
     this.setPickFieldValue('color', this.colorStore);
   }
 

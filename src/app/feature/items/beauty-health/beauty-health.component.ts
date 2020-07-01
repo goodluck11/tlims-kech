@@ -58,7 +58,7 @@ export class BeautyHealthComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.genders = EnumValues.getNamesAndValues(Gender);
     this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((res) => {
-      this.colors = Utils.convertPickListToCodeValue(res.colors);
+      this.colors = Utils.convertListItemToCodeValue(res.colors);
     });
     this.initForm();
   }

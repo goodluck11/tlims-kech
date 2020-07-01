@@ -56,9 +56,10 @@
       <p class="footer-text-color"><strong>Subscribe</strong> to our newsletter to receive news, updates, and special offers:</p>
       <br>
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Enter your email address">
+        <input type="text" class="form-control" [formControl]="formControl" placeholder="Enter your email address">
       </div>
-      <button class="btn btn-warning btn-block" type="button"><i class="fa fa-paper-plane"></i> Subscribe</button>
+      <button class="btn-block" color="btn-warning" [tlimsButton]="isLoading" [disabled]="formControl.invalid"
+      (click)="subscribe()"><i class="fa fa-paper-plane"></i> Subscribe</button>
     </div>
 
   </div>
@@ -66,7 +67,7 @@
 
   <div class="row">
     <div class="col-md-6 justify-content-center justify-content-md-start">
-      <p>Copyright © 2019 <a href="http://thetheme.io/theadmin">Tlims-Kech</a>. All rights reserved.</p>
+      <p>Copyright © 2019 <a href="http://www.tlims-kech.com">Tlims-Kech</a>. All rights reserved.</p>
     </div>
     <div class="col-md-6">
       <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">

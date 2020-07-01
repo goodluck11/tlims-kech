@@ -53,7 +53,7 @@ export class MobileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.conditions = EnumValues.getNamesAndValues(MobileCondition);
     this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((res) => {
-      this.colors = Utils.convertPickListToCodeValue(res.colors);
+      this.colors = Utils.convertListItemToCodeValue(res.colors);
     });
     this.initForm();
   }

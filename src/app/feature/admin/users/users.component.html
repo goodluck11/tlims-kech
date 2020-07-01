@@ -18,7 +18,10 @@
         <td>{{d.firstName + ' ' + d.lastName}}</td>
         <td>{{d.email}}</td>
         <td>{{d.phoneNumber}}</td>
-        <td>{{d.status}}</td>
+        <td>
+          <span class="badge-success badge" *ngIf="d.status">Active</span>
+          <span class="badge-danger badge" *ngIf="!d.status">Inactive</span>
+        </td>
         <td>
           <div class="list-icons">
             <div class="dropdown">
@@ -27,8 +30,8 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
                 <a (click)="confirm(d)" class="dropdown-item">
-                  <span *ngIf="d.status">Deactivate</span>
-                  <span *ngIf="!d.status">Activate</span>
+                  <span *ngIf="d.status">Mark as Inactive</span>
+                  <span *ngIf="!d.status">Mark as Active</span>
                 </a>
               </div>
             </div>

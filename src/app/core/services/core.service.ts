@@ -54,4 +54,12 @@ export class CoreService {
     return this.http.get(`${this.baseUrl}/api/favorites/added/${postId}`);
   }
 
+  subscribeEmail(email: string) {
+    return this.http.post(`${this.baseUrl}/emailSubs/subscribe`, email);
+  }
+
+  unsubscribeEmail(email: string) {
+    return this.http.get(`${this.baseUrl}/emailSubs/unsubscribe/${email}`);
+  }
+
 }
