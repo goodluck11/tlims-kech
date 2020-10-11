@@ -1,28 +1,30 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from 'core/services/auth.service';
 import {untilDestroyed} from 'ngx-take-until-destroy';
 import {Router} from '@angular/router';
 import {StorageService} from 'core/services/storage.service';
 import {SharedService} from 'core/services/shared.service';
 import {AuthService, FacebookLoginProvider, SocialUser} from 'angularx-social-login';
+import {MsgService} from 'core/services/msg.service';
+import {BaseComponent} from '../base.component';
 
 @Component({
   selector: 'prefix-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   isLoading = false;
   user: SocialUser;
   loggedIn: boolean;
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthenticationService,
-              private router: Router, private storageService: StorageService, private sharedService: SharedService,
-              private authService1: AuthService) {
+  constructor(protected fb: FormBuilder, protected toastr: MsgService, protected authService: AuthenticationService,
+              protected router: Router, protected storageService: StorageService, protected sharedService: SharedService,
+              protected authService1: AuthService) {
+    super(fb, toastr, authService, router, storageService, sharedService);
   }
 
   ngOnInit() {
@@ -33,8 +35,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.loginForm = this.fb.group({
-      username: [null],
-      password: [null],
+      username: [null, [Validators.email, Validators.required]],
+      password: [null, [Validators.required]],
     });
   }
 
@@ -49,40 +51,21 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   authUser(token: string) {
     this.authService.fbLogin(token).pipe(untilDestroyed(this)).subscribe((data: any) => {
-      this.handleResponse(data);
+      super.handleResponse(data);
     }, (err) => {
-      if (err.error) {
-        if (err.error.message) {
-          this.toastr.error(err.error.message);
-        }
-      }
+      this.toastr.error(err);
     });
   }
 
   login() {
     this.isLoading = true;
     this.authService.login(this.loginForm.value).pipe(untilDestroyed(this)).subscribe((data: any) => {
-      this.handleResponse(data);
+      super.handleResponse(data);
       this.isLoading = false;
     }, (err) => {
       this.isLoading = false;
-      if (err.error) {
-        if (err.error.errorCode) {
-          this.toastr.error(err.error.message);
-        }
-      }
+      this.toastr.error(err);
     });
-  }
-
-  handleResponse(data) {
-    if (data.token) {
-      this.storageService.save({key: 'currentUser', data: data});
-      this.router.navigateByUrl(this.authService.getRedirectUrl() ? this.authService.getRedirectUrl() : '/tlims/bo');
-      const user = JSON.parse(data.user);
-      this.toastr.success('Welcome ' + user.firstName + ' ' + user.lastName);
-      this.authService.removeRedirectUrl();
-      this.sharedService.broadCast(true);
-    }
   }
 
   ngOnDestroy(): void {

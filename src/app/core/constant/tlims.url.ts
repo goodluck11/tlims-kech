@@ -6,5 +6,7 @@ export const APP_URL = {
     }
   },
   login: '/tlims/sign-in',
+  forgotPassword: '/tlims/forgotPassword',
+  resetPassword: '/tlims/resetPassword',
   adView: '/tlims/ad/'
 };

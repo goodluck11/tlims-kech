@@ -28,7 +28,7 @@ export class FormErrorComponent {
     'customMessage': (params) => params.value
   };
 
-  formNames = {};
+  formNames = [];
 
   @Input()
   private control: AbstractControlDirective | AbstractControl;
@@ -44,7 +44,6 @@ export class FormErrorComponent {
   }
 
   getError(): string {
-    // console.log(this.control.errors);
     const errors = Object.keys(this.control.errors).map(field => this.getMessage(field, this.control.errors[field], this.control));
     return errors[0];
   }
@@ -54,20 +53,23 @@ export class FormErrorComponent {
     for (const init in this.formNames) {
       if (fname === init) {
         fname = this.formNames[fname];
-      } else {
-        fname = fname;
       }
     }
     const msg = FormErrorComponent.errorMessages[type](params);
-    let fieldName = fname.replace(/([A-Z])/g, (match) => ` ${match}`)
-      .replace(/^./, (match) => match.toUpperCase());
-    fieldName = this.label ? this.label : fieldName;
+    const fieldName = this.label ? this.label : FormErrorComponent.stripFormName(fname);
     return msg.replace('##FIELD##', fieldName);
   }
 
+  private static stripFormName(name: string) {
+    return name.replace(/([A-Z])/g, (match) => ` ${match}`).replace(/^./, (match) => match.toUpperCase());
+  }
+
   getControlName(c: AbstractControl): string | null {
-    const formGroup = c.parent.controls;
-    return Object.keys(formGroup).find(name => c === formGroup[name]) || null;
+    if (c.parent) {
+      const formGroup = c.parent.controls;
+      return Object.keys(formGroup).find(name => c === formGroup[name]) || null;
+    }
+    return null;
   }
 
 

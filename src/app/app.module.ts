@@ -50,6 +50,9 @@ import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angul
 import {CarouselModule} from 'ngx-owl-carousel-o';
 import {NgxCoolDialogsModule} from 'ngx-cool-dialogs';
 import {NgxInputTagModule} from '@ngx-lite/input-tag';
+import {BaseComponent} from './public/base.component';
+import { ForgotPasswordComponent } from './public/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './public/auth/reset-password/reset-password.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new MultiTranslateHttpLoader(http, [
@@ -99,7 +102,10 @@ export function provideConfig() {
     VerificationComponent,
     HowitworksComponent,
     FeatureHomeComponent,
-    UserHomeComponent
+    UserHomeComponent,
+    BaseComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

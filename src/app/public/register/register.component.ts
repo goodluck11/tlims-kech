@@ -4,6 +4,7 @@ import {untilDestroyed} from 'ngx-take-until-destroy';
 import {ToastrService} from 'ngx-toastr';
 import {AuthenticationService} from 'core/services/auth.service';
 import {Router} from '@angular/router';
+import {MsgService} from 'core/services/msg.service';
 
 @Component({
   selector: 'tlims-register',
@@ -17,7 +18,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isSuccess = false;
   userEmail: string;
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private authService: AuthenticationService,
+  constructor(private fb: FormBuilder, private readonly toastr: MsgService, private authService: AuthenticationService,
               private router: Router) {
   }
 
@@ -49,7 +50,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   register() {
     this.isLoading = true;
+    this.isSuccess = false;
     this.authService.register(this.registerForm.value).pipe(untilDestroyed(this)).subscribe((data: any) => {
+      console.log(data);
       this.isLoading = false;
       if (data.id) {
         this.userEmail = this.registerForm.get('email').value;
@@ -58,6 +61,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.initForm();
       }
     }, (err) => {
+      console.log(err);
+      this.toastr.error(err);
       this.isLoading = false;
     });
   }

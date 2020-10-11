@@ -3,24 +3,24 @@
       <!-- Login card -->
       <form class="login-form" novalidate [formGroup]="loginForm">
         <div class="card-body">
-          <div class="text-center mb-3">
-            <h3 class="mb-0 font-weight-bold">{{'app.core.signintitle' | translate}}</h3>
+          <div class="mb-3">
+            <h1 class="font-weight-semibold">{{'app.core.signintitle' | translate}}</h1>
           </div>
 
-          <tlims-form-group>
-            <input type="text" class="form-control" [placeholder]="'app.core.username' | translate" formControlName="username">
+          <tlims-form-group [label]="'app.core.email' | translate" required="true">
+            <input tlimsInput [placeholder]="'app.core.email' | translate" formControlName="username">
           </tlims-form-group>
 
-          <tlims-form-group>
-            <input type="password" class="form-control" [placeholder]="'app.core.password' | translate" formControlName="password">
+          <tlims-form-group [label]="'app.core.password' | translate" required="true">
+            <input type="password" tlimsInput [placeholder]="'app.core.password' | translate" formControlName="password">
           </tlims-form-group>
 
           <div class="form-group d-flex align-items-center justify-content-end">
-            <a href="javascript:void(0)" class="ml-auto">{{'app.core.forgotpassword' | translate}}</a>
+            <a routerLink="/tlims/forgotPassword" class="ml-auto">{{'app.core.forgotpassword' | translate}}</a>
           </div>
 
           <div class="form-group">
-            <button type="button" class="btn-block" [tlimsButton]="isLoading" (click)="login()" translate>app.core.signin <i class="fa fa-user ml-2"></i></button>
+            <button type="button" class="btn-block" [tlimsButton]="isLoading" [disabled]="loginForm.invalid" (click)="login()" translate>app.core.signin</button>
           </div>
 
           <tlims-divider>{{'app.core.signinwith' | translate}}</tlims-divider>
@@ -36,8 +36,6 @@
           <div class="form-group">
             <a routerLink="/tlims/sign-up" class="btn btn-warning btn-block">{{'app.core.signup' | translate}}</a>
           </div>
-
-          <span class="form-text text-center text-muted">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
         </div>
       </form>
       <!-- /login card -->

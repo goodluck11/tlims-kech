@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {isNullOrUndefined} from 'util';
 import {TLIMS_CONST} from 'core/constant/tlims.const';
 import {APP_URL} from 'core/constant/tlims.url';
+import {ResetPasswordRequest} from 'core/model/reset-password-request';
 
 @Injectable()
 export class AuthenticationService {
@@ -31,12 +32,18 @@ export class AuthenticationService {
     return this.http.post(`${this.baseUrl}/auth`, data);
   }
 
-  findByUserName(username: string) {
-    return this.http.get(`${this.baseUrl}/api/users/findByUsername/${username}`);
-  }
-
   register(data) {
     return this.http.post(`${this.baseUrl}/auth/create`, data);
+  }
+
+  forgotPassword(email: string) {
+    let httpParam = new HttpParams();
+    httpParam = httpParam.set('email', email);
+    return this.http.get(`${this.baseUrl}/auth/initiateForgotPassword`, {params: httpParam});
+  }
+
+  resetPassword(data: ResetPasswordRequest) {
+    return this.http.post(`${this.baseUrl}/auth/resetUserPassword`, data);
   }
 
   fbLogin(data) {

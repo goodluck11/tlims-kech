@@ -17,6 +17,8 @@ import {ContactComponent} from './public/static/contact/contact.component';
 import {VerificationComponent} from './public/register/verification/verification.component';
 import {HowitworksComponent} from './public/static/howitworks/howitworks.component';
 import {FeatureHomeComponent} from './feature/feature-home/feature-home.component';
+import {ForgotPasswordComponent} from './public/auth/forgot-password/forgot-password.component';
+import {ResetPasswordComponent} from './public/auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -30,6 +32,8 @@ const routes: Routes = [
             }},
           {path: 'sign-in', component: LoginComponent},
           {path: 'sign-up', component: RegisterComponent},
+          {path: 'forgotPassword', component: ForgotPasswordComponent},
+          {path: 'resetPassword', component: ResetPasswordComponent},
           {path: 'verify/:code', component: VerificationComponent},
           {path: 'about-us', component: AboutComponent},
           {path: 'how-it-works', component: HowitworksComponent},

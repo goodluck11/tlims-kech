@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div formGroupName="subCategory">
-        <tlims-form-group label="Subcategory">
+        <tlims-form-group label="Subcategory" required="true">
           <select tlimsInput (change)="populateCodeValueName('subCategory')" formControlName="code">
             <option *ngFor="let subCat of subCategories"
                     [value]="subCat.categoryCode?.dataCode">{{subCat.titleDescription?.title}}</option>
@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-6">
       <div formGroupName="titleDescription">
-        <tlims-form-group label="Title">
+        <tlims-form-group label="Title" required="true">
           <input tlimsInput placeholder="title" formControlName="title"/>
           <tlims-form-error [control]="pForm.get('titleDescription').get('title')"></tlims-form-error>
         </tlims-form-group>

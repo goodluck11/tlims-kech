@@ -1,52 +1,59 @@
 <tlims-content>
   <div class="d-flex justify-content-center">
-    <form class="login-form" novalidate [formGroup]="registerForm">
+    <form novalidate [formGroup]="registerForm">
       <div class="card mb-0">
         <div class="card-body">
           <ng-container *ngIf="!isSuccess">
-            <div class="text-center mb-3">
-              <h3 class="mb-0 font-weight-bold">{{'app.core.signup' | translate}}</h3>
-              <span class="d-block text-muted">* {{'app.core.fieldsrequired' | translate}}</span>
+            <div class="mb-3">
+              <h1 class="font-weight-semibold">{{'app.core.signup' | translate}}</h1>
+              <span class="d-block text-danger">* {{'app.core.fieldsrequired' | translate}}</span>
             </div>
 
             <div class="form-group text-center text-muted content-divider">
               <span class="px-2">{{'app.core.contact' | translate}}</span>
             </div>
 
-            <tlims-form-group>
-              <input class="form-control" placeholder="First Name" formControlName="firstName" (change)="buildDisplayName()">
-              <tlims-form-error [control]="registerForm.get('firstName')"></tlims-form-error>
-            </tlims-form-group>
-
-            <tlims-form-group>
-              <input class="form-control" placeholder="Last Name" formControlName="lastName" (change)="buildDisplayName()">
-              <tlims-form-error [control]="registerForm.get('lastName')"></tlims-form-error>
-            </tlims-form-group>
-
-            <tlims-form-group>
-              <input class="form-control" placeholder="Display Name" formControlName="displayName" (change)="buildDisplayName()">
-            </tlims-form-group>
-
-            <tlims-form-group>
-              <input class="form-control" placeholder="Phone Number" formControlName="phoneNumber">
-            </tlims-form-group>
+            <div class="row">
+              <div class="col-md-6">
+                <tlims-form-group label="{{'app.core.firstName' | translate}}" required="true">
+                  <input tlimsInput [placeholder]="'app.core.firstName' | translate" formControlName="firstName" (change)="buildDisplayName()">
+                  <tlims-form-error [control]="registerForm.get('firstName')"></tlims-form-error>
+                </tlims-form-group>
+              </div>
+              <div class="col-md-6">
+                <tlims-form-group label="{{'app.core.lastName' | translate}}" required="true">
+                  <input tlimsInput [placeholder]="'app.core.lastName' | translate" formControlName="lastName" (change)="buildDisplayName()">
+                  <tlims-form-error [control]="registerForm.get('lastName')"></tlims-form-error>
+                </tlims-form-group>
+              </div>
+              <div class="col-md-6">
+                <tlims-form-group label="{{'app.core.displayName' | translate}}">
+                  <input tlimsInput [placeholder]="'app.core.displayName' | translate" formControlName="displayName" (change)="buildDisplayName()">
+                </tlims-form-group>
+              </div>
+              <div class="col-md-6">
+                <tlims-form-group label="{{'app.core.phonenumber' | translate}}">
+                  <input tlimsInput [placeholder]="'app.core.phonenumber' | translate" formControlName="phoneNumber">
+                </tlims-form-group>
+              </div>
+            </div>
 
             <div class="form-group text-center text-muted content-divider">
               <span class="px-2">{{'app.core.credentials' | translate}}</span>
             </div>
-
-            <tlims-form-group>
-              <input type="email" class="form-control" placeholder="Email" formControlName="email">
-              <tlims-form-error [control]="registerForm.get('email')"></tlims-form-error>
-            </tlims-form-group>
-
-            <tlims-form-group>
-              <input type="password" class="form-control" placeholder="Password" formControlName="password">
-              <tlims-form-error [control]="registerForm.get('password')"></tlims-form-error>
-            </tlims-form-group>
-
-            <div class="form-group text-center text-muted content-divider">
-              <span class="px-2">{{'app.core.additions' | translate}}</span>
+            <div class="row">
+              <div class="col-md-6">
+                <tlims-form-group label="{{'app.core.email' | translate}}" required="true">
+                  <input type="email" tlimsInput [placeholder]="'app.core.email' | translate" formControlName="email">
+                  <tlims-form-error [control]="registerForm.get('email')"></tlims-form-error>
+                </tlims-form-group>
+              </div>
+              <div class="col-md-6">
+                <tlims-form-group label="{{'app.core.password' | translate}}" required="true">
+                  <input type="password" tlimsInput [placeholder]="'app.core.password' | translate" formControlName="password">
+                  <tlims-form-error [control]="registerForm.get('password')"></tlims-form-error>
+                </tlims-form-group>
+              </div>
             </div>
 
             <div class="form-group">
@@ -60,7 +67,7 @@
               </div>
             </div>
             <div class="form-group">
-              <button type="button" [tlimsButton]="isLoading" (click)="register()" class="btn-block" translate>app.core.register <i class="fa fa-check ml-2"></i></button>
+              <button type="button" [tlimsButton]="isLoading" (click)="register()" class="btn-block" translate>app.core.register</button>
             </div>
 
             <tlims-divider>{{'app.core.alreadyhaveaccount' | translate}}?</tlims-divider>

@@ -38,7 +38,7 @@
 			"hidenumber": "Hide Number",
 			"showingitems": "Showing items",
 			"signin": "Sign In",
-			"signintitle": "Sign In to your account",
+			"signintitle": "Login",
 			"signinwith": "sign in with",
 			"signup": "Sign Up",
 			"sortby": "Filter By",
@@ -47,7 +47,17 @@
 			"termsofservice": "terms of service",
 			"username": "Username",
       "contactus": "Contact Us",
-      "faq": "FAQs"
-		}
+      "faq": "FAQs",
+      "forgotpasswordtitle": "Forgot Password",
+      "backtologin": "Back to Login",
+      "proceed": "Proceed",
+      "submit": "Submit",
+      "resettitle": "Reset Password",
+      "token": "Token",
+      "resetmsg": "Please enter the six digits verification code sent to your email address",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "displayName": "Display Name"
+    }
 	}
 }
